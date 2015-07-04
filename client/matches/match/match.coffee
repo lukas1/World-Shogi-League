@@ -6,9 +6,9 @@ Template.match.helpers (
     defaultWin: () ->
         return this.defaultWin
     teamAName: () ->
-        Teams.findOne({_id: this.teamAId}).name
+        Teams.findOne(this.teamAId).name
     teamBName: () ->
-        Teams.findOne({_id: this.teamBId}).name
+        Teams.findOne(this.teamBId).name
 )
 
 Template.match.events (

@@ -1,0 +1,14 @@
+<template name="teampoints">
+    <li class="clearfix">
+        <div class="col-md-6">
+            {{name}}
+        </div>
+        <div class="col-md-6">
+            {{#if points}}
+                {{points}}
+            {{else}}
+                0
+            {{/if}}
+        </div>
+    </li>
+</template>
