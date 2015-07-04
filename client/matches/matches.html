@@ -1,18 +1,33 @@
 <template name="matches">
-    <div id="matches_container">
-        <header>
+    <div id="matches_container" class="container">
+        <div class="page-header">
             <h1>Matches</h1>
-
-            <!-- add a form below the h1 -->
-            <form class="new-match-form">
-                <!-- TODO: form -->
-            </form>
-        </header>
+        </div>
 
         <ul class="list-unstyled">
             {{#each matches}}
             {{> match}}
             {{/each}}
         </ul>
+        <strong>New match:</strong>
+        <form class="new-match-form">
+            <div class="col-md-5">
+                {{> teams block="A"}}
+                <div class="wonRadio">
+                    <input type="radio" id="wonA" name="won" value="wonA">
+                    <label for="wonA">Won?</label>
+                </div>
+            </div>
+            <div class="col-md-5">
+                {{> teams block="B"}}
+                <div class="wonRadio">
+                    <input type="radio" id="wonB" name="won" value="wonB">
+                    <label for="wonB">Won?</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <input type="submit" value="Submit" class="btn btn-default">
+            </div>
+        </form>
     </div>
 </template>

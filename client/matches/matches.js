@@ -6,17 +6,28 @@ Template.matches.helpers({
 
 Template.matches.events({
     "submit .new-match-form": function (event) {
-      // This function is called when the new task form is submitted
-      var text = event.target.text.value;
+        // Get values
+        var teamAId = $("#blockATeam").val();
+        var teamBId = $("#blockBTeam").val();
+        if (teamAId.length == 0 || teamBId.length == 0) {
+            return false;
+        }
 
-      Matches.insert({
-        // TODO:
-      });
+        var winTeam = $("#wonA").is(":checked")?teamAId : teamBId;
 
-      // Clear form
-      event.target.text.value = "";
+        Matches.insert({
+            teamAId: teamAId,
+            teamBId: teamBId,
+            winTeam: winTeam
+        });
 
-      // Prevent default form submit
-      return false;
+        // Clear form
+        $("#blockATeam").prop('selectedIndex', 0);
+        $("#blockBTeam").prop('selectedIndex', 0);
+        $("#wonA").prop('checked', false);
+        $("#wonB").prop('checked', false);
+
+        // Prevent default form submit
+        return false;
     }
 });

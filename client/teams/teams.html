@@ -1,0 +1,8 @@
+<template name="teams">
+    <select id="block{{block}}Team">
+        <option value="">---</option>
+        {{#each teams}}
+            <option value="{{_id}}">{{name}}</option>
+        {{/each}}
+    </select>
+</template>
