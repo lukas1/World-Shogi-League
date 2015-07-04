@@ -1,6 +1,10 @@
 Template.match.helpers (
     wonA: () ->
         this.teamAId == this.winTeam
+    wonB: () ->
+        this.teamBId == this.winTeam
+    defaultWin: () ->
+        return this.defaultWin
     teamAName: () ->
         Teams.findOne({_id: this.teamAId}).name
     teamBName: () ->

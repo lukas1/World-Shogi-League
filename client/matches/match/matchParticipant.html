@@ -1,0 +1,10 @@
+<template name="matchParticipant">
+    {{#if won}}
+        <strong>{{name}}</strong>
+        {{#if defWin}}
+            <small class="winByDefault">(win by default)</small>
+        {{/if}}
+    {{else}}
+        {{name}}
+    {{/if}}
+</template>

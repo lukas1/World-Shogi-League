@@ -1,19 +1,11 @@
 <template name="match">
     <li class="match clearfix">
         <div class="col-md-6">
-            {{#if wonA}}
-                <strong>{{teamAName}}</strong>
-            {{else}}
-                {{teamAName}}
-            {{/if}}
+            {{> matchParticipant won=wonA name=teamAName defWin=defaultWin}}
         </div>
 
         <div class="col-md-5">
-            {{#unless wonA}}
-                <strong>{{teamBName}}</strong>
-            {{else}}
-                {{teamBName}}
-            {{/unless}}
+            {{> matchParticipant won=wonB name=teamBName defWin=defaultWin}}
         </div>
         <div class="col-md-1">
             <button class="delete">&times;</button>

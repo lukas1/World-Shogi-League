@@ -14,11 +14,13 @@ Template.matches.events(
             (not $("#wonA").is(":checked") and not $("#wonB").is(":checked"))
 
         winTeam = if $("#wonA").is(":checked") then teamAId else teamBId
+        defaultWin = $("#defaultWin").is(":checked")
 
         Matches.insert(
             teamAId: teamAId,
             teamBId: teamBId,
             winTeam: winTeam
+            defaultWin: defaultWin
         )
 
         # Clear form
