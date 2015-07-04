@@ -1,4 +1,4 @@
 Template.teams.helpers(
     teams: () ->
-        Teams.find {}
+        Teams.find {block: this.block}
 )

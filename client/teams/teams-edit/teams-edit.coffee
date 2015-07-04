@@ -14,11 +14,13 @@ Template.teamsedit.events
         event.preventDefault();
 
         teamName = template.$('#addTeamName').val()
-        return false if teamName.length == 0
+        teamBlock = template.$('#addTeamBlock').val()
+        return false if teamName.length == 0 or teamBlock.length == 0
 
-        Teams.insert {name: teamName}
+        Teams.insert {name: teamName, block: teamBlock}
 
         # reset input field
         template.$('#addTeamName').val('')
+        template.$('#addTeamBlock').prop('selectedIndex', 0)
 
         return false;
