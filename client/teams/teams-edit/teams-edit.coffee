@@ -9,7 +9,7 @@ Template.teamsedit.events
         if teamId.length > 0
             if confirm "Do you really want to remove this team?
                 All it's matches will be lost"
-                Teams.remove teamId
+                Teams.removeTeam teamId
     "submit #new-team-form": (event, template) ->
         event.preventDefault();
 
