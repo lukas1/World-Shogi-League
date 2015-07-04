@@ -1,5 +1,3 @@
-@Matches = new Mongo.Collection("matches")
-
 TeamsCollection = Mongo.Collection;
 TeamsCollection.prototype.removeTeam = (teamId) ->
     # Fetch matches to remove
