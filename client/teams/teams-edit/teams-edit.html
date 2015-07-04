@@ -1,0 +1,20 @@
+<template name="teamsedit">
+    <div class="teamsedit">
+        <ul class="list-unstyled">
+            {{#each teams}}
+                <li>
+                    <span class="teamName">
+                        {{name}}
+                    </span>
+                    <button class="delete" teamId="{{_id}}">&times;</button>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+    <form id="new-team-form">
+        <div class="col-md-4">
+            <input type="text" class="form-control" id="addTeamName" >
+        </div>
+        <input type="submit" class="btn btn-default" value="Add Team">
+    </form>
+</template>
