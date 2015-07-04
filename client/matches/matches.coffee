@@ -16,7 +16,7 @@ Template.matches.events(
         winTeam = if $("#wonA").is(":checked") then teamAId else teamBId
         defaultWin = $("#defaultWin").is(":checked")
 
-        Matches.insert(
+        return false if not Matches.insertMatch(
             teamAId: teamAId,
             teamBId: teamBId,
             winTeam: winTeam
