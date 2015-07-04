@@ -1,0 +1,18 @@
+<template name="matches">
+    <div id="matches_container">
+        <header>
+            <h1>Matches</h1>
+
+            <!-- add a form below the h1 -->
+            <form class="new-match-form">
+                <!-- TODO: form -->
+            </form>
+        </header>
+
+        <ul class="list-unstyled">
+            {{#each matches}}
+            {{> match}}
+            {{/each}}
+        </ul>
+    </div>
+</template>
