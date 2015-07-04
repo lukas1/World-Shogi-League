@@ -4,7 +4,7 @@ Template.matches.helpers(
 )
 
 Template.matches.events(
-    "submit .new-match-form": (event) ->
+    "submit #new-match-form": (event) ->
         # Get values
         teamAId = $("#blockATeam").val();
         teamBId = $("#blockBTeam").val();
@@ -13,7 +13,7 @@ Template.matches.events(
         return false if teamAId.length == 0 or teamBId.length == 0 or
             (not $("#wonA").is(":checked") and not $("#wonB").is(":checked"))
 
-        winTeam = $("#wonA").is(":checked")?teamAId : teamBId;
+        winTeam = if $("#wonA").is(":checked") then teamAId else teamBId
 
         Matches.insert(
             teamAId: teamAId,
