@@ -14,7 +14,7 @@
             {{#each teams}}
                 <tr id="team_{{_id}}" class="teamBaseRow">
                     <td class="teamName">
-                        {{name}}
+                        {{>teamView name=name flag=countryCode}}
                     </td>
                     <td class="teamBlock">
                         {{block}}
@@ -39,6 +39,14 @@
             </select>
             <input type="submit" class="btn btn-default" value="Add Team">
         </form>
+        <br><br>
+        <div class="alert alert-info">
+            <strong>Read before adding a team!</strong>
+            Flags for added countries are generated automatically. However
+            if you want to have a flag for the country, you need to make sure
+            country is listed in this list:
+            <a href="/country-codes.txt" target="_blank">List of countries</a>
+        </div>
         {{else}}
             <h1>Ooops, something went wrong!</h1>
         {{/if}}

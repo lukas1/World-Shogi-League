@@ -1,7 +1,7 @@
 <template name="teampoints">
     <li class="clearfix">
         <div class="col-md-6">
-            {{name}}
+            {{>teamView name=name flag=countryCode}}
         </div>
         <div class="col-md-6">
             {{#if points}}
