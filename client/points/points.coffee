@@ -2,16 +2,12 @@ Template.points.helpers
     pointsA: () ->
         teams = Teams.find({block: "A"}).fetch()
         points = 0
-        for team in teams
-            do () ->
-                points += team.points
+        points += team.points for team in teams
         return points
     pointsB: () ->
         teams = Teams.find({block: "B"}).fetch()
         points = 0
-        for team in teams
-            do () ->
-                points += team.points
+        points += team.points for team in teams
         return points
     teamsA: () ->
         Teams.find({block: "A"})
