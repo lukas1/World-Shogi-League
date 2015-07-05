@@ -12,7 +12,15 @@ TeamsCollection.prototype.removeTeam = (teamId) ->
     # Finally remove this team
     this.remove(teamId);
 
-@Teams = new TeamsCollection("teams");
+@Teams = new TeamsCollection("teams", {
+        transform: (doc) ->
+            uppercased = doc.name.toUpperCase()
+            for country, code of CountryCodes
+                if country.indexOf(uppercased) > -1
+                    doc["countryCode"] = code.toLowerCase()
+            return doc
+    }
+);
 Teams.allow
     insert: -> Meteor.userId()?
     update: -> Meteor.userId()?
