@@ -5,10 +5,10 @@ Template.match.helpers (
         this.teamBId == this.winTeam
     defaultWin: () ->
         return this.defaultWin
-    teamAName: () ->
-        Teams.findOne(this.teamAId).name
-    teamBName: () ->
-        Teams.findOne(this.teamBId).name
+    teamA: () ->
+        Teams.findOne(this.teamAId)
+    teamB: () ->
+        Teams.findOne(this.teamBId)
 )
 
 Template.match.events (
