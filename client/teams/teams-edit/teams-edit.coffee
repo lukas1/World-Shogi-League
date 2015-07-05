@@ -4,6 +4,18 @@ Template.teamsedit.helpers(
 )
 
 Template.teamsedit.events
+    "click .teamBaseRow": (event, template) ->
+        # Get Team Id
+        teamBaseRow = $(event.target).closest('.teamBaseRow')
+        teamId = $(event.target).closest('.teamBaseRow').attr('id')
+        teamId = teamId.replace 'team_', ''
+
+        teamData = Teams.findOne(teamId);
+
+        # Create new line
+        Blaze.renderWithData Template.teamupdate, teamData,
+            $(teamBaseRow).closest('table').get(0), $(teamBaseRow).next().get(0)
+
     "click .delete": (event, template) ->
         return false if not Meteor.userId()?
         teamId = $(event.target).attr('teamid')
@@ -11,6 +23,7 @@ Template.teamsedit.events
             if confirm "Do you really want to remove this team?
                 All it's matches will be lost"
                 Teams.removeTeam teamId
+
     "submit #new-team-form": (event, template) ->
         event.preventDefault();
         return false if not Meteor.userId()?

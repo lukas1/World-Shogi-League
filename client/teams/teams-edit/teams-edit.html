@@ -3,6 +3,7 @@
     {{#if currentUser}}
         <div class="page-header">
             <h1>Edit Teams</h1>
+            <small>Click a team to update it</small>
         </div>
         <table>
             <tr>
@@ -11,7 +12,7 @@
                 <th></th>
             </tr>
             {{#each teams}}
-                <tr>
+                <tr id="team_{{_id}}" class="teamBaseRow">
                     <td class="teamName">
                         {{name}}
                     </td>

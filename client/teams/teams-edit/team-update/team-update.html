@@ -1,0 +1,19 @@
+<template name="teamupdate">
+    <tr class="editLine">
+        <td class="teamName">
+            <input type="text" class="form-control teamNameEdit" value="{{name}}">
+        </td>
+        <td class="teamBlock">
+            <select class="teamBlockEdit">
+                <option selected="{{blockASelected}}">A</option>
+                <option selected="{{blockBSelected}}">B</option>
+            </select>
+        </td>
+        <td>
+            <span class="glyphicon glyphicon-ok-circle confirmEdit">
+            </span>
+            <span class="glyphicon glyphicon-remove-circle cancelEdit">
+            </span>
+        </td>
+    </tr>
+</template>
