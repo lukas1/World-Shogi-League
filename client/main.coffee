@@ -3,7 +3,7 @@ Router.configure({
 })
 
 Router.route('/', () ->
-  this.render('matches');
+    this.render('matches');
 )
 
 Router.route(Routes.login.path, () ->
