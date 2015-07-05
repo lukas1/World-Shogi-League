@@ -2,8 +2,8 @@ Router.configure({
     layoutTemplate:"applicationLayout"
 })
 
-Router.route('/', () ->
-    this.render('matches');
+Router.route(Routes.home.path, () ->
+    this.render(Routes.home.template);
 )
 
 Router.route(Routes.login.path, () ->

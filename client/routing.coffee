@@ -1,4 +1,7 @@
 @Routes =
+    home:
+        path: '/'
+        template: 'home'
     login:
         path: '/user/login',
         template: 'loginform'
