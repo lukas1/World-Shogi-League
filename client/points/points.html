@@ -1,36 +1,37 @@
 <template name="points">
+    <div class="container">
+        <div class="page-header">
+            <h1>Points</h1>
+        </div>
+        <div class="block_header clearfix">
+            <div class="col-md-3">
+                <h2>Block A</h2>
+            </div>
+            <div class="col-md-2">
+                <h2>{{pointsA}}</h2>
+            </div>
+            <div class="col-md-3">
+                <h2>Block B</h2>
+            </div>
+            <div class="col-md-2">
+                <h2>{{pointsB}}</h2>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <ul class="list-unstyled">
+                {{#each teamsA}}
+                    {{> teampoints}}
+                {{/each}}
+            </ul>
+        </div>
 
-    <div class="page-header">
-        <h1>Points</h1>
-    </div>
-    <div class="block_header clearfix">
-        <div class="col-md-3">
-            <h2>Block A</h2>
+        <div class="col-md-5">
+            <ul class="list-unstyled">
+                {{#each teamsB}}
+                    {{> teampoints}}
+                {{/each}}
+            </ul>
         </div>
-        <div class="col-md-2">
-            <h2>{{pointsA}}</h2>
-        </div>
-        <div class="col-md-3">
-            <h2>Block B</h2>
-        </div>
-        <div class="col-md-2">
-            <h2>{{pointsB}}</h2>
-        </div>
-    </div>
-    <div class="col-md-5">
-        <ul class="list-unstyled">
-            {{#each teamsA}}
-                {{> teampoints}}
-            {{/each}}
-        </ul>
-    </div>
-
-    <div class="col-md-5">
-        <ul class="list-unstyled">
-            {{#each teamsB}}
-                {{> teampoints}}
-            {{/each}}
-        </ul>
     </div>
 
 </template>
