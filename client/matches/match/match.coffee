@@ -14,6 +14,6 @@ Template.match.helpers (
 Template.match.events (
     "click .delete": () ->
         if confirm "Really delete match?"
-            Matches.remove this._id
+            Matches.removeMatch this._id
 
 )
