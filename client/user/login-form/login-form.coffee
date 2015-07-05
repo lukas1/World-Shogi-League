@@ -29,3 +29,6 @@ Template.loginform.events
         );
 
         return false;
+
+Template.loginform.onRendered () ->
+    $('#login-email').focus()

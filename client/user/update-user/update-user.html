@@ -1,0 +1,23 @@
+<template name="updateuser">
+    <div class="container">
+        {{#if currentUser}}
+        <div class="page-header">
+            <h1>Change password</h1>
+        </div>
+        <form id="update-form" class="col-md-5">
+            <input type="password" class="form-control"
+                id="currentPassword" placeholder="Current password">
+            <br>
+            <input type="password" class="form-control"
+                id="newPassword" placeholder="New password">
+            <br>
+            <input type="password" class="form-control"
+                id="newPasswordRepeat" placeholder="Repeat password">
+            <br>
+            <input type="Submit" class="btn btn-default" value="Change Password">
+        </form>
+        {{else}}
+            <h1>Ooops, something went wrong!</h1>
+        {{/if}}
+    </div>
+</template>

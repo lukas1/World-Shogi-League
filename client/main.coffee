@@ -5,7 +5,7 @@ Router.configure({
 Router.route(Routes.home.path, (() ->
     this.render(Routes.home.template);
     )
-    { name: 'home' }
+    { name: Routes.home.name }
 )
 
 Router.route(Routes.login.path, () ->
@@ -15,5 +15,11 @@ Router.route(Routes.login.path, () ->
 Router.route(Routes.teamsEdit.path, (() ->
     this.render(Routes.teamsEdit.template);
     )
-    { name: 'teams.edit' }
+    { name: Routes.teamsEdit.name }
+)
+
+Router.route(Routes.updateUser.path, (() ->
+    this.render(Routes.updateUser.template);
+    )
+    { name: Routes.updateUser.name }
 )
