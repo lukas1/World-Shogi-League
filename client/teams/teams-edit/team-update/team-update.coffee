@@ -8,6 +8,7 @@ Template.teamupdate.events
     "click .cancelEdit": (event, template) ->
         $(event.target).closest('.editLine').remove()
     "click .confirmEdit": (event, template) ->
+        return false if not Meteor.userId()?
         name = template.$('.teamNameEdit').val()
         block = template.$('.teamBlockEdit').val()
 
