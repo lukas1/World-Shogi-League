@@ -5,6 +5,8 @@ Template.matches.helpers(
 
 Template.matches.events(
     "submit #new-match-form": (event) ->
+        return false if not Meteor.userId()?
+
         # Get values
         teamAId = $("#blockATeam").val();
         teamBId = $("#blockBTeam").val();

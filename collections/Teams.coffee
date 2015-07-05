@@ -1,5 +1,6 @@
 TeamsCollection = Mongo.Collection;
 TeamsCollection.prototype.removeTeam = (teamId) ->
+    #return false if not Meteor.userId()?
     # Fetch matches to remove
     matchesToRemove = Matches.find(
         { $or: [ {teamAId: teamId}, {teamBId: teamId} ]}
@@ -12,3 +13,7 @@ TeamsCollection.prototype.removeTeam = (teamId) ->
     this.remove(teamId);
 
 @Teams = new TeamsCollection("teams");
+Teams.allow
+    insert: -> Meteor.userId()?
+    update: -> Meteor.userId()?
+    remove: -> Meteor.userId()?

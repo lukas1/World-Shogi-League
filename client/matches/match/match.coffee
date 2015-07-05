@@ -13,6 +13,7 @@ Template.match.helpers (
 
 Template.match.events (
     "click .delete": () ->
+        return false if not Meteor.userId()?
         if confirm "Really delete match?"
             Matches.removeMatch this._id
 

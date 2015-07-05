@@ -19,29 +19,31 @@
             {{> match}}
             {{/each}}
         </ul>
-        <strong>New match:</strong>
-        <form id="new-match-form">
-            <div class="col-md-5">
-                {{> teams block="A"}}
-                <div class="wonRadio">
-                    <input type="radio" id="wonA" name="won" value="wonA">
-                    <label for="wonA">Won?</label>
+        {{#if currentUser}}
+            <strong>New match:</strong>
+            <form id="new-match-form">
+                <div class="col-md-6">
+                    {{> teams block="A"}}
+                    <div class="wonRadio">
+                        <input type="radio" id="wonA" name="won" value="wonA">
+                        <label for="wonA">Won?</label>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-5">
-                {{> teams block="B"}}
-                <div class="wonRadio">
-                    <input type="radio" id="wonB" name="won" value="wonB">
-                    <label for="wonB">Won?</label>
+                <div class="col-md-5">
+                    {{> teams block="B"}}
+                    <div class="wonRadio">
+                        <input type="radio" id="wonB" name="won" value="wonB">
+                        <label for="wonB">Won?</label>
+                    </div>
+                    <div class="defaultWinBox">
+                        <input type="checkbox" id="defaultWin">
+                        <label for="defaultWin">Default win?</label>
+                    </div>
                 </div>
-                <div class="defaultWinBox">
-                    <input type="checkbox" id="defaultWin">
-                    <label for="defaultWin">Default win?</label>
+                <div class="col-md-1">
+                    <input type="submit" value="Submit" class="btn btn-default">
                 </div>
-            </div>
-            <div class="col-md-2">
-                <input type="submit" value="Submit" class="btn btn-default">
-            </div>
-        </form>
+            </form>
+        {{/if}}
     </div>
 </template>

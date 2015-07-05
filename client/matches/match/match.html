@@ -8,7 +8,9 @@
             {{> matchParticipant won=wonB name=teamB.name defWin=defaultWin}}
         </div>
         <div class="col-md-1">
-            <button class="delete">&times;</button>
+            {{#if currentUser}}
+                <button class="delete">&times;</button>
+            {{/if}}
         </div>
     </li>
 </template>

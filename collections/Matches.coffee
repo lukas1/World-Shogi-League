@@ -32,6 +32,8 @@ updatePoints = (matchData, add = true) ->
 
 MatchesCollection = Mongo.Collection;
 MatchesCollection.prototype.insertMatch = (matchData) ->
+    return false if not Meteor.userId()?
+
     # Update points
     return false if not updatePoints matchData
 
@@ -39,6 +41,8 @@ MatchesCollection.prototype.insertMatch = (matchData) ->
     this.insert matchData
 
 MatchesCollection.prototype.removeMatch = (matchId) ->
+    return false if not Meteor.userId()?
+
     # Validate input
     return false if not matchId?.length
 
@@ -51,3 +55,7 @@ MatchesCollection.prototype.removeMatch = (matchId) ->
     this.remove matchId
 
 @Matches = new MatchesCollection("matches")
+Matches.allow
+    insert: -> Meteor.userId()?
+    update: -> Meteor.userId()?
+    remove: -> Meteor.userId()?

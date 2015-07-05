@@ -5,6 +5,7 @@ Template.teamsedit.helpers(
 
 Template.teamsedit.events
     "click .delete": (event, template) ->
+        return false if not Meteor.userId()?
         teamId = $(event.target).attr('teamid')
         if teamId.length > 0
             if confirm "Do you really want to remove this team?
@@ -12,6 +13,7 @@ Template.teamsedit.events
                 Teams.removeTeam teamId
     "submit #new-team-form": (event, template) ->
         event.preventDefault();
+        return false if not Meteor.userId()?
 
         teamName = template.$('#addTeamName').val()
         teamBlock = template.$('#addTeamBlock').val()
