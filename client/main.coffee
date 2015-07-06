@@ -2,20 +2,27 @@ Router.configure({
     layoutTemplate:"applicationLayout"
 })
 
-Router.route(Routes.home.path, (() ->
-    this.render(Routes.home.template);
-    )
-    { name: Routes.home.name }
+Router.route(Routes.home.path,
+    waitOn: () ->
+        return [
+            Meteor.subscribe "matches"
+            Meteor.subscribe "teams"
+        ]
+    name: Routes.home.name
+    action: ->
+        this.render(Routes.home.template);
 )
 
 Router.route(Routes.login.path, () ->
     this.render(Routes.login.template);
 )
 
-Router.route(Routes.teamsEdit.path, (() ->
-    this.render(Routes.teamsEdit.template);
-    )
-    { name: Routes.teamsEdit.name }
+Router.route(Routes.teamsEdit.path,
+    waitOn: () ->
+          return Meteor.subscribe "teams";
+    name: Routes.teamsEdit.name
+    action: () ->
+        this.render(Routes.teamsEdit.template);
 )
 
 Router.route(Routes.updateUser.path, (() ->

@@ -7,3 +7,9 @@ Meteor.startup () ->
             password: DefAdminAccount.password
 
         Accounts.createUser(options);
+
+Meteor.publish "teams",  () ->
+    return Teams.find();
+
+Meteor.publish "matches", () ->
+    return Matches.find();
