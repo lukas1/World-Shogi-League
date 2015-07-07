@@ -1,3 +1,5 @@
+sortOption = {points: 1}
+
 Template.points.helpers
     pointsA: () ->
         teams = Teams.find({block: "A"}).fetch()
@@ -10,6 +12,6 @@ Template.points.helpers
         points += team.points for team in teams
         return points
     teamsA: () ->
-        Teams.find({block: "A"})
+        Teams.find({block: "A"}, sortOption)
     teamsB: () ->
-        Teams.find({block: "B"})
+        Teams.find({block: "B"}, sortOption)
