@@ -19,7 +19,10 @@ Router.route(Routes.login.path, () ->
 
 Router.route(Routes.teamsEdit.path,
     waitOn: () ->
-          return Meteor.subscribe "teams";
+        return [
+            Meteor.subscribe "teams"
+            Meteor.subscribe "matches"
+        ]
     name: Routes.teamsEdit.name
     action: () ->
         this.render(Routes.teamsEdit.template);
