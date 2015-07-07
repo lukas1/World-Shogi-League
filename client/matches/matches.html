@@ -5,14 +5,14 @@
         </div>
 
         <ul class="list-unstyled">
-            <li class="block_header clearfix">
-                <div class="col-md-6">
+            <li class="block-header clearfix row">
+                <div class="col-xs-6">
                     <h2>Block A</h2>
                 </div>
-                <div class="col-md-5">
+                <div class="col-xs-5">
                     <h2>Block B</h2>
                 </div>
-                <div class="col-md-1">
+                <div class="col-xs-1">
                 </div>
             </li>
             {{#each matches}}
@@ -22,14 +22,14 @@
         {{#if currentUser}}
             <strong>New match:</strong>
             <form id="new-match-form">
-                <div class="col-md-6">
+                <div class="col-xs-6">
                     {{> teams block="A"}}
                     <div class="wonRadio">
                         <input type="radio" id="wonA" name="won" value="wonA">
                         <label for="wonA">Won?</label>
                     </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-xs-5">
                     {{> teams block="B"}}
                     <div class="wonRadio">
                         <input type="radio" id="wonB" name="won" value="wonB">
@@ -40,7 +40,7 @@
                         <label for="defaultWin">Default win?</label>
                     </div>
                 </div>
-                <div class="col-md-1">
+                <div class="col-xs-1">
                     <input type="submit" value="Submit" class="btn btn-default">
                 </div>
             </form>

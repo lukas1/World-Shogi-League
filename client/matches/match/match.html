@@ -1,13 +1,13 @@
 <template name="match">
     <li class="match clearfix">
-        <div class="col-md-6">
+        <div class="col-xs-6">
             {{> matchParticipant won=wonA name=teamA.name defWin=defaultWin flag=teamA.countryCode}}
         </div>
 
-        <div class="col-md-5">
+        <div class="col-xs-5">
             {{> matchParticipant won=wonB name=teamB.name defWin=defaultWin flag=teamB.countryCode}}
         </div>
-        <div class="col-md-1">
+        <div class="col-xs-1">
             {{#if currentUser}}
                 <button class="delete">&times;</button>
             {{/if}}
