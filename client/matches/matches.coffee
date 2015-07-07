@@ -30,6 +30,7 @@ Template.matches.events(
         $("#blockBTeam").prop('selectedIndex', 0);
         $("#wonA").prop('checked', false);
         $("#wonB").prop('checked', false);
+        $("#defaultWin").prop('checked', false);
 
         # Prevent default form submit
         return false;
