@@ -5,6 +5,8 @@ Template.teamsedit.helpers(
 
 Template.teamsedit.events
     "click .teamBaseRow": (event, template) ->
+        Template.teamupdate.closeAllInstances()
+
         # Get Team Id
         teamBaseRow = $(event.target).closest('.teamBaseRow')
         teamId = $(event.target).closest('.teamBaseRow').attr('id')
