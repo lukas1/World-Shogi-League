@@ -1,12 +1,15 @@
 # Server code
 Meteor.startup () ->
-    if not Meteor.users.find().count() and DefAdminAccount?
-        options =
-            username: DefAdminAccount.username
-            email: DefAdminAccount.email
-            password: DefAdminAccount.password
+    if DefAdminAccount?
+        for defUser in DefAdminAccount
+            if Meteor.users.findOne({ emails: { $elemMatch: { address: defUser.email } } })?
+                continue
+            options =
+                username: defUser.username
+                email: defUser.email
+                password: defUser.password
 
-        Accounts.createUser(options);
+            Accounts.createUser(options)
 
 Meteor.publish "teams",  () ->
     return Teams.find();
