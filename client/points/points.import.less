@@ -1,0 +1,21 @@
+@template_sel: .pointsView;
+
+@{template_sel} .blockA {
+    padding-right: 0px;
+}
+
+@{template_sel} .blockB {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+@{template_sel} .blockB .block-header,
+@{template_sel} .blockB .list-unstyled {
+    padding-left: ceil((@grid-gutter-width / 2));
+}
+
+@{template_sel} .teamName {
+    width: 80%;
+    min-width: 200px;
+    display: inline-block;
+}

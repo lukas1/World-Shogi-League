@@ -4,8 +4,9 @@
 
 @import "lib.import.less";
 
-@import "../user/login-form/login-form.import.less";
 @import "../matches/matches.import.less";
+@import "../points/points.import.less";
+@import "../user/login-form/login-form.import.less";
 
 /* CSS declarations go here */
 body {
@@ -30,12 +31,16 @@ body {
     border: none;
 }
 
-.block_header {
+.block-header {
     border-bottom: 1px solid @gray-lighter;
     margin-bottom: 10px;
 }
 
-.block_header h2 {
+.block-header h2 {
     font-size: 18px;
     font-weight: bold;
+}
+
+.inline-block {
+    display: inline-block;
 }
