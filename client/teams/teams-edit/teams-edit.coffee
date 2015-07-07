@@ -17,6 +17,7 @@ Template.teamsedit.events
             $(teamBaseRow).closest('table').get(0), $(teamBaseRow).next().get(0)
 
     "click .delete": (event, template) ->
+        event.stopPropagation()
         return false if not Meteor.userId()?
         teamId = $(event.target).attr('teamid')
         if teamId.length > 0
