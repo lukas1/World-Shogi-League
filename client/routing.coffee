@@ -6,6 +6,10 @@
     login:
         path: '/user/login',
         template: 'loginform'
+    registration:
+        path: '/user/registration',
+        template: 'registration'
+        name: 'user.registration'
     teamsEdit:
         path: '/teams/edit'
         template: 'teamsedit'

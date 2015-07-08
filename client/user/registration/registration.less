@@ -1,0 +1,22 @@
+@registration_sel: #registration_container;
+
+@{registration_sel} .page-header, @{registration_sel} h1 {
+    margin-top: 0px;
+}
+
+@thumbnail-size: 75px;
+@{registration_sel} .thumbnail {
+    width: @thumbnail-size;
+    height: @thumbnail-size;
+    margin: 0px
+}
+
+@account-pic-form-height: calc(@thumbnail-size + 15px);
+@{registration_sel} .uploadpic-form-container {
+    min-height: @account-pic-form-height;
+    max-height: @account-pic-form-height;
+}
+
+@{registration_sel} .uploadpic-form-container form:first-child {
+    padding-left: 0px;
+}

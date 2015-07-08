@@ -1,0 +1,47 @@
+<template name="registration">
+    <div id="registration_container">
+        <div class="page-header">
+            <h1>Create an account</h1>
+        </div>
+        <div class="container col-md-4">
+            <form id="register-form" action="action">
+                <label for="account-email">Email:</label>
+                <input type="email" id="account-email" class="form-control" />
+                <br>
+                <label for="account-81dojo">81dojo.com nickname:</label>
+                <input type="email" id="account-81dojo" class="form-control" />
+                <br>
+                <label>Country you represent:</label><br>
+                {{> teams}}
+                <br>
+                <br>
+                <label for="account-password">Password:</label>
+                <input type="password" id="account-password"
+                    class="form-control" />
+                <span>Password must contain at least 6 characters</span>
+                <br>
+                <br>
+                <label for="account-password-repeat">Repeat Password:</label>
+                <input type="password" id="account-password-repeat"
+                    class="form-control" />
+                <br>
+                <br>
+            </form>
+            <div class="uploadpic-form-container clearfix">
+                <form id="uploadpic-form" class="col-md-9">
+                    <label for="account-profilePic">
+                        Pick your profile picture:
+                    </label><br>
+                    <span class="btn btn-default btn-file">
+                        Choose Image
+                        <input type="file" id="account-profilePic">
+                    </span>
+                </form>
+                <img src="" id="account-picture-uploaded"
+                    class="thumbnail col-md-3">
+            </div>
+            <input type="button" id="create-account" class="btn btn-default"
+                value="Create an Account" />
+        </div>
+    </div>
+</template>

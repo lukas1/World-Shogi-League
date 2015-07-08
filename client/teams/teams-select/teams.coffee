@@ -1,4 +1,7 @@
 Template.teams.helpers(
     teams: () ->
-        Teams.find {block: this.block}
+        if this.block?
+            Teams.find {block: this.block}
+        else
+            Teams.find()
 )

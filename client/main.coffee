@@ -17,6 +17,15 @@ Router.route(Routes.login.path, () ->
     this.render(Routes.login.template);
 )
 
+Router.route(Routes.registration.path,
+    waitOn: () ->
+        return Meteor.subscribe "teams"
+
+    name: Routes.registration.name
+    action: ->
+        this.render(Routes.registration.template);
+)
+
 Router.route(Routes.teamsEdit.path,
     waitOn: () ->
         return [
