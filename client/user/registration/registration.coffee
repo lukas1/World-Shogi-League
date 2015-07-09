@@ -1,12 +1,8 @@
-showError = () ->
+showError = (message) ->
     $('.registration-failed').remove()
-    $('#register-form').prepend(
-        '<div class="alert alert-danger registration-failed">' +
-            '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' +
-            '<strong>Registration failed!</strong> Empty input data' +
-        '</div>'
-    )
-    $('.registration-failed').fadeIn(100)
+    Blaze.renderWithData Template.errorTemplate,
+        {title: "Registration failed", message: message},
+        $('#errorMessageContainer').get(0)
 
 isValidPassword = (val) ->
    return val.length >= 6 ? true : false
@@ -42,18 +38,32 @@ Template.registration.events
 
     'submit #register-form' : (e, t) ->
         e.preventDefault()
+        Template.errorTemplate.resetError()
 
         email = $.trim($('#account-email').val())
         nick81Dojo = $.trim($('#account-81dojo').val())
         password = $.trim($('#account-password').val())
         passwordRepeat = $.trim($('#account-password-repeat').val())
+        teamId = $('#blockTeam').val()
 
-        if email.length == 0 or !isValidPassword(password)
-            showError()
+        if not email?.length
+            showError "Please type your email address"
             return false
 
-        if passwor != passwordRepeat
-            showError()
+        if not nick81Dojo?.length
+            showError "Please specify your 81dojo.com nickname"
+            return false
+
+        if not teamId?.length
+            showError "Please select country you represent"
+            return false
+
+        if !isValidPassword(password)
+            showError "Password is too short"
+            return false
+
+        if password != passwordRepeat
+            showError "Passwords don't match"
             return false
 
         regOptions =
@@ -62,6 +72,7 @@ Template.registration.events
             profile:
                 profilePic: $('#account-picture-uploaded').attr('src')
                 nick81Dojo: nick81Dojo
+                teamId: teamId
         ###
         Accounts.createUser regOptions, (err) ->
             if err

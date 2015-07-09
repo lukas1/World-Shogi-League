@@ -3,25 +3,27 @@
         <div class="page-header">
             <h1>Create an account</h1>
         </div>
-        <div class="container col-md-4">
+        <div class="container col-md-4 clearfix">
+            <div id="errorMessageContainer">
+            </div>
             <form id="register-form" action="action">
-                <label for="account-email">Email:</label>
+                <label for="account-email">Email: (required)</label>
                 <input type="email" id="account-email" class="form-control" />
                 <br>
-                <label for="account-81dojo">81dojo.com nickname:</label>
+                <label for="account-81dojo">81dojo.com nickname: (required)</label>
                 <input type="email" id="account-81dojo" class="form-control" />
                 <br>
-                <label>Country you represent:</label><br>
+                <label>Country you represent: (required)</label><br>
                 {{> teams}}
                 <br>
                 <br>
-                <label for="account-password">Password:</label>
+                <label for="account-password">Password: (required)</label>
                 <input type="password" id="account-password"
                     class="form-control" />
                 <span>Password must contain at least 6 characters</span>
                 <br>
                 <br>
-                <label for="account-password-repeat">Repeat Password:</label>
+                <label for="account-password-repeat">Repeat Password: (required)</label>
                 <input type="password" id="account-password-repeat"
                     class="form-control" />
                 <br>
@@ -30,7 +32,7 @@
             <div class="uploadpic-form-container clearfix">
                 <form id="uploadpic-form" class="col-md-9">
                     <label for="account-profilePic">
-                        Pick your profile picture:
+                        Pick your profile picture: (optional)
                     </label><br>
                     <span class="btn btn-default btn-file">
                         Choose Image
