@@ -1,6 +1,6 @@
-showError = (message) ->
+showError = (title, message) ->
     Blaze.renderWithData Template.errorTemplate,
-        {title: "Registration failed", message: message},
+        {title: title, message: message},
         $('#errorMessageContainer').get(0)
 
 isValidPassword = (val) ->
@@ -25,8 +25,20 @@ Template.registration.events
         e.preventDefault()
 
         file = $("#account-profilePic").get(0).files[0]
+        return false if not file?
+
+        if file.size > 5000000 # 5 MB
+            showError "Uploading profile picture failed!",
+            "Uploaded file is too big too big. Please upload a file with size
+            under 5MB"
+            return false
+
         reader = new FileReader()
         reader.onload = (e) ->
+            if not reader.result?.length || reader.result.indexOf('image') == -1
+                showError "Uploading profile picture failed!",
+                "Uploaded file is not image"
+                return false
             $('#account-picture-uploaded')
                 .attr('src', e.target.result)
                 .show()
@@ -46,23 +58,27 @@ Template.registration.events
         teamId = $('#blockTeam').val()
 
         if not email?.length
-            showError "Please type your email address"
+            showError "Registration failed!", "Please type your email address"
             return false
 
         if not nick81Dojo?.length
-            showError "Please specify your 81dojo.com nickname"
+            showError "Registration failed!",
+            "Please specify your 81dojo.com nickname"
             return false
 
         if not teamId?.length
-            showError "Please select country you represent"
+            showError "Registration failed!",
+            "Please select which country you represent"
             return false
 
         if !isValidPassword(password)
-            showError "Password is too short"
+            showError "Registration failed!",
+            "Password is too short"
             return false
 
         if password != passwordRepeat
-            showError "Passwords don't match"
+            showError "Registration failed!",
+            "Passwords don't match"
             return false
 
         regOptions =
