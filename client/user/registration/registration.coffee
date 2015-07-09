@@ -1,5 +1,4 @@
 showError = (message) ->
-    $('.registration-failed').remove()
     Blaze.renderWithData Template.errorTemplate,
         {title: "Registration failed", message: message},
         $('#errorMessageContainer').get(0)
