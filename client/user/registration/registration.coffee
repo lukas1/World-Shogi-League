@@ -51,12 +51,14 @@ Template.registration.events
         e.preventDefault()
         Template.errorTemplate.resetError()
 
+        # Input validation
         email = $.trim($('#account-email').val())
         nick81Dojo = $.trim($('#account-81dojo').val())
         password = $.trim($('#account-password').val())
         passwordRepeat = $.trim($('#account-password-repeat').val())
         teamId = $('#blockTeam').val()
 
+        # Show appropriate error messages
         if not email?.length
             showError "Registration failed!", "Please type your email address"
             return false
@@ -88,14 +90,14 @@ Template.registration.events
                 profilePic: $('#account-picture-uploaded').attr('src')
                 nick81Dojo: nick81Dojo
                 teamId: teamId
-        ###
+
+        # Register user
         Accounts.createUser regOptions, (err) ->
             if err
-                showError()
+                showError "Registration failed!", err.reason
                 return
             else
                 # Success. Account has been created and the user
                 # has logged in successfully.
-                Router.go('/')
-        ###
+                Router.go Routes.home.path
         return false
