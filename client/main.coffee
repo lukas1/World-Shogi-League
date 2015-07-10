@@ -13,8 +13,10 @@ Router.route(Routes.home.path,
         this.render(Routes.home.template);
 )
 
-Router.route(Routes.login.path, () ->
-    this.render(Routes.login.template);
+Router.route(Routes.login.path,
+    name: Routes.login.name
+    action: ->
+        this.render(Routes.login.template);
 )
 
 Router.route(Routes.registration.path,

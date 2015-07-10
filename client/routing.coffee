@@ -6,6 +6,7 @@
     login:
         path: '/user/login',
         template: 'loginform'
+        name: 'user.login'
     registration:
         path: '/user/registration',
         template: 'registration'

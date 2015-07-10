@@ -25,6 +25,11 @@
                     <button class="btn btn-default navbar-btn" id="logoutButton">
                         Logout
                     </button>
+                {{else}}
+                    <a href="{{pathFor route='user.login'}}"
+                        class="btn btn-default navbar-btn">
+                        Login
+                    </a>
                 {{/if}}
             </div>
         </div>
