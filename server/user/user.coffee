@@ -36,7 +36,20 @@ Meteor.methods
         checkProfilePic profile?.profilePic
         Meteor.users.update { _id: userId }, { $set: { 'profile': profile } }
     removeUser: (userId) ->
-        throw new Meteor.Error "not-authorized" if not isAdmin()
+        errorReason = ''
+        allow = false;
+        allow = true if isAdmin()
+
+        if isHead()
+            userToRemove = Meteor.users.findOne userId
+            if userToRemove?.profile?.teamId == Meteor.user().profile.teamId
+                if userToRemove?.profile?.userType == USER_TYPE_HEAD
+                    errorReason = "Only admins can remove team heads. Contact
+                    admin in case you need to remove this user"
+                else
+                    allow = true
+
+        throw new Meteor.Error "not-authorized", errorReason if not allow
         Meteor.users.remove userId
     makeAdmin: (userId) ->
         setUserType userId, USER_TYPE_ADMIN
