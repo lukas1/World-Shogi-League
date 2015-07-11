@@ -47,4 +47,12 @@ Template.userline.events
         if confirm "Do you really want to make this user a team head?"
             Meteor.call "makeHead", tpl.data._id, (error) ->
                 if error
-                    return showError "Can't make user a team head!", error.reason
+                    return showError "Can't make user a team head!",
+                    error.reason
+    "click .unHead": (e, tpl) ->
+        e.preventDefault()
+        if confirm "Do you really want to kick this user from team head post?"
+            Meteor.call "unHead", tpl.data._id, (error) ->
+                if error
+                    return showError "Can't kick user from team head position!",
+                    error.reason

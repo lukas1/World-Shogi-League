@@ -56,3 +56,5 @@ Meteor.methods
         setUserType userId, USER_TYPE_ADMIN
     makeHead: (userId) ->
         setUserType userId, USER_TYPE_HEAD
+    unHead: (userId) ->
+        setUserType userId, null
