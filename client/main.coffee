@@ -10,13 +10,13 @@ Router.route(Routes.home.path,
         ]
     name: Routes.home.name
     action: ->
-        this.render(Routes.home.template);
+        this.render Routes.home.template
 )
 
 Router.route(Routes.login.path,
     name: Routes.login.name
     action: ->
-        this.render(Routes.login.template);
+        this.render Routes.login.template
 )
 
 Router.route(Routes.registration.path,
@@ -25,7 +25,7 @@ Router.route(Routes.registration.path,
 
     name: Routes.registration.name
     action: ->
-        this.render(Routes.registration.template);
+        this.render Routes.registration.template
 )
 
 Router.route(Routes.teamsEdit.path,
@@ -36,11 +36,11 @@ Router.route(Routes.teamsEdit.path,
         ]
     name: Routes.teamsEdit.name
     action: () ->
-        this.render(Routes.teamsEdit.template);
+        this.render Routes.teamsEdit.template
 )
 
 Router.route(Routes.updateUser.path, (() ->
-    this.render(Routes.updateUser.template);
+    this.render Routes.updateUser.template
     )
     { name: Routes.updateUser.name }
 )
