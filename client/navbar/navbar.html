@@ -6,7 +6,7 @@
                     <a class="navbar-left" href="/">Home</a>
                 </li>
                 {{#if currentUser}}
-                    {{#if isAdminOrHead}}
+                    {{#if isAdmin}}
                     <li>
                         <a class="navbar-left"
                             href="{{pathFor route='teams.edit'}}">
