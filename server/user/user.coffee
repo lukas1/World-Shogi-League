@@ -24,7 +24,10 @@ Accounts.onCreateUser (options, user) ->
     return user
 
 Meteor.methods
-    updateProfile: (userId, profile)->
+    updateProfile: (userId, profile) ->
         throw new Meteor.Error "not-authorized" if Meteor.userId() != userId
         checkProfilePic profile?.profilePic
         Meteor.users.update { _id: userId }, { $set: { 'profile': profile } }
+    removeUser: (userId) ->
+        throw new Meteor.Error "not-authorized" if not Meteor.userId()
+        Meteor.users.remove userId

@@ -15,6 +15,10 @@
         path: '/teams/edit'
         template: 'teamsedit'
         name: 'teams.edit'
+    userList:
+        path: '/user/list'
+        template: 'userlist'
+        name: 'user.list'
     updateUser:
         path: '/user/update'
         template: 'updateuser'

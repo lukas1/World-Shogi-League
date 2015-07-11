@@ -1,0 +1,16 @@
+<template name="userline">
+    <li class="userline">
+        <div class="profilePic rowData">
+            <img src="{{profilePic}}" class="thumbnail">
+        </div>
+        <div class="nick81dojo rowData">
+            {{nick81Dojo}}
+        </div>
+        <div class="team rowData">
+            {{>teamView name=teamName flag=teamCountryCode}}
+        </div>
+        <div class="rowData">
+            <button class="delete">&times;</button>
+        </div>
+    </li>
+</template>

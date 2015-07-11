@@ -11,8 +11,11 @@ Meteor.startup () ->
 
             Accounts.createUser(options)
 
-Meteor.publish "teams",  () ->
+Meteor.publish "teams", () ->
     return Teams.find();
 
 Meteor.publish "matches", () ->
     return Matches.find();
+
+Meteor.publish "users", () ->
+    return Meteor.users.find {}, {fields: { _id:1, profile: 1 }}

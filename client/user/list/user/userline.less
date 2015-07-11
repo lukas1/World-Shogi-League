@@ -1,0 +1,30 @@
+@userline_sel: .userline;
+
+@line-height: 40px;
+@{userline_sel} {
+    height: @line-height;
+    line-height: @line-height;
+}
+
+@thumbnail-size: 35px;
+@{userline_sel} .thumbnail,
+@{userline_sel} .profilePic {
+    width: @thumbnail-size;
+    height: @thumbnail-size;
+    padding: 0px;
+    display: inline-block;
+}
+
+@{userline_sel} .rowData {
+    display: inline-block;
+    line-height: @line-height;
+}
+
+@{userline_sel} .nick81dojo {
+    padding-left: 5px;
+    width: 200px;
+}
+
+@{userline_sel} .team {
+    width: 200px;
+}

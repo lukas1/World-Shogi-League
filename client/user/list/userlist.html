@@ -1,0 +1,26 @@
+<template name="userlist">
+    <div class="container" id="usersList">
+        <div class="page-header">
+            <h1>Delete users</h1>
+        </div>
+        <div id="errorMessageContainer">
+        </div>
+        <ul class="list-unstyled">
+            <li class="userline">
+                <div class="profilePic rowData">
+                </div>
+                <div class="nick81dojo rowData">
+                    <strong>81dojo.com nickname</strong>
+                </div>
+                <div class="team rowData">
+                    <strong>Team</strong>
+                </div>
+                <div class="rowData">
+                </div>
+            </li>
+            {{#each users}}
+                {{>userline}}
+            {{/each}}
+        </ul>
+    </div>
+</template>
