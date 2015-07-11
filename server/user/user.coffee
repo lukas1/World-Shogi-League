@@ -18,6 +18,9 @@ Accounts.onCreateUser (options, user) ->
     if not options.profile?.teamId?.length
         throw new Meteor.Error "profile-empty-teamId",
         "Please select which country you represent"
+
+    user.profile = {}
+    user.profile = options.profile if options.profile?
     return user
 
 Meteor.methods
