@@ -6,18 +6,22 @@
                     <a class="navbar-left" href="/">Home</a>
                 </li>
                 {{#if currentUser}}
+                    {{#if isAdminOrHead}}
                     <li>
                         <a class="navbar-left"
                             href="{{pathFor route='teams.edit'}}">
                             Manage Teams
                         </a>
                     </li>
+                    {{/if}}
+                    {{#if isAdminOrHead}}
                     <li>
                         <a class="navbar-left"
                             href="{{pathFor route='user.list'}}">
-                            Delete Users
+                            Manage Users
                         </a>
                     </li>
+                    {{/if}}
                     <li>
                         <a class="navbar-left"
                             href="{{pathFor route='user.update'}}">

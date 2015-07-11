@@ -29,5 +29,18 @@ Meteor.methods
         checkProfilePic profile?.profilePic
         Meteor.users.update { _id: userId }, { $set: { 'profile': profile } }
     removeUser: (userId) ->
-        throw new Meteor.Error "not-authorized" if not Meteor.userId()
+        isAdmin = Meteor.user()?.profile?.userType == 'admin'
+        throw new Meteor.Error "not-authorized" if not isAdmin
         Meteor.users.remove userId
+    makeAdmin: (userId) ->
+        isAdmin = Meteor.user()?.profile?.userType == 'admin'
+        throw new Meteor.Error "not-authorized" if not isAdmin
+        profile = Meteor.users.findOne(userId)?.profile
+        profile.userType = 'admin'
+        Meteor.users.update { _id: userId }, { $set: { 'profile': profile } }
+    makeHead: (userId) ->
+        isAdmin = Meteor.user()?.profile?.userType == 'admin'
+        throw new Meteor.Error "not-authorized" if not isAdmin
+        profile = Meteor.users.findOne(userId)?.profile
+        profile.userType = 'head'
+        Meteor.users.update { _id: userId }, { $set: { 'profile': profile } }

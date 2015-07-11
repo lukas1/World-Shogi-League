@@ -9,6 +9,22 @@
         <div class="team rowData">
             {{>teamView name=teamName flag=teamCountryCode}}
         </div>
+        {{#if isAdmin}}
+            <div class="rowData makeAdminCell">
+                {{#if userIsAdmin}}
+                    Admin user
+                {{else}}
+                    <button class="btn btn-default makeAdmin">Make admin</button>
+                {{/if}}
+            </div>
+            <div class="rowData makeHeadCell">
+                {{#if userIsHead}}
+                    Team head
+                {{else}}
+                <button class="btn btn-default makeHead">Make team head</button>
+                {{/if}}
+            </div>
+        {{/if}}
         <div class="rowData">
             <button class="delete">&times;</button>
         </div>
