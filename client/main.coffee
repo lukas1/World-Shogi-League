@@ -29,7 +29,7 @@ Router.route(Routes.registration.path,
     name: Routes.registration.name
     action: ->
         if not Meteor.user()?
-            this.render Routes.userList.template
+            this.render Routes.registration.template
         else
             this.render Routes.oops.template
 )
