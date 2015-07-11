@@ -1,6 +1,5 @@
 <template name="teamsedit">
     <div class="teamsedit">
-    {{#if currentUser}}
         <div class="page-header">
             <h1>Edit Teams</h1>
             <small>Click a team to update it</small>
@@ -47,8 +46,5 @@
             country is listed in this list:
             <a href="/country-codes.txt" target="_blank">List of countries</a>
         </div>
-        {{else}}
-            <h1>Ooops, something went wrong!</h1>
-        {{/if}}
     </div>
 </template>

@@ -3,6 +3,8 @@
         path: '/'
         template: 'home'
         name: 'home'
+    oops:
+        template: 'oops'
     login:
         path: '/user/login',
         template: 'loginform'

@@ -16,7 +16,10 @@ Router.route(Routes.home.path,
 Router.route(Routes.login.path,
     name: Routes.login.name
     action: ->
-        this.render Routes.login.template
+        if not Meteor.user()?
+            this.render Routes.login.template
+        else
+            this.render Routes.oops.template
 )
 
 Router.route(Routes.registration.path,
@@ -25,7 +28,10 @@ Router.route(Routes.registration.path,
 
     name: Routes.registration.name
     action: ->
-        this.render Routes.registration.template
+        if not Meteor.user()?
+            this.render Routes.userList.template
+        else
+            this.render Routes.oops.template
 )
 
 Router.route(Routes.teamsEdit.path,
@@ -33,21 +39,27 @@ Router.route(Routes.teamsEdit.path,
         return [
             Meteor.subscribe "teams"
             Meteor.subscribe "matches"
-        ]
+        ] if isAdmin()
     name: Routes.teamsEdit.name
     action: () ->
-        this.render Routes.teamsEdit.template
+        if isAdmin()
+            this.render Routes.teamsEdit.template
+        else
+            this.render Routes.oops.template
 )
 
 Router.route(Routes.userList.path,
     waitOn: () ->
         return [
-            Meteor.subscribe "users"
+            Meteor.subscribe "userlist"
             Meteor.subscribe "teams"
-        ]
+        ] if isAdminOrHead()
     name: Routes.userList.name
     action: () ->
-        this.render Routes.userList.template
+        if isAdminOrHead()
+            this.render Routes.userList.template
+        else
+            this.render Routes.oops.template
 )
 
 Router.route(Routes.updateUser.path,
@@ -56,5 +68,8 @@ Router.route(Routes.updateUser.path,
 
     name: Routes.updateUser.name
     action: ->
-        this.render Routes.updateUser.template
+        if Meteor.user()?
+            this.render Routes.updateUser.template
+        else
+            this.render Routes.oops.template
 )

@@ -19,5 +19,8 @@ Meteor.publish "teams", () ->
 Meteor.publish "matches", () ->
     return Matches.find();
 
-Meteor.publish "users", () ->
-    return Meteor.users.find {}, {fields: { _id:1, profile: 1 }}
+Meteor.publish "userlist", () ->
+    user = Meteor.users.findOne this.userId
+    userType = user?.profile?.userType
+    isAdminOrHead = userType == USER_TYPE_ADMIN or userType == USER_TYPE_HEAD
+    return Meteor.users.find {}, {fields: { _id:1, profile: 1 }} if isAdminOrHead
