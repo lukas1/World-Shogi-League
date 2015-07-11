@@ -22,6 +22,6 @@ TeamsCollection.prototype.removeTeam = (teamId) ->
     }
 );
 Teams.allow
-    insert: -> Meteor.userId()?
+    insert: -> isAdmin()
     update: -> Meteor.userId()?
-    remove: -> Meteor.userId()?
+    remove: -> isAdmin()

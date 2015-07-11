@@ -56,6 +56,6 @@ MatchesCollection.prototype.removeMatch = (matchId) ->
 
 @Matches = new MatchesCollection("matches")
 Matches.allow
-    insert: -> Meteor.userId()?
-    update: -> Meteor.userId()?
-    remove: -> Meteor.userId()?
+    insert: -> isAdmin()
+    update: -> isAdminOrHead()
+    remove: -> isAdmin()
