@@ -64,3 +64,20 @@ body {
     cursor: inherit;
     display: block;
 }
+
+@thumbnail-size: 75px;
+.thumbnail {
+    width: @thumbnail-size;
+    height: @thumbnail-size;
+    margin: 0px
+}
+
+@account-pic-form-height: calc(@thumbnail-size + 15px);
+.uploadpic-form-container {
+    min-height: @account-pic-form-height;
+    max-height: @account-pic-form-height;
+}
+
+.uploadpic-form-container form:first-child {
+    padding-left: 0px;
+}
