@@ -23,24 +23,22 @@ Accounts.onCreateUser (options, user) ->
     user.profile = options.profile if options.profile?
     return user
 
+setUserType = (userId, type) ->
+    throw new Meteor.Error "not-authorized" if not isAdmin()
+    profile = Meteor.users.findOne(userId)?.profile
+    profile = {} if not profile?
+    profile.userType = type
+    Meteor.users.update { _id: userId }, { $set: { 'profile': profile } }
+
 Meteor.methods
     updateProfile: (userId, profile) ->
         throw new Meteor.Error "not-authorized" if Meteor.userId() != userId
         checkProfilePic profile?.profilePic
         Meteor.users.update { _id: userId }, { $set: { 'profile': profile } }
     removeUser: (userId) ->
-        isAdmin = Meteor.user()?.profile?.userType == 'admin'
-        throw new Meteor.Error "not-authorized" if not isAdmin
+        throw new Meteor.Error "not-authorized" if not isAdmin()
         Meteor.users.remove userId
     makeAdmin: (userId) ->
-        isAdmin = Meteor.user()?.profile?.userType == 'admin'
-        throw new Meteor.Error "not-authorized" if not isAdmin
-        profile = Meteor.users.findOne(userId)?.profile
-        profile.userType = 'admin'
-        Meteor.users.update { _id: userId }, { $set: { 'profile': profile } }
+        setUserType userId, USER_TYPE_ADMIN
     makeHead: (userId) ->
-        isAdmin = Meteor.user()?.profile?.userType == 'admin'
-        throw new Meteor.Error "not-authorized" if not isAdmin
-        profile = Meteor.users.findOne(userId)?.profile
-        profile.userType = 'head'
-        Meteor.users.update { _id: userId }, { $set: { 'profile': profile } }
+        setUserType userId, USER_TYPE_HEAD

@@ -9,7 +9,7 @@ Meteor.startup () ->
                 email: defUser.email
                 password: defUser.password
                 profile:
-                    userType: 'admin'
+                    userType: USER_TYPE_ADMIN
 
             Accounts.createUser(options)
 

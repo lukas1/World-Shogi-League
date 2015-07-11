@@ -1,10 +1,8 @@
 Template.navbar.helpers
     isAdmin: () ->
-        userType = Meteor.user()?.profile?.userType
-        return userType == 'admin'        
+        isAdmin()
     isAdminOrHead: () ->
-        userType = Meteor.user()?.profile?.userType
-        return userType == 'admin' or userType == 'head'
+        isAdminOrHead()
 
 Template.navbar.events
     "click #logoutButton": (event, template) ->

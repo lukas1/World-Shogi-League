@@ -18,16 +18,15 @@ Template.userline.helpers
     teamCountryCode: ->
         Teams.findOne(Template.instance().data.profile?.teamId)?.countryCode
     isAdmin: ->
-        userType = Meteor.user()?.profile?.userType
-        return userType == 'admin'
+        isAdmin()
     userIsAdmin: ->
         userId = Template.instance().data._id
         userType = Meteor.users.findOne(userId)?.profile?.userType
-        return userType == 'admin'
+        return userType == USER_TYPE_ADMIN
     userIsHead: ->
         userId = Template.instance().data._id
         userType = Meteor.users.findOne(userId)?.profile?.userType
-        return userType == 'head'
+        return userType == USER_TYPE_HEAD
 
 Template.userline.events
     "click .delete": (e, tpl) ->
