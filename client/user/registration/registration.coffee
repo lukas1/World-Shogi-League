@@ -22,6 +22,7 @@ Template.registration.onRendered () ->
 Template.registration.events
     'submit #uploadpic-form' : (e, t) ->
         e.preventDefault()
+        Template.errorTemplate.resetError()
 
         file = $("#account-profilePic").get(0).files[0]
         return false if not file?
