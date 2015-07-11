@@ -1,7 +1,6 @@
 showError = (title, message) ->
-    Blaze.renderWithData Template.errorTemplate,
-        {title: title, message: message},
-        $('#errorMessageContainer').get(0)
+    Template.errorTemplate.showError title, message,
+    $('#errorMessageContainer').get(0)
 
 isValidPassword = (val) ->
    return val.length >= 6 ? true : false
