@@ -40,14 +40,15 @@ Meteor.methods
         allow = false;
         allow = true if isAdmin()
 
+        userToRemove = Meteor.users.findOne userId
         if isHead()
-            userToRemove = Meteor.users.findOne userId
             if userToRemove?.profile?.teamId == Meteor.user().profile.teamId
                 if userToRemove?.profile?.userType == USER_TYPE_HEAD
                     errorReason = "Only admins can remove team heads. Contact
                     admin in case you need to remove this user"
                 else
                     allow = true
+        allow = false if userToRemove?.profile?.userType == USER_TYPE_ADMIN
 
         throw new Meteor.Error "not-authorized", errorReason if not allow
         Meteor.users.remove userId
