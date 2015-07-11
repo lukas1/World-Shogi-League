@@ -110,8 +110,6 @@ Template.updateuser.events
             showSuccess 'password', 'Password successfully changed!'
 
 Template.updateuser.onRendered () ->
-    $('#currentPassword').focus()
-
     if Meteor.user().profile?.profilePic?.length
         $('#account-picture-uploaded').attr 'src',
         Meteor.user().profile.profilePic
