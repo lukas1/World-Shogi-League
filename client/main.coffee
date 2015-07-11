@@ -39,8 +39,11 @@ Router.route(Routes.teamsEdit.path,
         this.render Routes.teamsEdit.template
 )
 
-Router.route(Routes.updateUser.path, (() ->
-    this.render Routes.updateUser.template
-    )
-    { name: Routes.updateUser.name }
+Router.route(Routes.updateUser.path,
+    waitOn: () ->
+        return Meteor.subscribe "teams"
+
+    name: Routes.updateUser.name
+    action: ->
+        this.render Routes.updateUser.template
 )

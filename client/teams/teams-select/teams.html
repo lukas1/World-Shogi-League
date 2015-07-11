@@ -2,7 +2,9 @@
     <select id="block{{block}}Team">
         <option value="">---</option>
         {{#each teams}}
-            <option value="{{_id}}">{{name}}</option>
+            <option value="{{_id}}" selected="{{selected}}">
+                {{name}}
+            </option>
         {{/each}}
     </select>
 </template>

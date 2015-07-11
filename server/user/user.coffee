@@ -17,3 +17,8 @@ Accounts.onCreateUser (options, user) ->
         throw new Meteor.Error "profile-empty-teamId",
         "Please select which country you represent"
     return user
+
+Meteor.methods
+    updateProfile: (userId, profile)->
+        throw new Meteor.Error "not-authorized" if Meteor.userId() != userId
+        Meteor.users.update { _id: userId }, { $set: { 'profile': profile } }
