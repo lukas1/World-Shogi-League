@@ -1,6 +1,6 @@
 Template.matches.helpers(
-    matches: () ->
-        Matches.find {}, {sort: {createdAt: -1}}
+    matches: (roundId) ->
+        Matches.find {roundId: roundId}, {sort: {createdAt: -1}}
     rounds: () ->
         rounds = Rounds.find({}, {sort: {createdAt: 1}}).fetch()
 
@@ -12,53 +12,48 @@ Template.matches.helpers(
     isAdmin: () ->
         isAdmin()
     inMiddleOfRound: () ->
-        rounds = Rounds.find({}, {sort: {roundNumber: -1}, limit: 1}).fetch()
-        if rounds.length
-            roundNumber = rounds[0]?.roundNumber
-            finished = rounds[0]?.finished
+        lRound = lastRound()
+        if lRound?
+            roundNumber = lRound?.roundNumber
+            finished = lRound?.finished
             return finished
         else
             return true
     canAddMatch: () ->
-        rounds = Rounds.find({}, {sort: {roundNumber: -1}, limit: 1}).fetch()
-        return false if not rounds.length
-        roundNumber = rounds[0]?.roundNumber
-        finished = rounds[0]?.finished
+        lRound = lastRound()
+        return false if not lRound?
+        roundNumber = lRound?.roundNumber
+        finished = lRound?.finished
         return not finished
 )
 
 Template.matches.events
     "submit #new-match-form": (event) ->
-        return false if not Meteor.userId()?
+        event.preventDefault()
+        return false if not isAdmin()
 
         # Get values
-        teamAId = $("#blockATeam").val();
-        teamBId = $("#blockBTeam").val();
+        teamAId = $("#blockATeam").val()
+        teamBId = $("#blockBTeam").val()
 
         # validate
-        return false if teamAId.length == 0 or teamBId.length == 0 or
-            (not $("#wonA").is(":checked") and not $("#wonB").is(":checked"))
+        return false if not teamAId.length or not teamBId.length
 
-        winTeam = if $("#wonA").is(":checked") then teamAId else teamBId
-        defaultWin = $("#defaultWin").is(":checked")
-
-        return false if not Matches.insertMatch(
+        matchId = Matches.insertMatch(
             teamAId: teamAId,
             teamBId: teamBId,
-            winTeam: winTeam
-            defaultWin: defaultWin
             createdAt: new Date()
         )
+
+
+        return false if not matchId
 
         # Clear form
         $("#blockATeam").prop('selectedIndex', 0);
         $("#blockBTeam").prop('selectedIndex', 0);
-        $("#wonA").prop('checked', false);
-        $("#wonB").prop('checked', false);
-        $("#defaultWin").prop('checked', false);
 
         # Prevent default form submit
-        return false;
+        return false
 
     "click #startRound": (event, template) ->
         event.preventDefault()

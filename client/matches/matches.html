@@ -18,7 +18,7 @@
             {{#each rounds}}
                 <li class="block-header clearfix">
                     <div class="col-xs-6">
-                        Round {{roundNumber}}
+                        <strong>Round {{roundNumber}}</strong>
                     </div>
 
                     <div class="col-xs-5">
@@ -33,12 +33,26 @@
                         {{/if}}
                     </div>
                 </li>
-            {{/each}}
-            {{#each matches}}
-            {{> match}}
+                {{#each matches _id}}
+                    {{> match}}
+                {{/each}}
             {{/each}}
         </ul>
         {{#if isAdmin}}
+        {{#if canAddMatch}}
+            <strong>New match:</strong>
+            <form id="new-match-form">
+                <div class="col-xs-6">
+                    {{> teams block="A"}}
+                </div>
+                <div class="col-xs-5">
+                    {{> teams block="B"}}
+                </div>
+                <div class="col-xs-1">
+                    <input type="submit" value="Submit" class="btn btn-default">
+                </div>
+            </form>
+            {{/if}}
             <div>
                 {{#if inMiddleOfRound}}
                     <button class="btn btn-default" id="startRound">
@@ -50,34 +64,6 @@
                     </button>
                 {{/if}}
             </div>
-        {{/if}}
-        {{#if isAdmin}}
-            {{#if canAddMatch}}
-            <strong>New match:</strong>
-            <form id="new-match-form">
-                <div class="col-xs-6">
-                    {{> teams block="A"}}
-                    <div class="wonRadio">
-                        <input type="radio" id="wonA" name="won" value="wonA">
-                        <label for="wonA">Won?</label>
-                    </div>
-                </div>
-                <div class="col-xs-5">
-                    {{> teams block="B"}}
-                    <div class="wonRadio">
-                        <input type="radio" id="wonB" name="won" value="wonB">
-                        <label for="wonB">Won?</label>
-                    </div>
-                    <div class="defaultWinBox">
-                        <input type="checkbox" id="defaultWin">
-                        <label for="defaultWin">Default win?</label>
-                    </div>
-                </div>
-                <div class="col-xs-1">
-                    <input type="submit" value="Submit" class="btn btn-default">
-                </div>
-            </form>
-            {{/if}}
         {{/if}}
     </div>
 </template>

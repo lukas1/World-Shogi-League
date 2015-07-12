@@ -15,4 +15,6 @@ Meteor.methods
         if roundId != rounds[0]?._id
             throw new Meteor.Error "invalid-round-to-remove",
             "Only last round can be removed"
+
+        Matches.remove {roundId: roundId}
         Rounds.remove _id: roundId

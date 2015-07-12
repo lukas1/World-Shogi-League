@@ -32,25 +32,37 @@ updatePoints = (matchData, add = true) ->
 
 MatchesCollection = Mongo.Collection;
 MatchesCollection.prototype.insertMatch = (matchData) ->
-    return false if not Meteor.userId()?
+    return false if not isAdmin()
 
-    # Update points
-    return false if not updatePoints matchData
+    # Append round id to match data
+    round = lastRound()
+    roundId = round?._id
+    return false if not round?
+    matchData.roundId = roundId
 
-    # Finally insert match
-    this.insert matchData
+    # Insert match
+    matchId = this.insert matchData
+
+    # Add match to it's round
+    round.matches.push(matchId)
+    matches = round.matches
+    updated = Rounds.update roundId, {$set: {matches: matches}}
+    if not updated
+        Matches.removeMatch matchId
+        return false
+    else
+        return matchId
+
+
 
 MatchesCollection.prototype.removeMatch = (matchId) ->
-    return false if not Meteor.userId()?
+    return false if not isAdmin()
 
     # Validate input
     return false if not matchId?.length
 
     matchData = this.findOne matchId
     return false if not matchData?
-
-    # Update points
-    return false if not updatePoints matchData, false
 
     this.remove matchId
 
