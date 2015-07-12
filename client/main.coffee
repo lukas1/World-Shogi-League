@@ -5,6 +5,7 @@ Router.configure({
 Router.route(Routes.home.path,
     waitOn: () ->
         return [
+            Meteor.subscribe "rounds"
             Meteor.subscribe "matches"
             Meteor.subscribe "teams"
         ]

@@ -16,6 +16,9 @@ Meteor.startup () ->
 Meteor.publish "teams", () ->
     return Teams.find();
 
+Meteor.publish "rounds", () ->
+    return Rounds.find();
+
 Meteor.publish "matches", () ->
     return Matches.find();
 
