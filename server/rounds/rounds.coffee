@@ -5,7 +5,6 @@ Meteor.methods
         if not round?.matches?.length
             throw new Meteor.Error "no-matches-finish",
             "You can't finish a round with no matches"
-            return false
         Rounds.update roundId, {$set: {finished: true}}
     removeRound: (roundId) ->
         throw new Meteor.Error "not-authorized" if not isAdmin()
