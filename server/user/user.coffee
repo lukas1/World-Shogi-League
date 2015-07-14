@@ -27,6 +27,8 @@ setUserType = (userId, type) ->
     throw new Meteor.Error "not-authorized" if not isAdmin()
     profile = Meteor.users.findOne(userId)?.profile
     profile = {} if not profile?
+    if profile.userType == USER_TYPE_ADMIN
+        throw new Meteor.Error "demote-disabled" 
     profile.userType = type
     Meteor.users.update { _id: userId }, { $set: { 'profile': profile } }
 
