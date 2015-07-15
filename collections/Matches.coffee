@@ -53,13 +53,21 @@ MatchesCollection.prototype.insertMatch = (matchData) ->
     else
         return matchId
 
+MatchesCollection.prototype.removeMatches = (filter) ->
+    return false if not isAdmin()
 
+    matches = Matches.find filter, { fields: {'_id': 1} }
+    matches.forEach (document) ->
+        Matches.removeMatch document._id
 
 MatchesCollection.prototype.removeMatch = (matchId) ->
     return false if not isAdmin()
 
     # Validate input
     return false if not matchId?.length
+
+    # Remove all boards with this match id
+    Boards.remove { matchId: matchId }
 
     matchData = this.findOne matchId
     return false if not matchData?
