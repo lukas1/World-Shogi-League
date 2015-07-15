@@ -53,7 +53,10 @@ Router.route(Routes.userList.path,
     waitOn: () ->
         return [
             Meteor.subscribe "userlist"
+            Meteor.subscribe "lastRound"
             Meteor.subscribe "teams"
+            Meteor.subscribe "currentMatches"
+            Meteor.subscribe "currentBoards"
         ] if isAdminOrHead()
     name: Routes.userList.name
     action: () ->

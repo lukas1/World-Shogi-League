@@ -31,6 +31,24 @@
                 {{/if}}
             </div>
         {{/if}}
+        {{#if isAdminOrHead}}
+            <div class="rowData addToMatchCell">
+                {{#if isOpenMatch}}
+                    {{#if boardData}}
+                        <button class="btn btn-default removeFromMatch"
+                            id="removeFromBoard{{boardData._id}}">
+                            Remove from board #{{boardData.board}}
+                        </button>
+                    {{else}}
+                        <button class="btn btn-default addToMatch">
+                            Add to match
+                        </button>
+                    {{/if}}
+                {{else}}
+                    No match open
+                {{/if}}
+            </div>
+        {{/if}}
         <div class="rowData">
             <button class="delete">&times;</button>
         </div>

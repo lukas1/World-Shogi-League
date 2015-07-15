@@ -19,6 +19,8 @@ Template.userline.helpers
         Teams.findOne(Template.instance().data.profile?.teamId)?.countryCode
     isAdmin: ->
         isAdmin()
+    isAdminOrHead: ->
+        isAdminOrHead()
     userIsAdmin: ->
         userId = Template.instance().data._id
         userType = Meteor.users.findOne(userId)?.profile?.userType
@@ -27,6 +29,29 @@ Template.userline.helpers
         userId = Template.instance().data._id
         userType = Meteor.users.findOne(userId)?.profile?.userType
         return userType == USER_TYPE_HEAD
+    boardData: ->
+        try
+            matchId = getMatchIdForPlayer Template.instance().data._id
+        catch error
+            return null
+
+        Boards.findOne
+            playerId: Template.instance().data._id
+            matchId: matchId
+    isOpenMatch: ->
+        roundData = lastRound()
+        return false if not roundData?
+
+        return false if roundData.finished
+
+        try
+            matchId = getMatchIdForPlayer Template.instance().data._id
+
+            return false if not matchId?.length
+        catch error
+            return false
+
+        return true
 
 Template.userline.events
     "click .delete": (e, tpl) ->
@@ -56,3 +81,17 @@ Template.userline.events
                 if error
                     return showError "Can't kick user from team head position!",
                     error.reason
+    "click .addToMatch": (e, tpl) ->
+        e.preventDefault()
+        $('#boardSelectPlayerId').val(tpl.data._id)
+        $('#addToMatchModal').modal()
+
+    "click .removeFromMatch": (e, tpl) ->
+        e.preventDefault()
+        buttonId = $(e.target).attr('id')
+        boardId = buttonId.replace('removeFromBoard', '')
+        if not boardId?.length
+            return showError "Unable to remove player from match."
+
+        Meteor.call "removePlayerFromMatch", boardId, (error) ->
+            return showError "Unable to remove player from match." if error
