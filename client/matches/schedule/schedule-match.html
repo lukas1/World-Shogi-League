@@ -1,0 +1,38 @@
+<template name="scheduleMatch">
+    <div class="container matches_container">
+        <div class="page-header">
+            <h1>Schedule my match</h1>
+        </div>
+        <div class="container">
+            Playing on board #{{boardData.board}}
+            <br>
+            {{#if opponentData}}
+                Your opponent is
+                <strong>
+                    {{opponentData.profile.nick81Dojo}}
+                </strong>
+                <br>
+            {{/if}}
+        </div>
+        <div id="mySchedule" class="col-md-6">
+            <div class="page-header">
+                <h1>My schedule</h1>
+            </div>
+        </div>
+
+        <div id="opponentSchedule" class="col-md-6">
+            <div class="page-header">
+                <h1>Opponent's schedule</h1>
+            </div>
+        </div>
+        <form id="addToSchedule">
+            <div class="col-md-4">
+                <input type="text" id="dateTimePickerText"
+                    class="form-control">
+            </div>
+            <input type="hidden" id="dateTimePickerValue">
+            <input type="submit" value="Add to my schedule"
+                class="btn btn-default">
+        </form>
+    </div>
+</template>

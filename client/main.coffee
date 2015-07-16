@@ -49,6 +49,23 @@ Router.route(Routes.teamsEdit.path,
             this.render Routes.oops.template
 )
 
+Router.route(Routes.scheduleMatch.path,
+    waitOn: () ->
+        return [
+            Meteor.subscribe "userlist"
+            Meteor.subscribe "lastRound"
+            Meteor.subscribe "teams"
+            Meteor.subscribe "currentMatches"
+            Meteor.subscribe "currentBoards"
+        ]
+    name: Routes.scheduleMatch.name
+    action: () ->
+        if Meteor.userId()
+            this.render Routes.scheduleMatch.template
+        else
+            this.render Routes.oops.template
+)
+
 Router.route(Routes.userList.path,
     waitOn: () ->
         return [

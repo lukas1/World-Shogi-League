@@ -25,3 +25,7 @@
         path: '/user/update'
         template: 'updateuser'
         name: 'user.update'
+    scheduleMatch:
+        path: '/matches/schedule'
+        template: 'scheduleMatch'
+        name: 'matches.schedule'
