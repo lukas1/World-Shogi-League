@@ -56,7 +56,8 @@ Template.userline.helpers
 Template.userline.events
     "click .delete": (e, tpl) ->
         e.preventDefault()
-        if confirm "Do you really want to remove this user? This action cannot be reversed"
+        if confirm "Do you really want to remove this user?
+        This action cannot be reversed"
             Meteor.call "removeUser", tpl.data._id, (error) ->
                 if error
                     return showError "Removing user failed!", error.reason
@@ -88,6 +89,9 @@ Template.userline.events
 
     "click .removeFromMatch": (e, tpl) ->
         e.preventDefault()
+        if not confirm "Do you really want to remove this player from the
+        match?"
+            return false
         buttonId = $(e.target).attr('id')
         boardId = buttonId.replace('removeFromBoard', '')
         if not boardId?.length
