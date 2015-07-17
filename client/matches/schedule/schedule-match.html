@@ -14,25 +14,56 @@
                 <br>
             {{/if}}
         </div>
-        <div id="mySchedule" class="col-md-6">
-            <div class="page-header">
-                <h1>My schedule</h1>
-            </div>
-        </div>
 
-        <div id="opponentSchedule" class="col-md-6">
-            <div class="page-header">
-                <h1>Opponent's schedule</h1>
+        <div class="container">
+            <div id="mySchedule" class="col-md-6 clearfix">
+                <div class="page-header">
+                    <h1>My schedule</h1>
+                </div>
+                <ul class="list-unstyled">
+                    {{#each boardData.schedule}}
+                        <li>{{startDate}} - {{endDate}}</li>
+                    {{/each}}
+                </ul>
+            </div>
+
+            <div id="opponentSchedule" class="col-md-6 clearfix">
+                <div class="page-header">
+                    <h1>Opponent's schedule</h1>
+                </div>
+                <ul class="list-unstyled">
+                    {{#each opponentBoardData.schedule}}
+                        <li>{{startDate}} - {{endDate}}</li>
+                    {{/each}}
+                </ul>
             </div>
         </div>
         <form id="addToSchedule">
-            <div class="col-md-4">
-                <input type="text" id="dateTimePickerText"
-                    class="form-control">
+            <div id="errorMessageContainer">
             </div>
-            <input type="hidden" id="dateTimePickerValue">
-            <input type="submit" value="Add to my schedule"
-                class="btn btn-default">
+            <div class="col-md-4">
+                <strong>Start:</strong>
+                <div class="input-group date" id="dateTimeStartPickerText">
+                    <input type="text" class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <strong>End:</strong>
+                <div class="input-group date" id="dateTimeEndPickerText">
+                    <input type="text" class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <br>
+                <input type="submit" value="Add to my schedule"
+                    class="btn btn-default">
+            </div>
         </form>
     </div>
 </template>

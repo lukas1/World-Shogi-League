@@ -55,3 +55,20 @@ Meteor.methods
         throw new Meteor.Error "boardId-empty" if not boardId?.length
 
         Boards.removeBoard boardId
+
+    addToSchedule: (boardId, startDateObj, endDateObj)->
+        # Access rights
+        throw new Meteor.error "not-authorized" if not Meteor.userId()?.length
+
+        # Input validation
+        throw new Meteor.error "missing-boardId" if not boardId?.length
+        throw new Meteor.error "missing-startDate" if not startDateObj?
+        throw new Meteor.error "missing-endDate" if not endDateObj?
+
+        # Insert schedule
+        scheduleObj =
+            _id: new Mongo.ObjectID()._str
+            startDate: startDateObj
+            endDate: endDateObj
+
+        Boards.update boardId, { $push: { schedule:  scheduleObj}}
