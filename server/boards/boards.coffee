@@ -36,7 +36,7 @@ Meteor.methods
             board: board
 
         if thisBoard?
-            Boards.remove thisBoard._id
+            Boards.removeBoard thisBoard._id
 
         # Don't allow any more boards to be added
         allMatchBoards = Boards.find(
@@ -54,4 +54,4 @@ Meteor.methods
         # Validation of parameters
         throw new Meteor.Error "boardId-empty" if not boardId?.length
 
-        Boards.remove boardId
+        Boards.removeBoard boardId

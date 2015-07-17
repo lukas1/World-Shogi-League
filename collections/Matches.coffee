@@ -67,7 +67,7 @@ MatchesCollection.prototype.removeMatch = (matchId) ->
     return false if not matchId?.length
 
     # Remove all boards with this match id
-    Boards.remove { matchId: matchId }
+    Boards.removeBoard { matchId: matchId }
 
     matchData = this.findOne matchId
     return false if not matchData?
