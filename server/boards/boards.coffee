@@ -29,23 +29,23 @@ Meteor.methods
             board: board
 
         # Check if this board is already occupied
-        # If so update the record
+        # If so remove the record
         thisBoard = Boards.findOne
             matchId: matchId
             teamId: teamId
             board: board
 
-        if not thisBoard?
-            # Don't allow any more boards to be added
-            allMatchBoards = Boards.find(
-                {matchId: matchId, teamId: teamId}
-            ).fetch()
-            if allMatchBoards.length >= BOARDS_COUNT
-                throw new Meteor.Error "too-many-boards"
+        if thisBoard?
+            Boards.remove thisBoard._id
 
-            Boards.insert boardData
-        else
-            Boards.update thisBoard._id, {$set: boardData}
+        # Don't allow any more boards to be added
+        allMatchBoards = Boards.find(
+            {matchId: matchId, teamId: teamId}
+        ).fetch()
+        if allMatchBoards.length >= BOARDS_COUNT
+            throw new Meteor.Error "too-many-boards"
+
+        Boards.insert boardData
 
     removePlayerFromMatch: (boardId) ->
         # Access rights
