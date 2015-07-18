@@ -1,15 +1,15 @@
 updateMatchDate = (boardId) ->
     # Input validation
-    throw new Meteor.error "missing-boardId" if not boardId?.length
+    throw new Meteor.Error "missing-boardId" if not boardId?.length
 
     boardData = Boards.findOne boardId
-    throw new Meteor.error "no-such-board" if not boardData?
+    throw new Meteor.Error "no-such-board" if not boardData?
 
     otherBoardData = Boards.findOne
         matchId: boardData.matchId
         _id: { $ne: boardId }
 
-    throw new Meteor.error "no-such-board" if not otherBoardData?
+    throw new Meteor.Error "no-such-board" if not otherBoardData?
 
     matchUnixTime = (()->
         for schedule in boardData.schedule
@@ -98,12 +98,12 @@ Meteor.methods
 
     addToSchedule: (boardId, startDateObj, endDateObj)->
         # Access rights
-        throw new Meteor.error "not-authorized" if not Meteor.userId()?.length
+        throw new Meteor.Error "not-authorized" if not Meteor.userId()?.length
 
         # Input validation
-        throw new Meteor.error "missing-boardId" if not boardId?.length
-        throw new Meteor.error "missing-startDate" if not startDateObj?
-        throw new Meteor.error "missing-endDate" if not endDateObj?
+        throw new Meteor.Error "missing-boardId" if not boardId?.length
+        throw new Meteor.Error "missing-startDate" if not startDateObj?
+        throw new Meteor.Error "missing-endDate" if not endDateObj?
 
         # Insert schedule
         scheduleObj =
@@ -118,17 +118,17 @@ Meteor.methods
 
     removeFromSchedule: (boardId, scheduleId) ->
         # Access rights
-        throw new Meteor.error "not-authorized" if not Meteor.userId()?.length
+        throw new Meteor.Error "not-authorized" if not Meteor.userId()?.length
 
         # Input validation
-        throw new Meteor.error "missing-boardId" if not boardId?.length
-        throw new Meteor.error "missing-scheduleId" if not scheduleId?.length
+        throw new Meteor.Error "missing-boardId" if not boardId?.length
+        throw new Meteor.Error "missing-scheduleId" if not scheduleId?.length
 
         board = Boards.findOne boardId
-        throw new Meteor.error "no-such-board" if not board?
+        throw new Meteor.Error "no-such-board" if not board?
 
         if Meteor.userId() != board.playerId
-            throw new Meteor.error "not-authorized"
+            throw new Meteor.Error "not-authorized"
 
         # Finally, remove date time from schedule
         Boards.update boardId, { $pull: { schedule: { _id: scheduleId } } }
