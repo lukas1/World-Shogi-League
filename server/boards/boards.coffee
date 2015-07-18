@@ -1,3 +1,43 @@
+updateMatchDate = (boardId) ->
+    # Input validation
+    throw new Meteor.error "missing-boardId" if not boardId?.length
+
+    boardData = Boards.findOne boardId
+    throw new Meteor.error "no-such-board" if not boardData?
+
+    otherBoardData = Boards.findOne
+        matchId: boardData.matchId
+        _id: { $ne: boardId }
+
+    throw new Meteor.error "no-such-board" if not otherBoardData?
+
+    matchUnixTime = (()->
+        for schedule in boardData.schedule
+            start = schedule.startDate.getTime()
+            end = schedule.endDate.getTime()
+
+            for otherSchedule in otherBoardData.schedule
+                otherStart = otherSchedule.startDate.getTime()
+                otherEnd = otherSchedule.endDate.getTime()
+
+                if start >=otherStart and start <= otherEnd
+                    return start
+                if otherStart >= start and otherStart <= end
+                    return otherStart
+        return false
+    )()
+
+    updateObj = {}
+    if not matchUnixTime? or not matchUnixTime
+        updateObj = { $unset: { matchDate: "" } }
+    else
+        matchDate = new Date(matchUnixTime)
+        updateObj = { $set: { matchDate: matchDate } }
+
+    Boards.update boardId, updateObj
+    Boards.update otherBoardData._id, updateObj
+
+
 Meteor.methods
     addPlayerToMatch: (userId, matchId, board) ->
         # Access rights
@@ -73,6 +113,9 @@ Meteor.methods
 
         Boards.update boardId, { $push: { schedule:  scheduleObj}}
 
+        # Update match date
+        updateMatchDate(boardId)
+
     removeFromSchedule: (boardId, scheduleId) ->
         # Access rights
         throw new Meteor.error "not-authorized" if not Meteor.userId()?.length
@@ -89,3 +132,6 @@ Meteor.methods
 
         # Finally, remove date time from schedule
         Boards.update boardId, { $pull: { schedule: { _id: scheduleId } } }
+
+        # Update match date
+        updateMatchDate(boardId)

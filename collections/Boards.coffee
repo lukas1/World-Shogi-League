@@ -5,7 +5,13 @@ BoardsCollection.prototype.removeBoard = (filter) ->
 
 @Boards = new BoardsCollection "boards",
     transform: (doc) ->
+        # Sort schedules by date start
         scheduleList = doc.schedule
+        scheduleList.sort (a,b) ->
+            return -1 if a.startDate.getTime() < b.startDate.getTime()
+            return 1 if a.startDate.getTime() > b.startDate.getTime()
+            return 0
+
         for schedule in scheduleList
             schedule['startDateFormatted'] =
                 moment(schedule.startDate).format('MMMM Do, HH:mm')
