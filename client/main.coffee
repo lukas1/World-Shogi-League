@@ -60,9 +60,13 @@ Router.route(Routes.scheduleMatch.path,
         ]
     name: Routes.scheduleMatch.name
     action: () ->
-        if Meteor.userId()
+        try
+            throw new Meteor.Error "not-authorized" if not Meteor.userId()?
+            board = boardDataForPlayerId Meteor.userId()
+            throw new Meteor.Error "not-authorized" if not board?
+
             this.render Routes.scheduleMatch.template
-        else
+        catch error
             this.render Routes.oops.template
 )
 

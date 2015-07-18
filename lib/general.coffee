@@ -35,3 +35,12 @@
     for the team of this player" if not matchData?
 
     return matchData._id
+
+# throws
+@boardDataForPlayerId = (playerId) ->
+    matchId = getMatchIdForPlayer playerId
+    board = Boards.findOne
+        playerId: Meteor.userId()
+        matchId: matchId
+
+    return board

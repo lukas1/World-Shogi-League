@@ -7,15 +7,6 @@ showError = (title, message, top = false) ->
     errorContainer
     return false
 
-# throws
-boardDataForPlayerId = (playerId) ->
-    matchId = getMatchIdForPlayer playerId
-    board = Boards.findOne
-        playerId: Meteor.userId()
-        matchId: matchId
-
-    return board
-
 Template.scheduleMatch.helpers
     boardData: ->
         try
