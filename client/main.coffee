@@ -55,7 +55,7 @@ Router.route(Routes.teamsEdit.path,
 Router.route(Routes.scheduleMatch.path,
     waitOn: () ->
         return [
-            Meteor.subscribe "userlist"
+            Meteor.subscribe "myMatchPlayers"
             Meteor.subscribe "lastRound"
             Meteor.subscribe "teams"
             Meteor.subscribe "currentMatches"
@@ -80,7 +80,7 @@ Router.route(Routes.userList.path,
             Meteor.subscribe "lastRound"
             Meteor.subscribe "teams"
             Meteor.subscribe "currentMatches"
-            Meteor.subscribe "currentBoards"
+            Meteor.subscribe "myMatchCurrentBoards"
         ] if isAdminOrHead()
     name: Routes.userList.name
     action: () ->

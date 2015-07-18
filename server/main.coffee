@@ -55,3 +55,17 @@ Meteor.publish "myMatchCurrentBoards", () ->
         return Boards.find { matchId: matchId }
     catch error
         return []
+
+Meteor.publish "myMatchPlayers", () ->
+    try
+        matchId = getMatchIdForPlayer this.userId
+        playerIds = Boards.find({ matchId: matchId },
+            fields:
+                playerId: 1
+        ).map (document, index, cursor) ->
+            return document.playerId
+
+        return Meteor.users.find { _id: { $in: playerIds } }, 
+            {fields: { _id:1, profile: 1 }}
+    catch error
+        return []
