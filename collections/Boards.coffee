@@ -7,6 +7,7 @@ BoardsCollection.prototype.removeBoard = (filter) ->
     transform: (doc) ->
         # Sort schedules by date start
         scheduleList = doc.schedule
+        return doc if not scheduleList?
         scheduleList.sort (a,b) ->
             return -1 if a.startDate.getTime() < b.startDate.getTime()
             return 1 if a.startDate.getTime() > b.startDate.getTime()
