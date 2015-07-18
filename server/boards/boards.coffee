@@ -72,3 +72,20 @@ Meteor.methods
             endDate: endDateObj
 
         Boards.update boardId, { $push: { schedule:  scheduleObj}}
+
+    removeFromSchedule: (boardId, scheduleId) ->
+        # Access rights
+        throw new Meteor.error "not-authorized" if not Meteor.userId()?.length
+
+        # Input validation
+        throw new Meteor.error "missing-boardId" if not boardId?.length
+        throw new Meteor.error "missing-scheduleId" if not scheduleId?.length
+
+        board = Boards.findOne boardId
+        throw new Meteor.error "no-such-board" if not board?
+
+        if Meteor.userId() != board.playerId
+            throw new Meteor.error "not-authorized"
+
+        # Finally, remove date time from schedule
+        Boards.update boardId, { $pull: { schedule: { _id: scheduleId } } }

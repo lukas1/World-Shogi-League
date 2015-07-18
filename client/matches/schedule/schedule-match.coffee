@@ -1,8 +1,10 @@
 dateTimeFormat = 'DD/MM/YYYY HH:mm'
 
-showError = (title, message) ->
+showError = (title, message, top = false) ->
+    errorContainer = $('#errorMessageContainer').get(0)
+    errorContainer = $('#errorMessageRemoveContainer').get(0) if top
     Template.errorTemplate.showError title, message,
-    $('#errorMessageContainer').get(0)
+    errorContainer
     return false
 
 # throws
@@ -96,5 +98,24 @@ Template.scheduleMatch.events
 
         catch error
             return showError errorTitle, error.reason
+
+        return false
+    "click .cancelSchedule": (e, tpl) ->
+        e.preventDefault()
+
+        return false if not confirm "Do you really want to remove this date
+        from your schedule?"
+
+        errorTitle = "Could not remove date from schedule!"
+        try
+            board = boardDataForPlayerId Meteor.userId()
+            scheduleId = $(e.target).attr('id').replace('cancelSchedule', '')
+
+            Meteor.call "removeFromSchedule", board._id, scheduleId,
+            (error, result) ->
+                if error
+                    return showError errorTitle, error.reason, true
+        catch error
+            return showError errorTitle, error.reason, true
 
         return false

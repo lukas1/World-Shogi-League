@@ -1,5 +1,5 @@
 <template name="scheduleMatch">
-    <div class="container matches_container">
+    <div class="container scheduleContainer">
         <div class="page-header">
             <h1>Schedule my match</h1>
         </div>
@@ -16,13 +16,21 @@
         </div>
 
         <div class="container">
+            <div id="errorMessageRemoveContainer">
+            </div>
             <div id="mySchedule" class="col-md-6 clearfix">
                 <div class="page-header">
                     <h1>My schedule</h1>
                 </div>
                 <ul class="list-unstyled">
                     {{#each boardData.schedule}}
-                        <li>{{startDateFormatted}} - {{endDateFormatted}}</li>
+                        <li>
+                            {{startDateFormatted}} - {{endDateFormatted}}
+                            <a href="#" class="cancelSchedule"
+                                id="cancelSchedule{{_id}}">
+                                Cancel
+                            </a>
+                        </li>
                     {{/each}}
                 </ul>
             </div>
