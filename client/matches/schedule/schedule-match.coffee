@@ -71,6 +71,7 @@ Template.scheduleMatch.onRendered ->
 Template.scheduleMatch.events
     "submit #addToSchedule": (e, tpl) ->
         e.preventDefault()
+        Template.errorTemplate.resetError()
 
         errorTitle = "Could not add dates to schedule!"
 
@@ -106,6 +107,7 @@ Template.scheduleMatch.events
         return false
     "click .cancelSchedule": (e, tpl) ->
         e.preventDefault()
+        Template.errorTemplate.resetError()
 
         return false if not confirm "Do you really want to remove this date
         from your schedule?"

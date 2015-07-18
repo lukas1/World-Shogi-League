@@ -105,6 +105,19 @@ Meteor.methods
         throw new Meteor.Error "missing-startDate" if not startDateObj?
         throw new Meteor.Error "missing-endDate" if not endDateObj?
 
+        dateDiff = endDateObj.getTime() - startDateObj.getTime()
+        if dateDiff < 0
+            throw new Meteor.Error "date-order", "Starting date must be lower
+            than ending date"
+
+        board = Boards.findOne boardId
+        throw new Meteor.Error "no-such-board" if not board?
+
+        if board.matchDate?
+            throw new Meteor.Error "match-negotiated", "Your match date has
+            been already negotiated. You can't add another. If you wish to
+            change the date, cancel your schedule and negotiate new one"
+
         # Insert schedule
         scheduleObj =
             _id: new Mongo.ObjectID()._str
