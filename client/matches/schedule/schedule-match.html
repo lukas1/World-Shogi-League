@@ -11,6 +11,8 @@
                 <strong>
                     {{opponentData.profile.nick81Dojo}}
                 </strong>
+                from {{>teamView name=opponentTeamData.name
+                    flag=opponentTeamData.countryCode}}
                 <br>
             {{/if}}
             {{#if boardData.matchDate}}

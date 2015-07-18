@@ -7,6 +7,17 @@ showError = (title, message, top = false) ->
     errorContainer
     return false
 
+opponentData = () ->
+    try
+        matchId = getMatchIdForPlayer Meteor.userId()
+        board = Boards.findOne
+            playerId: { $not: Meteor.userId() }
+            matchId: matchId
+
+        return Meteor.users.findOne board.playerId
+    catch error
+        return null
+
 Template.scheduleMatch.helpers
     boardData: ->
         try
@@ -25,23 +36,11 @@ Template.scheduleMatch.helpers
             return board
         catch error
             return null
-    matchData: ->
-        try
-            matchId = getMatchIdForPlayer Meteor.userId()
-            matchData = Matches.findOne matchId
-            return matchData
-        catch error
-            return null
     opponentData: ->
-        try
-            matchId = getMatchIdForPlayer Meteor.userId()
-            board = Boards.findOne
-                playerId: { $not: Meteor.userId() }
-                matchId: matchId
-
-            return Meteor.users.findOne board.playerId
-        catch error
-            return null
+        return opponentData()
+    opponentTeamData: ->
+        opponent = opponentData()
+        Teams.findOne opponent.profile.teamId
 
 Template.scheduleMatch.onRendered ->
     this.$('#dateTimeStartPickerText, #dateTimeEndPickerText').datetimepicker
