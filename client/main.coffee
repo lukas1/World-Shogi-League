@@ -1,6 +1,9 @@
-Router.configure({
-    layoutTemplate:"applicationLayout"
-})
+Router.configure
+    layoutTemplate: "applicationLayout"
+    subscriptions: () ->
+        this.subscribe "lastRound"
+        this.subscribe "currentMatches"
+        this.subscribe "myMatchCurrentBoards"
 
 Router.route(Routes.home.path,
     waitOn: () ->

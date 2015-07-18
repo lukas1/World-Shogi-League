@@ -48,3 +48,10 @@ Meteor.publish "currentBoards", () ->
     Boards.find
         matchId:
             $in: matches
+
+Meteor.publish "myMatchCurrentBoards", () ->
+    try
+        matchId = getMatchIdForPlayer this.userId
+        return Boards.find { matchId: matchId }
+    catch error
+        return []
