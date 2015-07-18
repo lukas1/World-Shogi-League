@@ -19,7 +19,9 @@ boardDataForPlayerId = (playerId) ->
 Template.scheduleMatch.helpers
     boardData: ->
         try
-            return boardDataForPlayerId Meteor.userId()
+            board = boardDataForPlayerId Meteor.userId()
+            board["addScheduleClass"] = 'hidden' if board.matchDate?
+            return board
         catch error
             return null
     opponentBoardData: ->
@@ -57,6 +59,8 @@ Template.scheduleMatch.onRendered ->
         sideBySide: true
         showClear: true
         format: dateTimeFormat
+        minDate: new Date()
+        defaultDate: new Date()
 
     this.$('#dateTimeStartPickerText').on "dp.change", (e)->
         $('#dateTimeEndPickerText').data("DateTimePicker").minDate(e.date)

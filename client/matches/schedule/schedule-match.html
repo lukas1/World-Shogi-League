@@ -51,7 +51,19 @@
                 </ul>
             </div>
         </div>
-        <form id="addToSchedule">
+        {{#if boardData.matchDate}}
+            <div class="alert alert-info">
+            Your match is scheduled for
+            <strong>{{boardData.matchDate}}</strong>.
+            If you wish to change the date, cancel it in the schedule above.
+            Doing so will send an email to your opponent requesting to
+            re-schedule your match. You can also select a date that meets
+            already defined schedule by your opponent. If you do so, your
+            opponent will get another email with confirmation of the new
+            schedule
+            </div>
+        {{/if}}
+        <form id="addToSchedule" class="{{boardData.addScheduleClass}}">
             <div id="errorMessageContainer">
             </div>
             <div class="col-md-4">
