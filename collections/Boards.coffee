@@ -1,7 +1,13 @@
 BoardsCollection = Mongo.Collection;
 
 BoardsCollection.prototype.removeBoard = (filter) ->
-    this.remove filter
+    boards = this.find(filter).fetch()
+    for board in boards
+        otherBoardData = Boards.findOne
+            matchId: board.matchId
+            _id: { $ne: board._id }
+        Boards.update otherBoardData._id, { $unset: { matchDate: "" } }
+        this.remove board._id
 
 @Boards = new BoardsCollection "boards",
     transform: (doc) ->
