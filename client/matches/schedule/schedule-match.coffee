@@ -1,3 +1,5 @@
+dateTimeFormat = 'DD/MM/YYYY HH:mm'
+
 showError = (title, message) ->
     Template.errorTemplate.showError title, message,
     $('#errorMessageContainer').get(0)
@@ -52,7 +54,7 @@ Template.scheduleMatch.onRendered ->
         allowInputToggle: true
         sideBySide: true
         showClear: true
-        format: 'DD/MM/YYYY HH:mm'
+        format: dateTimeFormat
 
     this.$('#dateTimeStartPickerText').on "dp.change", (e)->
         $('#dateTimeEndPickerText').data("DateTimePicker").minDate(e.date)
@@ -68,8 +70,8 @@ Template.scheduleMatch.events
 
         startDate = $('#dateTimeStartPickerText').find('input').val()
         endDate = $('#dateTimeEndPickerText').find('input').val()
-        startDateObj = new Date(startDate)
-        endDateObj = new Date(endDate)
+        startDateObj = moment(startDate, dateTimeFormat).toDate()
+        endDateObj = moment(endDate, dateTimeFormat).toDate()
 
         if not startDate?.length
             return showError errorTitle, "Select starting date and time"
