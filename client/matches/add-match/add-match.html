@@ -1,0 +1,14 @@
+<template name="addMatch">
+    <strong>New match:</strong>
+    <form id="new-match-form">
+        <div class="col-xs-6">
+            {{> teams block="A"}}
+        </div>
+        <div class="col-xs-5">
+            {{> teams block="B"}}
+        </div>
+        <div class="col-xs-1">
+            <input type="submit" value="Submit" class="btn btn-default">
+        </div>
+    </form>
+</template>
