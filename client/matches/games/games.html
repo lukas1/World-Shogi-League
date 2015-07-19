@@ -1,4 +1,45 @@
 <template name="games">
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
+        id ="postResultModal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                    </button>
+                    <h4>Post result</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="errorMessageContainer">
+                    </div>
+                    <form id="postResultForm">
+                        <input type="hidden" id="boardNumber">
+                        <input type="radio" name="winner" id="teamAWin">
+                        <span id="teamAPlayer"></span>
+                        <br>
+                        <input type="radio" name="winner" id="teamBWin">
+                        <span id="teamBPlayer"></span>
+                        <br><br>
+                        {{#if isAdmin}}
+                        <input type="checkbox" id="winByDefault">
+                        <label for="winByDefault">Win by default</label>
+                        <br><br>
+                        {{/if}}
+                        <div id="gameLinkContainer">
+                            <label for="gameLink">Link to game:</label>
+                            <input type="text" id="gameLink"
+                                class="form-control">
+                        </div>
+                        <br>
+                        <input type="submit" value="Post result"
+                            class="btn btn-default">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container gamesContainer">
         <div class="page-header">
             <h1>
@@ -36,7 +77,16 @@
                         {{matchDate board}}
                     </td>
                     <td>
-                        game still not finished
+                        {{#if gameNotFinished board}}
+                            {{#if isAdmin}}
+                                <button class="btn btn-default postResult"
+                                    id="postResult{{board}}">
+                                    Post result
+                                </button>
+                            {{else}}
+                                game still not finished
+                            {{/if}}
+                        {{/if}}
                     </td>
                 </tr>
             {{/each}}
