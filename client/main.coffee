@@ -17,6 +17,23 @@ Router.route(Routes.home.path,
         this.render Routes.home.template
 )
 
+Router.route(Routes.games.path,
+    waitOn: () ->
+        params = this.params; # { _id: "id_of_match" }
+        return [
+            Meteor.subscribe "thisMatch", params._id
+            Meteor.subscribe "matchTeams", params._id
+            Meteor.subscribe "matchBoards", params._id
+            Meteor.subscribe "matchParticipants", params._id
+        ]
+    name: Routes.games.name
+    action: () ->
+        routerThis = this
+        this.render Routes.games.template,
+            data: () ->
+                return { params: routerThis.params }
+)
+
 Router.route(Routes.login.path,
     name: Routes.login.name
     action: ->

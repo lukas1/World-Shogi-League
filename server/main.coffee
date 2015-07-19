@@ -65,7 +65,26 @@ Meteor.publish "myMatchPlayers", () ->
         ).map (document, index, cursor) ->
             return document.playerId
 
-        return Meteor.users.find { _id: { $in: playerIds } }, 
+        return Meteor.users.find { _id: { $in: playerIds } },
             {fields: { _id:1, profile: 1 }}
     catch error
         return []
+
+Meteor.publish "thisMatch", (matchId) ->
+    Matches.find matchId
+
+Meteor.publish "matchTeams", (matchId) ->
+    match = Matches.findOne matchId
+    return [] if not match?
+    return Teams.find { _id: { $in: [match.teamAId, match.teamBId] } }
+
+Meteor.publish "matchBoards", (matchId) ->
+    Boards.find { matchId: matchId }
+
+Meteor.publish "matchParticipants", (matchId) ->
+    playerIds = Boards.find({ matchId: matchId })
+        .map (document, index, cursor) ->
+            return document.playerId
+    return [] if not playerIds? and not playerIds?.length
+    return Meteor.users.find { _id: { $in: playerIds } },
+        {fields: { _id:1, profile: 1 }}

@@ -5,6 +5,10 @@
         name: 'home'
     oops:
         template: 'oops'
+    games:
+        path: 'matches/games/:_id'
+        template: 'games'
+        name: 'games'
     login:
         path: '/user/login',
         template: 'loginform'

@@ -1,0 +1,45 @@
+<template name="games">
+    <div class="container gamesContainer">
+        <div class="page-header">
+            <h1>
+                Games
+            </h1>
+            {{>teamView name=teamAData.name flag=teamAData.countryCode}}
+            -
+            {{>teamView name=teamBData.name flag=teamBData.countryCode}}
+        </div>
+        <table class="gamesTable">
+            <tr>
+                <th>
+                </th>
+                <th class="participantData">
+                    {{>teamView name=teamAData.name flag=teamAData.countryCode}}
+                </th>
+                <th class="participantData">
+                    {{>teamView name=teamBData.name flag=teamBData.countryCode}}
+                </th>
+                <th>Date of game</th>
+                <th>Link to game</th>
+            </tr>
+            {{#each boards}}
+                <tr>
+                    <td>
+                        #{{board}}
+                    </td>
+                    <td class="participantData">
+                        {{playerName board 'a'}}
+                    </td>
+                    <td class="participantData">
+                        {{playerName board 'b'}}
+                    </td>
+                    <td class="matchDate">
+                        {{matchDate board}}
+                    </td>
+                    <td>
+                        game still not finished
+                    </td>
+                </tr>
+            {{/each}}
+        </table>
+    </div>
+</template>

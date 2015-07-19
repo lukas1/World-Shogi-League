@@ -1,4 +1,4 @@
-Template.match.helpers (
+Template.match.helpers
     wonA: () ->
         this.teamAId == this.winTeam
     wonB: () ->
@@ -9,12 +9,11 @@ Template.match.helpers (
         Teams.findOne(this.teamAId)
     teamB: () ->
         Teams.findOne(this.teamBId)
-)
 
-Template.match.events (
-    "click .delete": () ->
+Template.match.events
+    "click .delete": ->
         return false if not Meteor.userId()?
         if confirm "Really delete match?"
             Matches.removeMatch this._id
-
-)
+    "click .match": ->
+        Router.go 'games', { _id: this._id }
