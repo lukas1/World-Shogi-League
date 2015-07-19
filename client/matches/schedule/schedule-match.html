@@ -15,6 +15,11 @@
                     flag=opponentTeamData.countryCode}}
                 <br>
             {{/if}}
+            {{#if matchData.matchEndDate}}
+                Match has to be played until
+                <strong>{{matchData.matchEndDate}}</strong>
+                <br>
+            {{/if}}
             {{#if boardData.matchDate}}
                 Match scheduled for
                 <strong>{{boardData.matchDate}}</strong>

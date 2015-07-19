@@ -41,8 +41,24 @@ Template.scheduleMatch.helpers
     opponentTeamData: ->
         opponent = opponentData()
         Teams.findOne opponent.profile.teamId
+    matchData: ->
+        try
+            matchId = getMatchIdForPlayer Meteor.userId()
+            return Matches.findOne matchId
+        catch error
+            return null
+
 
 Template.scheduleMatch.onRendered ->
+    # Get match end date
+    matchEndDate
+    try
+        matchId = getMatchIdForPlayer Meteor.userId()
+        matchData = Matches.findOne matchId
+        matchEndDate = matchData.matchEndDate
+    catch error
+        matchEndDate = moment().add(8, 'days')
+
     this.$('#dateTimeStartPickerText, #dateTimeEndPickerText').datetimepicker
         useCurrent: false
         allowInputToggle: true
@@ -50,6 +66,7 @@ Template.scheduleMatch.onRendered ->
         showClear: true
         format: dateTimeFormat
         minDate: new Date()
+        maxDate: matchEndDate
         defaultDate: new Date()
 
     this.$('#dateTimeStartPickerText').on "dp.change", (e)->
