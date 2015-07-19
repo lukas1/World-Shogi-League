@@ -14,21 +14,25 @@ getPlayerData = (board, block) ->
 
     Meteor.users.findOne board.playerId
 
+getThisMatchData = () ->
+    matchId = Template.instance().data.params._id
+    Matches.findOne matchId
+
 Template.games.helpers
+    isAdmin: ->
+        return isAdmin()
     boards: ->
         boards = []
         for board in [1..BOARDS_COUNT]
             boards.push {board: board}
         return boards
     teamAData: ->
-        matchId = this.params._id
-        match = Matches.findOne matchId
+        match = getThisMatchData()
         return null if not match?
 
         Teams.findOne match.teamAId
     teamBData: ->
-        matchId = this.params._id
-        match = Matches.findOne matchId
+        match = getThisMatchData()
         return null if not match?
 
         Teams.findOne match.teamBId
@@ -39,12 +43,11 @@ Template.games.helpers
         return playerData.profile.nick81Dojo
     matchDate: (board) ->
         emptyDateMessage = "tbd"
-        matchId = Template.instance().data.params._id
-        match = Matches.findOne matchId
+        match = getThisMatchData()
         return emptyDateMessage if not match?
         board = Boards.findOne
             board: board.toString()
-            matchId: matchId
+            matchId: match._id
         return emptyDateMessage if not board? or not board?.matchDate?
 
         return moment(board.matchDate).format('MMMM Do, HH:mm')
