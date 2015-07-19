@@ -16,6 +16,7 @@ updateMatchDate = (boardId) ->
             start = schedule.startDate.getTime()
             end = schedule.endDate.getTime()
 
+            return false if not otherBoardData.schedule?
             for otherSchedule in otherBoardData.schedule
                 otherStart = otherSchedule.startDate.getTime()
                 otherEnd = otherSchedule.endDate.getTime()
