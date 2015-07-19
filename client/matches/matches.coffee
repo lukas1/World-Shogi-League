@@ -1,6 +1,6 @@
 Template.matches.helpers(
     matches: (roundId) ->
-        Matches.find {roundId: roundId}, {sort: {createdAt: -1}}
+        Matches.find {roundId: roundId}, {sort: {createdAt: 1}}
     rounds: () ->
         rounds = Rounds.find({}, {sort: {createdAt: 1}}).fetch()
 
