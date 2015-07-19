@@ -6,7 +6,8 @@ BoardsCollection.prototype.removeBoard = (filter) ->
         otherBoardData = Boards.findOne
             matchId: board.matchId
             _id: { $ne: board._id }
-        Boards.update otherBoardData._id, { $unset: { matchDate: "" } }
+        if otherBoardData?
+            Boards.update otherBoardData._id, { $unset: { matchDate: "" } }
         this.remove board._id
 
 @Boards = new BoardsCollection "boards",
