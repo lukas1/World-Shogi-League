@@ -18,7 +18,7 @@ clearPostResultForm = (tpl, winByDefault) ->
 getThisMatchId = () ->
     Template.instance().data.params._id
 
-getPlayerData = (board, block) ->
+getBoardData = (board, block) ->
     selectedTeam = 'teamAId'
     selectedTeam = 'teamBId' if block == 'b'
 
@@ -26,10 +26,13 @@ getPlayerData = (board, block) ->
     match = Matches.findOne matchId
     return null if not match?
 
-    board = Boards.findOne
+    return Boards.findOne
         board: board.toString()
         matchId: matchId
         teamId: match[selectedTeam]
+
+getPlayerData = (board, block) ->
+    board = getBoardData board, block
     return null if not board?
 
     Meteor.users.findOne board.playerId
@@ -64,6 +67,12 @@ Template.games.helpers
         Teams.findOne match.teamBId
     playerName: getPlayerName
 
+    winner: (board, block) ->
+        board = getBoardData board, block
+        return false if not board?
+
+        return board?.win
+
     matchDate: (board) ->
         emptyDateMessage = "tbd"
         match = getThisMatchData()
@@ -81,7 +90,15 @@ Template.games.helpers
             board: board.toString()
             matchId: match._id
         return false if not board?
-        return not board.isFinished
+        return not board.win?
+    gameLink: (board) ->
+        match = getThisMatchData()
+        return "" if not match?
+        board = Boards.findOne
+            board: board.toString()
+            matchId: match._id
+        return "" if not board?
+        return board?.linkToGame
 
 Template.games.events
     "click .postResult": (e, tpl) ->

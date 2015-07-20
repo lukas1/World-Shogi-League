@@ -68,10 +68,22 @@
                         #{{board}}
                     </td>
                     <td class="participantData">
-                        {{playerName board 'a'}}
+                        {{#if winner board 'a'}}
+                            <strong>
+                                {{playerName board 'a'}}
+                            </strong>
+                        {{else}}
+                            {{playerName board 'a'}}
+                        {{/if}}
                     </td>
                     <td class="participantData">
-                        {{playerName board 'b'}}
+                        {{#if winner board 'b'}}
+                            <strong>
+                                {{playerName board 'b'}}
+                            </strong>
+                        {{else}}
+                            {{playerName board 'b'}}
+                        {{/if}}
                     </td>
                     <td class="matchDate">
                         {{matchDate board}}
@@ -86,6 +98,10 @@
                             {{else}}
                                 game still not finished
                             {{/if}}
+                        {{else}}
+                            <a href="{{gameLink board}}" target="_blank">
+                                {{gameLink board}}
+                            </a>
                         {{/if}}
                     </td>
                 </tr>
