@@ -1,6 +1,12 @@
 @gamesContainerSel: .gamesContainer;
 
 @{gamesContainerSel} .gamesTable tr {
+    @height: 45px;
+    height: @height;
+    line-height: @height;
+}
+
+@{gamesContainerSel} .gamesTable tr {
     & > :first-child {
         width: 40px;
         text-align: center;
