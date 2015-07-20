@@ -11,9 +11,11 @@ Template.match.helpers
         Teams.findOne(this.teamBId)
 
 Template.match.events
-    "click .delete": ->
+    "click .delete": (event, tpl) ->
+        event.stopPropagation()
         return false if not Meteor.userId()?
         if confirm "Really delete match?"
             Matches.removeMatch this._id
-    "click .match": ->
+    "click .match": (event, tpl) ->
+        event.stopPropagation()
         Router.go 'games', { _id: this._id }
