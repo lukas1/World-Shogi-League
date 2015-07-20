@@ -136,7 +136,7 @@ Template.games.events
         winnerBlock = 'b' if teamBWin
 
         Meteor.call "postGameResult", getThisMatchId(), board, winnerBlock,
-        winByDefault, (error, result) ->
+        winByDefault, gameLink, (error, result) ->
             if error
                 return showError errorTitle, error.reason
 
