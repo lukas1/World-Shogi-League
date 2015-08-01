@@ -58,6 +58,11 @@
                 </ul>
             </div>
         </div>
+        {{#if matchDateFinished}}
+            <div class="alert alert-info">
+                You can't schedule this match anymore, the round is finished
+            </div>
+        {{/if}}
         {{#if boardData.matchDate}}
             <div class="alert alert-info">
             Your match is scheduled for
