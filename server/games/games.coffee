@@ -39,6 +39,8 @@ Meteor.methods
 
         throw new Meteor.Error "no-such-board" if not loserBoardId?
 
+        gameLink = '' if winByDefault
+
         # Update data for winner
         Boards.update winnerBoardId, {
             $set:

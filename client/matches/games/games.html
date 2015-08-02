@@ -8,7 +8,7 @@
                         aria-label="Close">
                             <span aria-hidden="true">×</span>
                     </button>
-                    <h4>Post result</h4>
+                    <h4 id="modalHeader">Post result</h4>
                 </div>
                 <div class="modal-body">
                     <div id="errorMessageContainer">
@@ -32,8 +32,8 @@
                                 class="form-control">
                         </div>
                         <br>
-                        <input type="submit" value="Post result"
-                            class="btn btn-default">
+                        <input type="submit" id="modalSubmit"
+                            value="Post result" class="btn btn-default">
                     </form>
                 </div>
             </div>
@@ -60,7 +60,8 @@
                     {{>teamView name=teamBData.name flag=teamBData.countryCode}}
                 </th>
                 <th>Date of game</th>
-                <th>Link to game</th>
+                <th class="linkToGame">Link to game</th>
+                <th></th>
             </tr>
             {{#each boards}}
                 <tr>
@@ -88,20 +89,39 @@
                     <td class="matchDate">
                         {{matchDate board}}
                     </td>
-                    <td>
-                        {{#if gameNotFinished board}}
-                            {{#if isAdmin}}
-                                <button class="btn btn-default postResult"
-                                    id="postResult{{board}}">
-                                    Post result
-                                </button>
-                            {{else}}
+                    <td class="linkToGame">
+                        {{#if gameExists board}}
+                            {{#if gameNotFinished board}}
                                 game still not finished
+                            {{else}}
+                                {{#if gameLink board}}
+                                    <a href="{{gameLink board}}"
+                                        target="_blank">
+                                        {{gameLink board}}
+                                    </a>
+                                {{else}}
+                                    {{#if winByDefault board}}
+                                        win by default
+                                    {{/if}}
+                                {{/if}}
                             {{/if}}
-                        {{else}}
-                            <a href="{{gameLink board}}" target="_blank">
-                                {{gameLink board}}
-                            </a>
+                        {{/if}}
+                    </td>
+                    <td>
+                        {{#if gameExists board}}
+                            {{#if isAdmin}}
+                                {{#if gameNotFinished board}}
+                                    <button class="btn btn-default postResult"
+                                        id="postResult{{board}}">
+                                        Post result
+                                    </button>
+                                {{else}}
+                                    <button class="btn btn-default editResult"
+                                        id="editResult{{board}}">
+                                        Edit result
+                                    </button>
+                                {{/if}}
+                            {{/if}}
                         {{/if}}
                     </td>
                 </tr>

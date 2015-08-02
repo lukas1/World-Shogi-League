@@ -5,10 +5,12 @@ showError = (title, message) ->
 
 clearPostResultForm = (tpl, winByDefault) ->
     tpl.$('#teamAWin, #teamBWin').prop 'checked', false
+    tpl.$('#modalHeader').text ''
     tpl.$('#teamAPlayer').text ''
     tpl.$('#teamBPlayer').text ''
     tpl.$('#boardNumber').val ''
     tpl.$('#gameLink').val ''
+    tpl.$('#modalSubmit').val ''
     if winByDefault
         tpl.$('#winByDefault').prop 'checked', false
         tpl.$('#winByDefault').trigger 'change'
@@ -46,6 +48,43 @@ getPlayerName = (board, block) ->
 getThisMatchData = () ->
     matchId = getThisMatchId()
     Matches.findOne matchId
+
+prepareModal = (e, tpl, modalType) ->
+    e.preventDefault()
+    return false if modalType != 'post' and modalType != 'edit'
+    Template.errorTemplate.resetError()
+
+    clearPostResultForm tpl, tpl.$('#winByDefault').is(':checked')
+
+    if modalType == 'post'
+        replaceId = 'postResult'
+        tpl.$('#modalHeader').text 'Post result'
+        tpl.$('#modalSubmit').val 'Post result'
+    else if modalType == 'edit'
+        replaceId = 'editResult'
+        tpl.$('#modalHeader').text 'Edit result'
+        tpl.$('#modalSubmit').val 'Edit result'
+
+    elementId = $(e.target).attr 'id'
+    board = elementId.replace replaceId, ''
+    tpl.$('#boardNumber').val board
+
+    if modalType == 'edit'
+        boardData = getBoardData board, 'a'
+        tpl.$('#teamAWin').prop 'checked', boardData?.win
+        tpl.$('#teamBWin').prop 'checked', not boardData?.win
+        tpl.$('#gameLink').val boardData?.linkToGame
+
+        if boardData?.winByDefault
+            tpl.$('#winByDefault').prop 'checked', true
+            tpl.$('#winByDefault').trigger 'change'
+
+    # Fill player names
+    teamAPlayer = getPlayerName board, 'a'
+    teamBPlayer = getPlayerName board, 'b'
+    tpl.$('#teamAPlayer').text teamAPlayer
+    tpl.$('#teamBPlayer').text teamBPlayer
+    tpl.$('#postResultModal').modal()
 
 Template.games.helpers
     isAdmin: ->
@@ -99,24 +138,28 @@ Template.games.helpers
             matchId: match._id
         return "" if not board?
         return board?.linkToGame
+    gameExists: (board) ->
+        match = getThisMatchData()
+        return false if not match?
+        board = Boards.findOne
+            board: board.toString()
+            matchId: match._id
+        return board?
+    winByDefault: (board) ->
+        match = getThisMatchData()
+        return false if not match?
+        board = Boards.findOne
+            board: board.toString()
+            matchId: match._id
+        return false if not board?
+        return board?.winByDefault
 
 Template.games.events
     "click .postResult": (e, tpl) ->
-        e.preventDefault()
-        Template.errorTemplate.resetError()
+        prepareModal e, tpl, 'post'
 
-        clearPostResultForm tpl, tpl.$('#winByDefault').is(':checked')
-
-        elementId = $(e.target).attr 'id'
-        board = elementId.replace 'postResult', ''
-        tpl.$('#boardNumber').val(board)
-
-        # Fill player names
-        teamAPlayer = getPlayerName board, 'a'
-        teamBPlayer = getPlayerName board, 'b'
-        tpl.$('#teamAPlayer').text(teamAPlayer)
-        tpl.$('#teamBPlayer').text(teamBPlayer)
-        tpl.$('#postResultModal').modal()
+    "click .editResult": (e, tpl) ->
+        prepareModal e, tpl, 'edit'
 
     "click #teamAPlayer": (e, tpl) ->
         tpl.$('#teamAWin').prop 'checked', true
