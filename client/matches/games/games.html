@@ -22,9 +22,9 @@
                         <span id="teamBPlayer"></span>
                         <br><br>
                         {{#if isAdmin}}
-                        <input type="checkbox" id="winByDefault">
-                        <label for="winByDefault">Win by default</label>
-                        <br><br>
+                            <input type="checkbox" id="winByDefault">
+                            <label for="winByDefault">Win by default</label>
+                            <br><br>
                         {{/if}}
                         <div id="gameLinkContainer">
                             <label for="gameLink">Link to game:</label>
@@ -109,7 +109,7 @@
                     </td>
                     <td>
                         {{#if gameExists board}}
-                            {{#if isAdmin}}
+                            {{#if canUpdateResult board}}
                                 {{#if gameNotFinished board}}
                                     <button class="btn btn-default postResult"
                                         id="postResult{{board}}">

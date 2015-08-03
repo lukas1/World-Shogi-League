@@ -89,6 +89,18 @@ prepareModal = (e, tpl, modalType) ->
 Template.games.helpers
     isAdmin: ->
         return isAdmin()
+    canUpdateResult: (board) ->
+        return true if isAdmin()
+
+        matchId = getThisMatchId()
+
+        playerIds = Boards.find(
+            { matchId: matchId, board: board.toString() }
+        ).map (document, index, cursor) ->
+            return document.playerId
+
+        # only admin or player involved in match can post result
+        return playerIds.indexOf(Meteor.userId()) != -1
     boards: ->
         boards = []
         for board in [1..BOARDS_COUNT]
