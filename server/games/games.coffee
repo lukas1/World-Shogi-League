@@ -41,6 +41,8 @@ Meteor.methods
 
         gameLink = '' if winByDefault
 
+        updatePoints loserBoardId, winnerBoardId, false
+
         # Update data for winner
         Boards.update winnerBoardId, {
             $set:
@@ -56,3 +58,5 @@ Meteor.methods
                 winByDefault: winByDefault
                 linkToGame: gameLink
         }
+
+        updatePoints winnerBoardId, loserBoardId

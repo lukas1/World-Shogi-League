@@ -1,3 +1,40 @@
+@updatePoints = (winnerBoardId, loserBoardId, add = true) ->
+    # Validate input
+    throw new Meteor.Error "wrong-parameter" if not winnerBoardId?
+    throw new Meteor.Error "wrong-parameter" if not loserBoardId?
+
+    winnerBoard = Boards.findOne winnerBoardId
+    loserBoard = Boards.findOne loserBoardId
+
+    return false if not winnerBoard? or not loserBoard?
+
+    return false if not add and not winnerBoard.win? and not loserBoard.win?
+
+    multiplier = 1;
+    multiplier = -1 if not add
+
+    # Update points of participating teams
+    teamsToUpdate = [
+        Teams.findOne winnerBoard.teamId
+        Teams.findOne loserBoard.teamId
+    ]
+
+    # Select appropriate amount of points to be updated
+    for teamData in teamsToUpdate
+        do (teamData) ->
+            pointsToAdd = 0
+            if teamData._id == winnerBoard.teamId
+                pointsToAdd = Points.win
+            else if winnerBoard.winByDefault
+                pointsToAdd = Points.loseDefault
+            else
+                pointsToAdd = Points.lose
+
+            points = teamData.points + (multiplier * pointsToAdd)
+
+            # Update points for this team
+            Teams.update(teamData._id, {$set: {points: points}})
+
 BoardsCollection = Mongo.Collection;
 
 BoardsCollection.prototype.removeBoard = (filter) ->
