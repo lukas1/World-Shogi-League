@@ -2,6 +2,15 @@ showError = (title, message) ->
     Template.errorTemplate.showError title, message,
     $('#errorMessageContainer').get(0)
 
+boardData = () ->
+    try
+        matchId = getMatchIdForPlayer Template.instance().data._id
+        Boards.findOne
+            playerId: Template.instance().data._id
+            matchId: matchId
+    catch error
+        return null
+
 Template.userline.helpers
     profilePic: ->
         profilePic = Template.instance().data.profile?.profilePic
@@ -29,15 +38,11 @@ Template.userline.helpers
         userId = Template.instance().data._id
         userType = Meteor.users.findOne(userId)?.profile?.userType
         return userType == USER_TYPE_HEAD
-    boardData: ->
-        try
-            matchId = getMatchIdForPlayer Template.instance().data._id
-        catch error
-            return null
-
-        Boards.findOne
-            playerId: Template.instance().data._id
-            matchId: matchId
+    boardData: boardData
+    gameFinished: ->
+        board = boardData()
+        return null if not board?
+        return board.win?
     isOpenMatch: ->
         roundData = lastRound()
         return false if not roundData?

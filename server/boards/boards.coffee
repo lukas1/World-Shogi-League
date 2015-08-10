@@ -70,13 +70,16 @@ Meteor.methods
             board: board
 
         # Check if this board is already occupied
-        # If so remove the record
+        # If so remove the record, but only if the game is not finished yet
         thisBoard = Boards.findOne
             matchId: matchId
             teamId: teamId
             board: board
 
         if thisBoard?
+            # If game on this board is already finished, trying to replace
+            # player is considered an error
+            throw new Meteor.Error "board-game-finished" if thisBoard.win?
             Boards.removeBoard thisBoard._id
 
         # Don't allow any more boards to be added
@@ -94,6 +97,11 @@ Meteor.methods
 
         # Validation of parameters
         throw new Meteor.Error "boardId-empty" if not boardId?.length
+
+        # If game on this board is already finished, trying to remove it
+        # is considered an error
+        board = Boards.findOne boardId
+        throw new Meteor.Error "board-game-finished" if board?.win?
 
         Boards.removeBoard boardId
 

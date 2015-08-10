@@ -44,6 +44,11 @@ Template.userlist.events
             board: board
 
         if thisBoard?
+            if thisBoard.win?
+                alert "Game on this board is finished already. You can't assign
+                other player to this board anymore."
+                return false
+
             return false if not confirm "This board is already occupied by other
             player. Do you wish to replace him on this post?"
 
