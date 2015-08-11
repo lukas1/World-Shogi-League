@@ -7,44 +7,32 @@
     loserBoard = Boards.findOne loserBoardId
 
     return false if not winnerBoard? or not loserBoard?
-
     return false if not add and not winnerBoard.win? and not loserBoard.win?
 
-    multiplier = 1;
-    multiplier = -1 if not add
-
     # Update points of participating teams
-    teamsToUpdate = [
-        Teams.findOne winnerBoard.teamId
-        Teams.findOne loserBoard.teamId
-    ]
-
-    # Select appropriate amount of points to be updated
-    for teamData in teamsToUpdate
-        do (teamData) ->
-            pointsToAdd = 0
-            if teamData._id == winnerBoard.teamId
-                pointsToAdd = Points.win
-            else if winnerBoard.winByDefault
-                pointsToAdd = Points.loseDefault
-            else
-                pointsToAdd = Points.lose
-
-            points = teamData.points + (multiplier * pointsToAdd)
-
-            # Update points for this team
-            Teams.update(teamData._id, {$set: {points: points}})
+    updatePointsSingleTeam winnerBoard.teamId, true, winnerBoard.winByDefault,
+    add
+    updatePointsSingleTeam loserBoard.teamId, false, loserBoard.winByDefault,
+    add
 
 BoardsCollection = Mongo.Collection;
 
-BoardsCollection.prototype.removeBoard = (filter) ->
-    boards = this.find(filter).fetch()
+BoardsCollection.prototype.removeBoard = (boardId) ->
+    board = this.findOne boardId
+    otherBoardData = Boards.findOne
+        matchId: board.matchId
+        _id: { $ne: board._id }
+    if otherBoardData?
+        Boards.update otherBoardData._id, { $unset: { matchDate: "" } }
+
+    this.remove board._id
+
+BoardsCollection.prototype.removeMatchBoards = (matchId) ->
+    boards = this.find({matchId: matchId}).fetch()
     for board in boards
-        otherBoardData = Boards.findOne
-            matchId: board.matchId
-            _id: { $ne: board._id }
-        if otherBoardData?
-            Boards.update otherBoardData._id, { $unset: { matchDate: "" } }
+        updatePointsSingleTeam board.teamId, board.win, board.winByDefault,
+        false
+
         this.remove board._id
 
 @Boards = new BoardsCollection "boards",

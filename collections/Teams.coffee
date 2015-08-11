@@ -1,3 +1,23 @@
+@updatePointsSingleTeam = (teamId, win, winByDefault, add) ->
+    teamData = Teams.findOne teamId
+    throw new Meteor.Error "no-such-team" if not teamData?
+
+    multiplier = 1;
+    multiplier = -1 if not add
+
+    pointsToAdd = 0
+    if win
+        pointsToAdd = Points.win
+    else if winByDefault
+        pointsToAdd = Points.loseDefault
+    else
+        pointsToAdd = Points.lose
+
+    points = teamData.points + (multiplier * pointsToAdd)
+
+    # Update points for this team
+    Teams.update(teamData._id, {$set: {points: points}})
+
 TeamsCollection = Mongo.Collection;
 TeamsCollection.prototype.removeTeam = (teamId) ->
     #return false if not Meteor.userId()?
