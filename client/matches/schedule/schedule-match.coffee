@@ -25,12 +25,12 @@ matchEndDate = () ->
         matchData = Matches.findOne matchId
         matchEndDateVar = matchData.matchEndDate
     catch error
-        matchEndDateVar = moment().add(8, 'days')
+        matchEndDateVar = moment().add(8, 'days').toDate()
 
     return matchEndDateVar
 
 matchDateFinished = () ->
-    return moment() > moment(matchEndDate().getTime()/1000)
+    return moment() > moment(matchEndDate().getTime())
 
 Template.scheduleMatch.helpers
     boardData: ->
@@ -67,9 +67,6 @@ Template.scheduleMatch.helpers
 
 Template.scheduleMatch.onRendered ->
     if not matchDateFinished()
-        # Get match end date
-        matchEndDate = matchEndDate()
-
         this.$('#dateTimeStartPickerText, #dateTimeEndPickerText').datetimepicker
             useCurrent: false
             allowInputToggle: true
@@ -77,7 +74,7 @@ Template.scheduleMatch.onRendered ->
             showClear: true
             format: dateTimeFormat
             minDate: new Date()
-            maxDate: matchEndDate
+            maxDate: matchEndDate()
             defaultDate: new Date()
 
         this.$('#dateTimeStartPickerText').on "dp.change", (e)->
