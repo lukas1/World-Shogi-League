@@ -22,29 +22,30 @@ Meteor.methods
             loseTeam = 'teamAId'
 
         # Find board of the winner
-        winnerBoardId = Boards.findOne({
+        winnerBoard = Boards.findOne
             board: board.toString()
             matchId: matchId
             teamId: match[winTeam]
-        }, { fields: { _id: 1 } })._id
 
-        throw new Meteor.Error "no-such-board" if not winnerBoardId?
+        throw new Meteor.Error "no-such-board" if not winnerBoard?
 
         # Find board of the loser
-        loserBoardId = Boards.findOne({
+        loserBoard = Boards.findOne
             board: board.toString()
             matchId: matchId
             teamId: match[loseTeam]
-        }, { fields: { _id: 1 } })._id
 
-        throw new Meteor.Error "no-such-board" if not loserBoardId?
+        throw new Meteor.Error "no-such-board" if not loserBoard?
 
         gameLink = '' if winByDefault
 
-        updatePoints loserBoardId, winnerBoardId, false
+        if winnerBoard.win? and winnerBoard.win
+            updatePoints winnerBoard._id, loserBoard._id, false
+        else
+            updatePoints loserBoard._id, winnerBoard._id, false
 
         # Update data for winner
-        Boards.update winnerBoardId, {
+        Boards.update winnerBoard._id, {
             $set:
                 win: true
                 winByDefault: winByDefault
@@ -52,11 +53,11 @@ Meteor.methods
         }
 
         # Update data for loser
-        Boards.update loserBoardId, {
+        Boards.update loserBoard._id, {
             $set:
                 win: false
                 winByDefault: winByDefault
                 linkToGame: gameLink
         }
 
-        updatePoints winnerBoardId, loserBoardId
+        updatePoints winnerBoard._id, loserBoard._id
