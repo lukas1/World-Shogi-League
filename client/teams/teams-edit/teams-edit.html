@@ -8,6 +8,7 @@
             <tr>
                 <th class="teamName">Team</th>
                 <th class="teamBlock">Block</th>
+                <th class="teamPoints">Points</th>
                 <th></th>
             </tr>
             {{#each teams}}
@@ -17,6 +18,9 @@
                     </td>
                     <td class="teamBlock">
                         {{block}}
+                    </td>
+                    <td class="teamPoints">
+                        {{points}}
                     </td>
                     <td>
                         <button class="delete" teamId="{{_id}}">&times;</button>

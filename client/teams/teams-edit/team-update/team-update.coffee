@@ -12,10 +12,15 @@ Template.teamupdate.events
         return false if not confirm "Do you really want to update this team?"
         name = template.$('.teamNameEdit').val()
         block = template.$('.teamBlockEdit').val()
+        points = parseInt(template.$('.teamPointsEdit').val())
 
         return false if not name?.length
 
-        Teams.update this._id, {$set: {name: name, block: block}}
+        Teams.update this._id,
+            $set:
+                name: name
+                block: block
+                points: points
         $(event.target).closest('.editLine').remove()
 
 
