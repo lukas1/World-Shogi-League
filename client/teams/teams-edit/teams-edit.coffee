@@ -29,7 +29,7 @@ Template.teamsedit.events
 
     "submit #new-team-form": (event, template) ->
         event.preventDefault();
-        return false if not Meteor.userId()?
+        return false if not isAdmin()
 
         teamName = template.$('#addTeamName').val()
         teamBlock = template.$('#addTeamBlock').val()

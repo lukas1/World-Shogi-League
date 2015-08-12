@@ -8,7 +8,7 @@ Template.teamupdate.events
     "click .cancelEdit": (event, template) ->
         $('.editLine').remove()
     "click .confirmEdit": (event, template) ->
-        return false if not Meteor.userId()?
+        return false if not isAdmin()
         return false if not confirm "Do you really want to update this team?"
         name = template.$('.teamNameEdit').val()
         block = template.$('.teamBlockEdit').val()
@@ -16,12 +16,20 @@ Template.teamupdate.events
 
         return false if not name?.length
 
-        Teams.update this._id,
+        updateData =
             $set:
                 name: name
                 block: block
                 points: points
-        $(event.target).closest('.editLine').remove()
+
+        Meteor.call "updateTeam", this._id, updateData, (error, result) ->
+            if error
+                alert "Failed to update team"
+                return
+
+            $(event.target).closest('.editLine').remove()
+
+
 
 
 Template.teamupdate.closeAllInstances = ->
