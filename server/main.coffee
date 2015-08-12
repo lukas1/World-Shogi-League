@@ -33,6 +33,7 @@ Meteor.publish "lastRound", () ->
 
 Meteor.publish "currentMatches", () ->
     roundData = lastRound()
+    return [] if not roundData?
     return Matches.find {roundId: roundData._id}
 
 Meteor.publish "currentBoards", () ->
