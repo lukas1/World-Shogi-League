@@ -27,10 +27,10 @@ Template.registration.events
         file = $("#account-profilePic").get(0).files[0]
         return false if not file?
 
-        if file.size > 5000000 # 5 MB
+        if file.size > 1300000 # 1.3 MB
             showError "Uploading profile picture failed!",
-            "Uploaded file is too big too big. Please upload a file with size
-            under 5MB"
+            "Uploaded file is too big. Please upload a file with size
+            under 1.3 MB"
             return false
 
         reader = new FileReader()
@@ -92,12 +92,12 @@ Template.registration.events
                 teamId: teamId
 
         # Register user
-        Accounts.createUser regOptions, (err) ->
-            if err
-                showError "Registration failed!", err.reason
+        Meteor.call "registerUser", regOptions, (error) ->
+            if error
+                showError "Registration failed!", error.reason
                 return
             else
                 # Success. Account has been created and the user
                 # has logged in successfully.
-                Router.go Routes.home.path
+                Router.go Routes.login.path
         return false

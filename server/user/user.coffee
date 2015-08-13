@@ -33,10 +33,20 @@ setUserType = (userId, type) ->
     Meteor.users.update { _id: userId }, { $set: { 'profile': profile } }
 
 Meteor.methods
+    registerUser: (regOptions) ->
+        uploadProfilePic regOptions?.profile?.profilePic, (profilePicPath) ->
+            regOptions.profile.profilePic = profilePicPath if profilePicPath?
+
+            Accounts.createUser regOptions
+
     updateProfile: (userId, profile) ->
         throw new Meteor.Error "not-authorized" if Meteor.userId() != userId
         checkProfilePic profile?.profilePic
-        Meteor.users.update { _id: userId }, { $set: { 'profile': profile } }
+
+        uploadProfilePic profile?.profilePic, (profilePicPath) ->
+            profile.profilePic = profilePicPath if profilePicPath?
+
+            Meteor.users.update { _id: userId }, { $set: { 'profile': profile } }
     removeUser: (userId) ->
         errorReason = ''
         allow = false;

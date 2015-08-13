@@ -24,10 +24,10 @@ Template.updateuser.events
         file = $("#account-profilePic").get(0).files[0]
         return false if not file?
 
-        if file.size > 5000000 # 5 MB
-            showError "Uploading profile picture failed!",
-            "Uploaded file is too big too big. Please upload a file with size
-            under 5MB"
+        if file.size > 1300000 # 1.3 MB
+            showError "picture", "Uploading profile picture failed!",
+            "Uploaded file is too big. Please upload a file with size
+            under 1.3MB"
             return false
 
         reader = new FileReader()
