@@ -2,7 +2,9 @@
 Meteor.startup () ->
     if DefAdminAccount?
         for defUser in DefAdminAccount
-            if Meteor.users.findOne({ emails: { $elemMatch: { address: defUser.email } } })?
+            if Meteor.users.findOne(
+                { emails: { $elemMatch: { address: defUser.email } } }
+            )? or Meteor.users.findOne({ username: defUser.username })?
                 continue
             options =
                 username: defUser.username
@@ -10,6 +12,7 @@ Meteor.startup () ->
                 password: defUser.password
                 profile:
                     userType: USER_TYPE_ADMIN
+                    nick81Dojo: defUser.nick81Dojo
 
             Accounts.createUser(options)
 

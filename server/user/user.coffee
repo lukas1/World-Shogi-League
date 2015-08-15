@@ -15,7 +15,8 @@ Accounts.onCreateUser (options, user) ->
         throw new Meteor.Error "profile-empty-81dojo",
         "Please specify your 81dojo.com nickname"
 
-    if not options.profile?.teamId?.length
+    if not options.profile?.teamId?.length and
+    options.profile?.userType != USER_TYPE_ADMIN
         throw new Meteor.Error "profile-empty-teamId",
         "Please select which country you represent"
 
