@@ -21,6 +21,10 @@
         path: '/teams/edit'
         template: 'teamsedit'
         name: 'teams.edit'
+    teamProfile:
+        path: '/teams/team-profile/:_id'
+        template: 'teamProfile'
+        name: 'team.profile'
     userList:
         path: '/user/list'
         template: 'userlist'

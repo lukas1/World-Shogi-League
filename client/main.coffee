@@ -69,6 +69,22 @@ Router.route(Routes.teamsEdit.path,
             this.render Routes.oops.template
 )
 
+Router.route(Routes.teamProfile.path,
+    waitOn: () ->
+        params = this.params; # { _id: "id_of_team" }
+        return [
+            Meteor.subscribe "teams"
+            Meteor.subscribe "teamMatches", params._id
+            Meteor.subscribe "teamBoards", params._id
+        ]
+    name: Routes.teamProfile.name
+    action: () ->
+        routerThis = this
+        this.render Routes.teamProfile.template,
+            data: () ->
+                return { params: routerThis.params }
+)
+
 Router.route(Routes.scheduleMatch.path,
     waitOn: () ->
         return [
