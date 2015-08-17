@@ -1,2 +1,3 @@
 def-account.coffee
+mailgun.coffee
 user/upload-picture.coffee
