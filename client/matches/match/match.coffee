@@ -18,4 +18,4 @@ Template.match.events
             Matches.removeMatch this._id
     "click .match": (event, tpl) ->
         event.stopPropagation()
-        Router.go 'games', { _id: this._id }
+        Router.go Routes.games.name, { _id: this._id }
