@@ -1,3 +1,17 @@
+scheduleConfirmedEmailText = (opponent, team, matchDate) ->
+    return "" +
+        "Your match with " + opponent + " from " + team +
+        " is scheduled for " + matchDate + "." +
+        "Please be sure to be available at " +
+        "81dojo.com at that time."
+
+scheduleCanceledEmailText = (opponent, team) ->
+    return "" +
+        "Your opponent " + opponent + " from " + team +
+        " changed his schedule and the original match date no longer applies." +
+        " Please schedule a new date with your opponent in match schedule " +
+        " page at http://world-shogi-tournament.meteor.com/matches/schedule"
+
 updateMatchDate = (boardId) ->
     # Input validation
     throw new Meteor.Error "missing-boardId" if not boardId?.length
@@ -28,12 +42,41 @@ updateMatchDate = (boardId) ->
         return false
     )()
 
+    # get team's name of currently logged in user
+    teamData = Teams.findOne boardData.teamId
+
+    # get opponent's nick and his team's name
+    opponentData = Meteor.users.findOne otherBoardData.playerId
+    opponentTeamData = Teams.findOne otherBoardData.teamId
+
     updateObj = {}
+    firstEmail = ""
+    secondEmail = ""
+    subject = ""
     if not matchUnixTime? or not matchUnixTime
         updateObj = { $unset: { matchDate: "" } }
+
+        subject = "Shogi Match Schedule changed"
+        firstEmail = scheduleCanceledEmailText opponentData?.profile?.nick81Dojo,
+        opponentTeamData?.name
+
+        secondEmail = scheduleCanceledEmailText Meteor.user().profile?.nick81Dojo,
+        teamData?.name
     else
         matchDate = new Date(matchUnixTime)
         updateObj = { $set: { matchDate: matchDate } }
+
+        subject = "Shogi Match Scheduled"
+        firstEmail = scheduleConfirmedEmailText opponentData?.profile?.nick81Dojo,
+        opponentTeamData?.name, matchDate
+
+        secondEmail = scheduleConfirmedEmailText Meteor.user().profile?.nick81Dojo,
+        teamData?.name, matchDate
+
+    sender = new EmailSender
+    sender.sendEmail Meteor.user().emails[0].address, subject, firstEmail
+
+    sender.sendEmail opponentData?.emails[0].address, subject, secondEmail
 
     Boards.update boardId, updateObj
     Boards.update otherBoardData._id, updateObj
