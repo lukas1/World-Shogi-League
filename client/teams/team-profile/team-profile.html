@@ -3,5 +3,15 @@
         <div class="page-header">
             <h1>{{teamData.name}}</h1>
         </div>
+
+        <h2>Members of this team:</h2>
+        <ul class="list-unstyled">
+            {{#each teamMembers}}
+                <li class="userline">
+                    <img src="{{profile.profilePic}}" class="thumbnail">
+                    {{profile.nick81Dojo}}
+                </li>
+            {{/each}}
+        </ul>
     </div>
 </template>
