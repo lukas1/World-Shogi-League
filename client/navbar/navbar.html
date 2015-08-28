@@ -44,6 +44,10 @@
                         Logout
                     </button>
                 {{else}}
+                    <a href="{{pathFor route='user.registration'}}"
+                        class="btn btn-default navbar-btn">
+                        Registration
+                    </a>
                     <a href="{{pathFor route='user.login'}}"
                         class="btn btn-default navbar-btn">
                         Login
