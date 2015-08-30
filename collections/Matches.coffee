@@ -42,7 +42,12 @@ MatchesCollection.prototype.removeMatch = (matchId) ->
 
     this.remove matchId
 
-@Matches = new MatchesCollection("matches")
+@Matches = new MatchesCollection "matches",
+    transform: (doc) ->
+        roundData = Rounds.findOne doc.roundId
+        doc['roundNumber'] = roundData.roundNumber
+        return doc
+
 Matches.allow
     insert: -> isAdmin()
     update: -> isAdminOrHead()
