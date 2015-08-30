@@ -94,7 +94,7 @@ Meteor.publish "matchParticipants", (matchId) ->
         {fields: { _id:1, profile: 1 }}
 
 Meteor.publish "teamMatches", (teamId) ->
-    Matches.find { $or: { teamAId: teamId, teamBId: teamId} }
+    Matches.find { $or: [ { teamAId: teamId }, { teamBId: teamId } ] }
 
 Meteor.publish "teamBoards", (teamId) ->
     Boards.find { teamId: teamId }
