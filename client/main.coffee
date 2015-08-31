@@ -74,6 +74,7 @@ Router.route(Routes.teamProfile.path,
         params = this.params; # { _id: "id_of_team" }
         return [
             Meteor.subscribe "teams"
+            Meteor.subscribe "rounds"
             Meteor.subscribe "teamMatches", params._id
             Meteor.subscribe "teamBoards", params._id
             Meteor.subscribe "teamMembers", params._id
