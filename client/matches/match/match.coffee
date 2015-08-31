@@ -1,4 +1,6 @@
 Template.match.helpers
+    isAdmin: () ->
+        isAdmin()
     wonA: () ->
         this.teamAId == this.winTeam
     wonB: () ->
