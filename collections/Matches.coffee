@@ -45,7 +45,7 @@ MatchesCollection.prototype.removeMatch = (matchId) ->
 @Matches = new MatchesCollection "matches",
     transform: (doc) ->
         roundData = Rounds.findOne doc.roundId
-        doc['roundNumber'] = roundData.roundNumber
+        doc['roundNumber'] = roundData.roundNumber if roundData?
         return doc
 
 Matches.allow
