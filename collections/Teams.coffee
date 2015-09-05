@@ -35,7 +35,8 @@ TeamsCollection.prototype.removeTeam = (teamId) ->
 @Teams = new TeamsCollection("teams", {
         transform: (doc) ->
             uppercased = doc.name.toUpperCase()
-            stripped = $.trim(uppercased.replace /[0-9]/g, '')
+            replaced = uppercased.replace /[0-9]/g, ''
+            stripped = replaced.trim()
             for country, code of CountryCodes
                 if country.indexOf(stripped) == 0
                     doc["countryCode"] = code.toLowerCase()
