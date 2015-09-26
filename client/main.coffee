@@ -136,3 +136,18 @@ Router.route(Routes.updateUser.path,
         else
             this.render Routes.oops.template
 )
+
+Router.route(Routes.userProfile.path,
+    waitOn: () ->
+        params = this.params; # { _id: "id_of_user" }
+        return [
+            Meteor.subscribe "userProfileData", params._id
+            Meteor.subscribe "userBoards", params._id
+        ]
+    name: Routes.userProfile.name
+    action: () ->
+        routerThis = this
+        this.render Routes.userProfile.template,
+            data: () ->
+                return { params: routerThis.params }
+)

@@ -8,8 +8,10 @@
         <ul class="list-unstyled">
             {{#each teamMembers}}
                 <li class="userline">
-                    <img src="{{profile.profilePic}}" class="thumbnail">
-                    {{profile.nick81Dojo}}
+                        <a href="{{pathFor route='user.profile' _id=_id}}">
+                            <img src="{{profile.profilePic}}" class="thumbnail">
+                            {{profile.nick81Dojo}}
+                        </a>
                 </li>
             {{/each}}
         </ul>

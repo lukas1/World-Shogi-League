@@ -33,6 +33,10 @@
         path: '/user/update'
         template: 'updateuser'
         name: 'user.update'
+    userProfile:
+        path: '/user/profile/:_id'
+        template: 'userProfile'
+        name: 'user.profile'
     scheduleMatch:
         path: '/matches/schedule'
         template: 'scheduleMatch'

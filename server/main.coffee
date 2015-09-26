@@ -102,3 +102,9 @@ Meteor.publish "teamBoards", (teamId) ->
 Meteor.publish "teamMembers", (teamId) ->
     Meteor.users.find { 'profile.teamId': teamId },
     {fields: { _id:1, profile: 1 }}
+
+Meteor.publish "userProfileData", (userId) ->
+    Meteor.users.find userId
+
+Meteor.publish "userBoards", (userId) ->
+    Boards.find { playerId: userId }
