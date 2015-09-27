@@ -8,7 +8,7 @@ Template.userProfile.helpers
     userData: userData
 
     teamData: ->
-        Teams.findOne userData().teamId
+        Teams.findOne userData().profile.teamId
 
 Template.userProfile.events
     "click #foo": (event, template) ->

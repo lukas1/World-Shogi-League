@@ -142,6 +142,7 @@ Router.route(Routes.userProfile.path,
         params = this.params; # { _id: "id_of_user" }
         return [
             Meteor.subscribe "userProfileData", params._id
+            Meteor.subscribe "userTeam", params._id
             Meteor.subscribe "userBoards", params._id
         ]
     name: Routes.userProfile.name
