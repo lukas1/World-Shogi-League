@@ -7,13 +7,20 @@ showError = (title, message, top = false) ->
     errorContainer
     return false
 
+opponentBoardData = () ->
+    try
+        myBoard = boardDataForPlayerId Meteor.userId()
+        return board = Boards.findOne
+            board: myBoard.board
+            playerId: { $ne: Meteor.userId() }
+            teamId: { $ne: myBoard.teamId }
+            matchId: myBoard.matchId
+    catch error
+        return null
+
 opponentData = () ->
     try
-        matchId = getMatchIdForPlayer Meteor.userId()
-        board = Boards.findOne
-            playerId: { $not: Meteor.userId() }
-            matchId: matchId
-
+        board = opponentBoardData()
         return Meteor.users.findOne board.playerId
     catch error
         return null
@@ -41,21 +48,10 @@ Template.scheduleMatch.helpers
             return board
         catch error
             return null
-    opponentBoardData: ->
-        try
-            matchId = getMatchIdForPlayer Meteor.userId()
-            board = Boards.findOne
-                playerId: { $not: Meteor.userId() }
-                matchId: matchId
-
-            return board
-        catch error
-            return null
-    opponentData: ->
-        return opponentData()
+    opponentBoardData: opponentBoardData
+    opponentData: opponentData
     opponentTeamData: ->
-        opponent = opponentData()
-        Teams.findOne opponent.profile.teamId
+        Teams.findOne opponentData().profile.teamId
     matchData: ->
         try
             matchId = getMatchIdForPlayer Meteor.userId()

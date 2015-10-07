@@ -20,8 +20,10 @@ updateMatchDate = (boardId) ->
     throw new Meteor.Error "no-such-board" if not boardData?
 
     otherBoardData = Boards.findOne
+        board: boardData.board
+        playerId: { $ne: boardData.playerId }
+        teamId: { $ne: boardData.teamId }
         matchId: boardData.matchId
-        _id: { $ne: boardId }
 
     throw new Meteor.Error "no-such-board" if not otherBoardData?
 
@@ -73,13 +75,13 @@ updateMatchDate = (boardId) ->
         secondEmail = scheduleConfirmedEmailText Meteor.user().profile?.nick81Dojo,
         teamData?.name, matchDate
 
+    Boards.update boardId, updateObj
+    Boards.update otherBoardData._id, updateObj
+
     sender = new EmailSender
     sender.sendEmail Meteor.user().emails[0].address, subject, firstEmail
 
     sender.sendEmail opponentData?.emails[0].address, subject, secondEmail
-
-    Boards.update boardId, updateObj
-    Boards.update otherBoardData._id, updateObj
 
 
 Meteor.methods
