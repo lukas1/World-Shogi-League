@@ -41,3 +41,5 @@
         path: '/matches/schedule'
         template: 'scheduleMatch'
         name: 'matches.schedule'
+    notAssigned:
+        template: 'notAssigned'

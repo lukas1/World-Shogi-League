@@ -101,11 +101,14 @@ Router.route(Routes.scheduleMatch.path,
         try
             throw new Meteor.Error "not-authorized" if not Meteor.userId()?
             board = boardDataForPlayerId Meteor.userId()
-            throw new Meteor.Error "not-authorized" if not board?
+            throw new Meteor.Error "not-assigned" if not board?
 
             this.render Routes.scheduleMatch.template
         catch error
-            this.render Routes.oops.template
+            if error.error == "not-assigned"
+                this.render Routes.notAssigned.template
+            else
+                this.render Routes.oops.template
 )
 
 Router.route(Routes.userList.path,
