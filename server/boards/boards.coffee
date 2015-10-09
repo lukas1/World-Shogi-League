@@ -25,7 +25,7 @@ updateMatchDate = (boardId) ->
         teamId: { $ne: boardData.teamId }
         matchId: boardData.matchId
 
-    throw new Meteor.Error "no-such-board" if not otherBoardData?
+    return false if not otherBoardData? or not otherBoardData.schedule?
 
     matchUnixTime = (()->
         for schedule in boardData.schedule
