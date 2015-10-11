@@ -23,6 +23,13 @@ playerAddedToBoard = (player, opponentTeam) ->
         " Please schedule your game in match schedule" +
         " page at http://world-shogi-tournament.meteor.com/matches/schedule"
 
+opponentAddedToMatch = (opponent, team) ->
+    return "" +
+        "Opponent " + opponent + " from " + team +
+        " was added to the match by his team head." +
+        " Please schedule a game with your opponent in match schedule " +
+        " page at http://world-shogi-tournament.meteor.com/matches/schedule"
+
 updateMatchDate = (boardId) ->
     # Input validation
     throw new Meteor.Error "missing-boardId" if not boardId?.length
@@ -145,6 +152,10 @@ Meteor.methods
 
         Boards.insert boardData
 
+        # Sending emails
+        sender = new EmailSender
+
+        # Notify player that he was added to match by email
         opponentTeamId = matchData.teamAId if matchData.teamAId != teamId
         opponentTeamId = matchData.teamBId if matchData.teamBId != teamId
         opponentTeam = Teams.findOne opponentTeamId
@@ -152,8 +163,25 @@ Meteor.methods
         addPlayerEmail = playerAddedToBoard userData.profile?.nick81Dojo,
         opponentTeam.name
 
-        sender = new EmailSender
         sender.sendEmail userData?.emails[0].address, subject, addPlayerEmail
+
+        # If there's already a player from opponent's team waiting, notify him,
+        # that he now has an opponent
+        opponentBoard = Boards.findOne
+            matchId: matchId
+            teamId: opponentTeamId
+            board: board
+
+        return if not opponentBoard?
+
+        opponentData = Meteor.users.findOne opponentBoard.playerId
+        thisTeam = Teams.findOne teamId
+        return if not opponentData? or not thisTeam?
+
+        subject = "You have an opponent in World Shogi Tournament"
+        email = opponentAddedToMatch userData.profile.nick81Dojo, thisTeam.name
+
+        sender.sendEmail opponentData?.emails[0].address, subject, email
 
     removePlayerFromMatch: (boardId) ->
         # Access rights
