@@ -16,6 +16,13 @@ scheduleCanceledEmailText = (opponent, team) ->
         " Please schedule a new date with your opponent in match schedule " +
         " page at http://world-shogi-tournament.meteor.com/matches/schedule"
 
+playerAddedToBoard = (player, opponentTeam) ->
+    return "" +
+        "Hi " + player + "! " +
+        "Your team head assigned you to a match against " + opponentTeam + "." +
+        " Please schedule your game in match schedule" +
+        " page at http://world-shogi-tournament.meteor.com/matches/schedule"
+
 updateMatchDate = (boardId) ->
     # Input validation
     throw new Meteor.Error "missing-boardId" if not boardId?.length
@@ -137,6 +144,16 @@ Meteor.methods
             throw new Meteor.Error "too-many-boards"
 
         Boards.insert boardData
+
+        opponentTeamId = matchData.teamAId if matchData.teamAId != teamId
+        opponentTeamId = matchData.teamBId if matchData.teamBId != teamId
+        opponentTeam = Teams.findOne opponentTeamId
+        subject = "You were added to a match against " + opponentTeam.name
+        addPlayerEmail = playerAddedToBoard userData.profile?.nick81Dojo,
+        opponentTeam.name
+
+        sender = new EmailSender
+        sender.sendEmail userData?.emails[0].address, subject, addPlayerEmail
 
     removePlayerFromMatch: (boardId) ->
         # Access rights
