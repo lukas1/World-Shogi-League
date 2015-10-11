@@ -113,13 +113,17 @@ Router.route(Routes.scheduleMatch.path,
 
 Router.route(Routes.userList.path,
     waitOn: () ->
-        return [
+        subscriptions = [
             Meteor.subscribe "userlist"
             Meteor.subscribe "lastRound"
             Meteor.subscribe "teams"
             Meteor.subscribe "currentMatches"
-            Meteor.subscribe "myMatchCurrentBoards"
-        ] if isAdminOrHead()
+        ]
+
+        subscriptions.push Meteor.subscribe "myMatchCurrentBoards" if isHead()
+        subscriptions.push Meteor.subscribe "currentBoards" if isAdmin()
+        return subscriptions
+
     name: Routes.userList.name
     action: () ->
         if isAdminOrHead()
