@@ -15,6 +15,22 @@
     updatePointsSingleTeam loserBoard.teamId, false, loserBoard.winByDefault,
     add
 
+playerRemovedFromMatch = (player) ->
+    return "" +
+        "Hi " + player + "!\n" +
+        "You were removed from the match by your team head. " +
+        "Any schedule arrangements you may have done with your opponent are" +
+        " no longer valid and your match was canceled."
+
+opponentRemovedFromMatch = (opponent, team) ->
+    return "" +
+        "Opponent " + opponent + " from " + team +
+        " was removed from the match by his team head. " +
+        "Please wait until team head of opposing team assigns you an opponent. " +
+        "Schedule suggestions you made to your previous opponent are still " +
+        "remembered. You can also add new schedule suggestions any time at " +
+        "http://world-shogi-tournament.meteor.com/matches/schedule"
+
 BoardsCollection = Mongo.Collection;
 
 BoardsCollection.prototype.removeBoard = (boardId) ->
@@ -22,8 +38,28 @@ BoardsCollection.prototype.removeBoard = (boardId) ->
     otherBoardData = Boards.findOne
         matchId: board.matchId
         _id: { $ne: board._id }
+
+    sender = new EmailSender
+    thisUser = Meteor.users.findOne board.playerId
     if otherBoardData?
         Boards.update otherBoardData._id, { $unset: { matchDate: "" } }
+
+        # Send email to opponent
+        thisTeam = Teams.findOne board.teamId
+        otherPlayerData = Meteor.users.findOne otherBoardData.playerId
+
+        if thisUser? and thisTeam? and otherPlayerData?
+            subject = "Your opponent in World Shogi Tournament was removed from the match"
+            email = opponentRemovedFromMatch thisUser.profile.nick81Dojo, thisTeam.name
+
+            sender.sendEmail otherPlayerData.emails[0].address, subject, email
+
+    # Notify the player that was removed by email
+    if thisUser?
+        subject = "Your were removed from a match in World Shogi Tournament"
+        email = playerRemovedFromMatch thisUser.profile.nick81Dojo
+
+        sender.sendEmail thisUser.emails[0].address, subject, email
 
     this.remove board._id
 
