@@ -42,8 +42,11 @@ Meteor.methods
 
     updateProfile: (userId, profile) ->
         throw new Meteor.Error "not-authorized" if Meteor.userId() != userId
-        checkProfilePic profile?.profilePic
+        check = checkProfilePic profile?.profilePic
 
+        if not check
+            Meteor.users.update { _id: userId }, { $set: { 'profile': profile } }
+            return
         uploadProfilePic profile?.profilePic, (profilePicPath) ->
             profile.profilePic = profilePicPath if profilePicPath?
 
