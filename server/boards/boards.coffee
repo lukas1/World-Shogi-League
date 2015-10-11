@@ -1,7 +1,11 @@
 scheduleConfirmedEmailText = (opponent, team, matchDate) ->
     return "" +
         "Your match with " + opponent + " from " + team +
-        " is scheduled for " + matchDate + "." +
+        " is scheduled for " + matchDate + ". \n" +
+        "WARNING: The date and time in this email are based in UTC timezone. " +
+        "The date on schedule page" +
+        "(http://world-shogi-tournament.meteor.com/matches/schedule)" +
+        " uses your time zone." +
         "Please be sure to be available at " +
         "81dojo.com at that time."
 
@@ -59,29 +63,27 @@ updateMatchDate = (boardId) ->
         updateObj = { $unset: { matchDate: "" } }
 
         subject = "Shogi Match Schedule changed"
-        firstEmail = scheduleCanceledEmailText opponentData?.profile?.nick81Dojo,
+        firstEmail = scheduleCanceledEmailText Meteor.user().profile?.nick81Dojo,
         opponentTeamData?.name
-
-        secondEmail = scheduleCanceledEmailText Meteor.user().profile?.nick81Dojo,
-        teamData?.name
     else
         matchDate = new Date(matchUnixTime)
         updateObj = { $set: { matchDate: matchDate } }
 
         subject = "Shogi Match Scheduled"
-        firstEmail = scheduleConfirmedEmailText opponentData?.profile?.nick81Dojo,
-        opponentTeamData?.name, matchDate
-
-        secondEmail = scheduleConfirmedEmailText Meteor.user().profile?.nick81Dojo,
+        firstEmail = scheduleConfirmedEmailText Meteor.user().profile?.nick81Dojo,
         teamData?.name, matchDate
+
+        secondEmail = scheduleConfirmedEmailText opponentData?.profile?.nick81Dojo,
+        opponentTeamData?.name, matchDate
 
     Boards.update boardId, updateObj
     Boards.update otherBoardData._id, updateObj
 
     sender = new EmailSender
-    sender.sendEmail Meteor.user().emails[0].address, subject, firstEmail
+    sender.sendEmail opponentData?.emails[0].address, subject, firstEmail
 
-    sender.sendEmail opponentData?.emails[0].address, subject, secondEmail
+    if secondEmail?.length
+        sender.sendEmail Meteor.user().emails[0].address, subject, secondEmail
 
 
 Meteor.methods

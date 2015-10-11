@@ -2,11 +2,12 @@ class @EmailSender
 
     sendEmail: (to, subject, body) ->
 
-        if SENDER_EMAIL?.length == 0
-            SENDER_EMAIL = "test@test.com"
+        senderEmail = SENDER_EMAIL()
+        if senderEmail?.length == 0
+            senderEmail = "test@test.com"
 
         Email.send
-            from: SENDER_EMAIL
+            from: senderEmail
             to: to
             subject: subject
             text: body
