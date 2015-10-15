@@ -1,4 +1,4 @@
-sortOption = {points: 1}
+sortOption = {sort: { points: -1 } }
 
 Template.points.helpers
     pointsA: () ->
