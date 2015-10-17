@@ -21,7 +21,9 @@ opponentBoardData = () ->
 opponentData = () ->
     try
         board = opponentBoardData()
-        return Meteor.users.findOne board.playerId
+        user = Meteor.users.findOne board.playerId
+        user["email"] = user.emails[0].address
+        return user
     catch error
         return null
 

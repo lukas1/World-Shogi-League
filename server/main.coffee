@@ -70,7 +70,7 @@ Meteor.publish "myMatchPlayers", () ->
             return document.playerId
 
         return Meteor.users.find { _id: { $in: playerIds } },
-            {fields: { _id:1, profile: 1 }}
+            {fields: { _id:1, profile: 1, emails: 1 }}
     catch error
         return []
 

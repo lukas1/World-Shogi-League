@@ -14,6 +14,11 @@
                 from {{>teamView name=opponentTeamData.name
                     flag=opponentTeamData.countryCode}}
                 <br>
+                Email address of your opponent:
+                <a href="mailto:{{opponentData.email}}">
+                    {{opponentData.email}}
+                </a>
+                <br>
             {{/if}}
             {{#if matchData.matchEndDate}}
                 Match has to be played until
