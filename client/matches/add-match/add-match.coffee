@@ -1,15 +1,3 @@
-dateTimeFormat = 'DD/MM/YYYY HH:mm'
-
-Template.addMatch.onRendered  ->
-    this.$('#tournamentEndDate').datetimepicker
-        useCurrent: false
-        allowInputToggle: true
-        sideBySide: true
-        showClear: true
-        format: dateTimeFormat
-        minDate: new Date()
-        defaultDate: moment().add(8, 'days')
-
 Template.addMatch.events
     "submit #new-match-form": (event) ->
         event.preventDefault()
@@ -18,16 +6,15 @@ Template.addMatch.events
         # Get values
         teamAId = $("#blockATeam").val()
         teamBId = $("#blockBTeam").val()
-        matchEndDateVal = $('#tournamentEndDate').find('input').val()
-        matchEndDate = moment(matchEndDateVal, dateTimeFormat).toDate()
 
         # validate
-        return false if not teamAId?.length or not teamBId?.length or not
-        matchEndDateVal?.length or not matchEndDate?
+        return false if not teamAId?.length or not teamBId?.length
+
+        matchEndDate = moment().add(8, 'days').toDate()
 
         matchId = Matches.insertMatch(
-            teamAId: teamAId,
-            teamBId: teamBId,
+            teamAId: teamAId
+            teamBId: teamBId
             createdAt: new Date()
             matchEndDate: matchEndDate
         )

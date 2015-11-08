@@ -219,13 +219,6 @@ Meteor.methods
             been already negotiated. You can't add another. If you wish to
             change the date, cancel your schedule and negotiate new one"
 
-        matchData = Matches.findOne board.matchId
-        throw new Meteor.Error "no-such-match" if not matchData?
-        dateDiff = matchData.matchEndDate.getTime() - endDateObj.getTime()
-        if dateDiff < 0
-            throw new Meteor.Error "date-order", "You can't schedule game after
-            date of end for this match"
-
         # Insert schedule
         scheduleObj =
             _id: new Mongo.ObjectID()._str

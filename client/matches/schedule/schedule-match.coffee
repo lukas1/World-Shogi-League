@@ -27,26 +27,11 @@ opponentData = () ->
     catch error
         return null
 
-matchEndDate = () ->
-    matchEndDateVar
-    try
-        matchId = getMatchIdForPlayer Meteor.userId()
-        matchData = Matches.findOne matchId
-        matchEndDateVar = matchData.matchEndDate
-    catch error
-        matchEndDateVar = moment().add(8, 'days').toDate()
-
-    return matchEndDateVar
-
-matchDateFinished = () ->
-    return moment() > moment(matchEndDate().getTime())
-
 Template.scheduleMatch.helpers
     boardData: ->
         try
             board = boardDataForPlayerId Meteor.userId()
             board["addScheduleClass"] = 'hidden' if board.matchDate?
-            board["addScheduleClass"] = 'hidden' if matchDateFinished()
             return board
         catch error
             return null
@@ -60,26 +45,23 @@ Template.scheduleMatch.helpers
             return Matches.findOne matchId
         catch error
             return null
-    matchDateFinished: matchDateFinished
 
 
 Template.scheduleMatch.onRendered ->
-    if not matchDateFinished()
-        this.$('#dateTimeStartPickerText, #dateTimeEndPickerText').datetimepicker
-            useCurrent: false
-            allowInputToggle: true
-            sideBySide: true
-            showClear: true
-            format: dateTimeFormat
-            minDate: new Date()
-            maxDate: matchEndDate()
-            defaultDate: new Date()
+    this.$('#dateTimeStartPickerText, #dateTimeEndPickerText').datetimepicker
+        useCurrent: false
+        allowInputToggle: true
+        sideBySide: true
+        showClear: true
+        format: dateTimeFormat
+        minDate: new Date()
+        defaultDate: new Date()
 
-        this.$('#dateTimeStartPickerText').on "dp.change", (e)->
-            $('#dateTimeEndPickerText').data("DateTimePicker").minDate(e.date)
+    this.$('#dateTimeStartPickerText').on "dp.change", (e)->
+        $('#dateTimeEndPickerText').data("DateTimePicker").minDate(e.date)
 
-        this.$('#dateTimeEndPickerText').on "dp.change", (e)->
-            $('#dateTimeStartPickerText').data("DateTimePicker").maxDate(e.date)
+    this.$('#dateTimeEndPickerText').on "dp.change", (e)->
+        $('#dateTimeStartPickerText').data("DateTimePicker").maxDate(e.date)
 
 Template.scheduleMatch.events
     "submit #addToSchedule": (e, tpl) ->

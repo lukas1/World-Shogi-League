@@ -20,11 +20,6 @@
                 </a>
                 <br>
             {{/if}}
-            {{#if matchData.matchEndDate}}
-                Match has to be played until
-                <strong>{{matchData.matchEndDate}}</strong>
-                <br>
-            {{/if}}
             {{#if boardData.matchDate}}
                 Match scheduled for
                 <strong>{{boardData.matchDate}}</strong>
@@ -63,11 +58,6 @@
                 </ul>
             </div>
         </div>
-        {{#if matchDateFinished}}
-            <div class="alert alert-info">
-                You can't schedule this match anymore, the round is finished
-            </div>
-        {{/if}}
         {{#if boardData.matchDate}}
             <div class="alert alert-info">
             Your match is scheduled for
