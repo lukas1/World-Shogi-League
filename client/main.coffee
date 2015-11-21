@@ -55,6 +55,15 @@ Router.route(Routes.registration.path,
             this.render Routes.oops.template
 )
 
+Router.route(Routes.resetPassword.path,
+    name: Routes.resetPassword.name
+    action: () ->
+        routerThis = this
+        this.render Routes.resetPassword.template,
+            data: () ->
+                return { params: routerThis.params }
+)
+
 Router.route(Routes.teamsEdit.path,
     waitOn: () ->
         return [

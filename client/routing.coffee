@@ -14,9 +14,13 @@
         template: 'loginform'
         name: 'user.login'
     registration:
-        path: '/user/registration',
+        path: '/user/registration'
         template: 'registration'
         name: 'user.registration'
+    resetPassword:
+        path: '/user/resetPassword/:_id'
+        template: 'resetpassword'
+        name: 'user.resetPassword'
     teamsEdit:
         path: '/teams/edit'
         template: 'teamsedit'

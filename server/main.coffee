@@ -16,6 +16,9 @@ Meteor.startup () ->
 
             Accounts.createUser(options)
 
+    Accounts.urls.resetPassword = (token) ->
+        Meteor.absoluteUrl('user/resetPassword/' + token);
+
 Meteor.publish "teams", () ->
     return Teams.find();
 
