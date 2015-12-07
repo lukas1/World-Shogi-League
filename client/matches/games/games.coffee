@@ -86,6 +86,18 @@ prepareModal = (e, tpl, modalType) ->
     tpl.$('#teamBPlayer').text teamBPlayer
     tpl.$('#postResultModal').modal()
 
+prepareKifuModal = (e, tpl) ->
+    e.preventDefault()
+    #Template.errorTemplate.resetError()
+
+    #clearPostResultForm tpl, tpl.$('#winByDefault').is(':checked')
+
+    elementId = $(e.target).attr 'id'
+    board = elementId.replace 'postKifu', ''
+    tpl.$('#kifuBoardNumber').val board
+
+    tpl.$('#postKifuModal').modal()
+
 Template.games.helpers
     isAdmin: ->
         return isAdmin()
@@ -173,6 +185,9 @@ Template.games.events
     "click .editResult": (e, tpl) ->
         prepareModal e, tpl, 'edit'
 
+    "click .postKifu": (e, tpl) ->
+        prepareKifuModal(e, tpl)
+
     "click #teamAPlayer": (e, tpl) ->
         tpl.$('#teamAWin').prop 'checked', true
 
@@ -216,3 +231,46 @@ Template.games.events
             clearPostResultForm tpl, winByDefault
 
         return false
+
+    "submit #postKifuForm": (e, tpl) ->
+        e.preventDefault()
+        #Template.errorTemplate.resetError()
+        errorTitle = "Posting kifu failed!"
+
+        kifu = $("#kifuFile").get(0).files[0]
+        #return error
+        return false if not file?
+
+        if file.size > 1000000 # 1 MB
+            ###
+            showError errorTitle,
+            "Uploaded file is too big. Please upload a file with size
+            under 1 MB"
+            ###
+            return false
+
+        reader = new FileReader()
+        reader.onload = (e) ->
+            if not reader.result?.length
+                ###
+                showError errorTitle,
+                "Uploaded file is empty"
+                ###
+                return false
+
+            kifu = e.target.result
+
+            ###
+            Meteor.call "updateProfile", Meteor.userId(), profile, (error) ->
+                return showError 'picture', 'Updating profile picture failed!',
+                error.reason if error
+
+                $('#account-picture-uploaded')
+                    .attr('src', e.target.result)
+                    .show()
+                ;
+
+                showSuccess 'picture', 'Profile picture successfully updated!'
+            ###
+
+        reader.readAsDataURL(file)
