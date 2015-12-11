@@ -61,6 +61,7 @@ BoardsCollection.prototype.removeBoard = (boardId) ->
 
         sender.sendEmail thisUser.emails[0].address, subject, email
 
+    Kifu.remove board.kifu
     this.remove board._id
 
 BoardsCollection.prototype.removeMatchBoards = (matchId) ->
@@ -69,6 +70,7 @@ BoardsCollection.prototype.removeMatchBoards = (matchId) ->
         updatePointsSingleTeam board.teamId, board.win, board.winByDefault,
         false
 
+        Kifu.remove board.kifu
         this.remove board._id
 
 @Boards = new BoardsCollection "boards",

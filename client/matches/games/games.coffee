@@ -1,6 +1,8 @@
-showError = (title, message) ->
+showError = (title, message, kifu) ->
+    containerPrefix = 'e'
+    containerPrefix = 'kifuE' if kifu
     Template.errorTemplate.showError title, message,
-    $('#errorMessageContainer').get(0)
+    $('#' + containerPrefix + 'rrorMessageContainer').get(0)
     return false
 
 clearPostResultForm = (tpl, winByDefault) ->
@@ -16,6 +18,12 @@ clearPostResultForm = (tpl, winByDefault) ->
         tpl.$('#winByDefault').trigger 'change'
 
     tpl.$('#postResultModal').modal('hide')
+
+clearPostKifuForm = (tpl) ->
+    tpl.$('#kifuBoardNumber').val ''
+    tpl.$('#kifuFile').val ''
+    tpl.$('#postKifuForm').reset()
+    tpl.$('#postKifuModal').modal('hide')
 
 getThisMatchId = () ->
     Template.instance().data.params._id
@@ -234,43 +242,39 @@ Template.games.events
 
     "submit #postKifuForm": (e, tpl) ->
         e.preventDefault()
-        #Template.errorTemplate.resetError()
+        Template.errorTemplate.resetError()
         errorTitle = "Posting kifu failed!"
 
-        kifu = $("#kifuFile").get(0).files[0]
-        #return error
-        return false if not file?
+        board = tpl.$('#kifuBoardNumber').val()
+        if not board?.length
+            return showError errorTitle, "Internal error. Please close this
+            modal window and try posting kifu again. If the problem persist,
+            please contact the administrator.", true
+
+        file = $("#kifuFile").get(0).files[0]
+        if not file?
+            showError errorTitle, "You didn't select any file!", true
+            return false
 
         if file.size > 1000000 # 1 MB
-            ###
-            showError errorTitle,
-            "Uploaded file is too big. Please upload a file with size
-            under 1 MB"
-            ###
+            showError errorTitle, "Uploaded file is too big. Please upload a
+            file with size under 1 MB", true
             return false
 
         reader = new FileReader()
         reader.onload = (e) ->
             if not reader.result?.length
-                ###
-                showError errorTitle,
-                "Uploaded file is empty"
-                ###
+                showError errorTitle, "Uploaded file is empty", true
                 return false
 
             kifu = e.target.result
 
-            ###
-            Meteor.call "updateProfile", Meteor.userId(), profile, (error) ->
-                return showError 'picture', 'Updating profile picture failed!',
-                error.reason if error
+            Meteor.call "postKifu", getThisMatchId(), board, kifu,
+            (error, result) ->
+                return showError errorTitle, error.reason, true if error
 
-                $('#account-picture-uploaded')
-                    .attr('src', e.target.result)
-                    .show()
-                ;
-
-                showSuccess 'picture', 'Profile picture successfully updated!'
-            ###
+                # Clear form
+                clearPostKifuForm tpl
 
         reader.readAsDataURL(file)
+        return false

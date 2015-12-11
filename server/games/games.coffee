@@ -61,3 +61,26 @@ Meteor.methods
         }
 
         updatePoints winnerBoard._id, loserBoard._id
+
+    postKifu: (matchId, board, kifu) ->
+        # Check access rights
+        throw new Meteor.Error "not-authorized" if not isAdmin
+
+        # Find board ids of this match and board number
+        boardIds = Boards.find({ matchId: matchId, board: board.toString() },
+            fields:
+                _id: 1
+        ).map (document, index, cursor) ->
+            return document._id
+
+        kifuRecord =
+            boards: boardIds
+            kifu: kifu
+        kifuId = Kifu.insert kifuRecord
+
+        for boardId in boardIds
+            Boards.update boardId,
+                $set:
+                    kifu: kifuId
+
+        return false
