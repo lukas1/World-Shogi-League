@@ -84,3 +84,22 @@ Meteor.methods
                     kifu: kifuId
 
         return false
+
+    removeKifu: (matchId, board) ->
+        # Check access rights
+        throw new Meteor.Error "not-authorized" if not isAdmin
+
+        boardFilter =
+            board: board.toString()
+            matchId: matchId
+        boards = Boards.find().fetch()
+
+        kifuId = null
+
+        for boardData in boards
+            kifuId = boardData.kifu
+            Boards.update boardData._id,
+                $set:
+                    kifu: null
+
+        Kifu.remove kifuId

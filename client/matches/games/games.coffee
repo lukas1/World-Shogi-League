@@ -67,18 +67,9 @@ getKifuForBoard = (board) ->
     return Kifu.findOne board.kifu
 
 removeKifu = (board) ->
-    kifu = getKifuForBoard board
-
-    boards = []
-    boards.push getBoardData(board, 'a')
-    boards.push getBoardData(board, 'b')
-
-    for boardData in boards
-        Boards.update boardData._id,
-            $set:
-                kifu: null
-
-    Kifu.remove kifu._id
+    return false if not isAdmin()
+    Meteor.call "removeKifu", getThisMatchId(), board, (error, result) ->
+        return showError errorTitle, error.reason, true if error
 
 prepareModal = (e, tpl, modalType) ->
     e.preventDefault()
