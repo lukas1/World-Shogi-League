@@ -22,7 +22,6 @@ clearPostResultForm = (tpl, winByDefault) ->
 clearPostKifuForm = (tpl) ->
     tpl.$('#kifuBoardNumber').val ''
     tpl.$('#kifuFile').val ''
-    tpl.$('#postKifuForm').reset()
     tpl.$('#postKifuModal').modal('hide')
 
 getThisMatchId = () ->
@@ -56,6 +55,30 @@ getPlayerName = (board, block) ->
 getThisMatchData = () ->
     matchId = getThisMatchId()
     Matches.findOne matchId
+
+getKifuForBoard = (board) ->
+    matchId = getThisMatchId()
+    return null if not matchId?
+    board = Boards.findOne
+        board: board.toString()
+        matchId: matchId
+
+    return null if not board?
+    return Kifu.findOne board.kifu
+
+removeKifu = (board) ->
+    kifu = getKifuForBoard board
+
+    boards = []
+    boards.push getBoardData(board, 'a')
+    boards.push getBoardData(board, 'b')
+
+    for boardData in boards
+        Boards.update boardData._id,
+            $set:
+                kifu: null
+
+    Kifu.remove kifu._id
 
 prepareModal = (e, tpl, modalType) ->
     e.preventDefault()
@@ -96,9 +119,9 @@ prepareModal = (e, tpl, modalType) ->
 
 prepareKifuModal = (e, tpl) ->
     e.preventDefault()
-    #Template.errorTemplate.resetError()
+    Template.errorTemplate.resetError()
 
-    #clearPostResultForm tpl, tpl.$('#winByDefault').is(':checked')
+    clearPostKifuForm tpl
 
     elementId = $(e.target).attr 'id'
     board = elementId.replace 'postKifu', ''
@@ -185,6 +208,8 @@ Template.games.helpers
             matchId: match._id
         return false if not board?
         return board?.winByDefault
+    kifuForBoard: (board) ->
+        return getKifuForBoard board
 
 Template.games.events
     "click .postResult": (e, tpl) ->
@@ -195,6 +220,11 @@ Template.games.events
 
     "click .postKifu": (e, tpl) ->
         prepareKifuModal(e, tpl)
+
+    "click .removeKifu": (e, tpl) ->
+        elementId = $(e.target).attr 'id'
+        board = elementId.replace 'removeKifu', ''
+        removeKifu board
 
     "click #teamAPlayer": (e, tpl) ->
         tpl.$('#teamAWin').prop 'checked', true
@@ -261,6 +291,8 @@ Template.games.events
             file with size under 1 MB", true
             return false
 
+        matchId = getThisMatchId()
+
         reader = new FileReader()
         reader.onload = (e) ->
             if not reader.result?.length
@@ -269,7 +301,7 @@ Template.games.events
 
             kifu = e.target.result
 
-            Meteor.call "postKifu", getThisMatchId(), board, kifu,
+            Meteor.call "postKifu", matchId, board, kifu,
             (error, result) ->
                 return showError errorTitle, error.reason, true if error
 

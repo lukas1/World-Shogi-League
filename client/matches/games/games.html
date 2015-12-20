@@ -91,6 +91,7 @@
                 </th>
                 <th>Date of game</th>
                 <th class="linkToGame">Link to game</th>
+                <th class="analyzedGame">Analyzed kifu</th>
                 <th></th>
             </tr>
             {{#each boards}}
@@ -137,6 +138,11 @@
                             {{/if}}
                         {{/if}}
                     </td>
+                    <td class="analyzedGame">
+                        {{#if kifuForBoard board}}
+                            YES!
+                        {{/if}}
+                    </td>
                     <td>
                         {{#if gameExists board}}
                             {{#if canUpdateResult board}}
@@ -150,6 +156,15 @@
                                         id="editResult{{board}}">
                                         Edit result
                                     </button>
+                                {{/if}}
+                            {{/if}}
+                            {{#if isAdmin}}
+                                {{#if kifuForBoard board}}
+                                    <button class="btn btn-default removeKifu"
+                                        id="removeKifu{{board}}">
+                                        Remove kifu
+                                    </button>
+                                {{else}}
                                     <button class="btn btn-default postKifu"
                                         id="postKifu{{board}}">
                                         Post kifu

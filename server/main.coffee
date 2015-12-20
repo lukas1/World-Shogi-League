@@ -96,6 +96,14 @@ Meteor.publish "matchParticipants", (matchId) ->
     return Meteor.users.find { _id: { $in: playerIds } },
         {fields: { _id:1, profile: 1 }}
 
+Meteor.publish "matchKifus", (matchId) ->
+    kifuIds = Boards.find({ matchId: matchId })
+        .map (document, index, cursor) ->
+            return document.kifu
+
+    return [] if not kifuIds and not kifuIds?.length
+    return Kifu.find { _id: { $in: kifuIds } }
+
 Meteor.publish "teamMatches", (teamId) ->
     Matches.find { $or: [ { teamAId: teamId }, { teamBId: teamId } ] }
 

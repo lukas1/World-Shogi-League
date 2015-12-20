@@ -25,6 +25,7 @@ Router.route(Routes.games.path,
             Meteor.subscribe "matchTeams", params._id
             Meteor.subscribe "matchBoards", params._id
             Meteor.subscribe "matchParticipants", params._id
+            Meteor.subscribe "matchKifus", params._id
         ]
     name: Routes.games.name
     action: () ->
