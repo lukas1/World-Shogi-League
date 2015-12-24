@@ -9,6 +9,10 @@
         path: 'matches/games/:_id'
         template: 'games'
         name: 'games'
+    kifu:
+        path: 'matches/games/kifu/:_id'
+        template: 'kifu'
+        name: 'kifu'
     login:
         path: '/user/login',
         template: 'loginform'

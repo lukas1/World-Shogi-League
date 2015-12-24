@@ -104,6 +104,9 @@ Meteor.publish "matchKifus", (matchId) ->
     return [] if not kifuIds and not kifuIds?.length
     return Kifu.find { _id: { $in: kifuIds } }
 
+Meteor.publish "kifu", (kifuId) ->
+    Kifu.find kifuId
+
 Meteor.publish "teamMatches", (teamId) ->
     Matches.find { $or: [ { teamAId: teamId }, { teamBId: teamId } ] }
 

@@ -35,6 +35,20 @@ Router.route(Routes.games.path,
                 return { params: routerThis.params }
 )
 
+Router.route(Routes.kifu.path,
+    waitOn: () ->
+        params = this.params; # { _id: "id_of_kifu" }
+        return [
+            Meteor.subscribe "kifu", params._id
+        ]
+    name: Routes.kifu.name
+    action: () ->
+        routerThis = this
+        this.render Routes.kifu.template,
+            data: () ->
+                return { params: routerThis.params }
+)
+
 Router.route(Routes.login.path,
     name: Routes.login.name
     action: ->

@@ -217,6 +217,13 @@ Template.games.events
         board = elementId.replace 'removeKifu', ''
         removeKifu board
 
+    "click .kifuLink": (e, tpl) ->
+        event.stopPropagation()
+        elementId = $(e.target).attr 'id'
+        board = elementId.replace 'kifuLink', ''
+        kifu = getKifuForBoard board
+        Router.go Routes.kifu.name, { _id: kifu._id }
+
     "click #teamAPlayer": (e, tpl) ->
         tpl.$('#teamAWin').prop 'checked', true
 
