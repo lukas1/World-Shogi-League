@@ -1,3 +1,12 @@
+getKifuId = ()->
+    Template.instance().data.params._id
+
+getKifu = ()->
+    kifuData = Kifu.findOne getKifuId()
+    return kifuData.kifu
+
+
 Template.kifu.rendered = () ->
-    $('#kifuframe').ready () ->
-        $("#kifuframe").contents().find("div").html('My html');
+    kifu = getKifu()
+    $('#kifuframe').load () ->
+        $("#kifuframe").contents().find("#kifuSource").html(kifu)
