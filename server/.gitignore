@@ -1,3 +1,4 @@
 def-account.coffee
 mailgun.coffee
+games/kifudecoder.coffee
 user/upload-picture.coffee

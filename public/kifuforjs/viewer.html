@@ -16,11 +16,12 @@
                     }
                 }, 100);
             }
+
             $(document).ready(function() {
                 Kifu.settings={ImageDirectoryPath: "/kifuforjs/images"};
                 observeKifu();
                 $(document).on('kifuLoaded', function() {
-                    Kifu.load($('#kifuSource').text(), 'kifuViewer');
+                    Kifu.initWithKifu($('#kifuSource').text(), 'kifuViewer');
                 });
             });
         </script>

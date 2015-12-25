@@ -9,4 +9,5 @@ getKifu = ()->
 Template.kifu.rendered = () ->
     kifu = getKifu()
     $('#kifuframe').load () ->
-        $("#kifuframe").contents().find("#kifuSource").html(kifu)
+        Meteor.call "decodeKifu", kifu, (error, result) ->
+            $("#kifuframe").contents().find("#kifuSource").html result

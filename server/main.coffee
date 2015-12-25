@@ -1,5 +1,9 @@
+@Future = 0;
+
 # Server code
 Meteor.startup () ->
+    @Future = Npm.require('fibers/future');
+
     if DefAdminAccount?
         for defUser in DefAdminAccount
             if Meteor.users.findOne(
