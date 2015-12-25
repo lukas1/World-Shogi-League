@@ -7701,17 +7701,25 @@ var ForkList = React.createClass({displayName: "ForkList",
 });
 var Kifu = React.createClass({displayName: "Kifu",
 	componentDidMount: function(){
-		ajax(this.props.filename, function(data, err){
-			if(err){
-				this.logError(err);
-				return;
-			}
-			try{
-				this.setState({player: JKFPlayer.parse(data, this.props.filename)});
-			}catch(e){
-				this.logError("棋譜ファイルが壊れています: "+e);
-			}
-		}.bind(this));
+        if (this.props.filename) {
+    		ajax(this.props.filename, function(data, err){
+    			if(err){
+    				this.logError(err);
+    				return;
+    			}
+    			try{
+    				this.setState({player: JKFPlayer.parse(data, this.props.filename)});
+    			}catch(e){
+    				this.logError("棋譜ファイルが壊れています: "+e);
+    			}
+    		}.bind(this));
+        } else if (this.props.kifuSrc) {
+            try{
+                this.setState({player: JKFPlayer.parseKIF(this.props.kifuSrc)});
+            }catch(e){
+                this.logError("棋譜ファイルが壊れています: "+e);
+            }
+        }
 	},
 	logError: function(errs){
 		var move = this.state.player.kifu.moves[0];
@@ -7913,6 +7921,21 @@ function load(filename, id){
 		);
 	});
 };
+
+function initWithKifu(kifu, id) {
+    if(!id){
+		id = "kifuforjs_"+Math.random().toString(36).slice(2);
+		document.write("<div id='"+id+"'></div>");
+	}
+	$(document).ready(function(){
+		React.render(
+			React.createElement(Kifu, {kifuSrc: kifu, ImageDirectoryPath: Kifu.settings.ImageDirectoryPath}),
+			document.getElementById(id)
+		);
+	});
+}
+
+
 function ajax(filename, onSuccess){
 	var encoding = getEncodingFromFileName(filename);
 	$.ajax(filename, {
@@ -7954,6 +7977,7 @@ function pad(str, space, length){
 	return ret+str;
 }
 Kifu.load=load;
+Kifu.initWithKifu=initWithKifu;
 Kifu.settings = {};
 return Kifu;
 })();
