@@ -29,7 +29,7 @@ opponentRemovedFromMatch = (opponent, team) ->
         "Please wait until team head of opposing team assigns you an opponent. " +
         "Schedule suggestions you made to your previous opponent are still " +
         "remembered. You can also add new schedule suggestions any time at " +
-        "http://world-shogi-tournament.meteor.com/matches/schedule"
+        "http://world-shogi-league.meteor.com/matches/schedule"
 
 BoardsCollection = Mongo.Collection;
 
@@ -49,14 +49,14 @@ BoardsCollection.prototype.removeBoard = (boardId) ->
         otherPlayerData = Meteor.users.findOne otherBoardData.playerId
 
         if thisUser? and thisTeam? and otherPlayerData?
-            subject = "Your opponent in World Shogi Tournament was removed from the match"
+            subject = "Your opponent in World Shogi League was removed from the match"
             email = opponentRemovedFromMatch thisUser.profile.nick81Dojo, thisTeam.name
 
             sender.sendEmail otherPlayerData.emails[0].address, subject, email
 
     # Notify the player that was removed by email
     if thisUser?
-        subject = "Your were removed from a match in World Shogi Tournament"
+        subject = "Your were removed from a match in World Shogi League"
         email = playerRemovedFromMatch thisUser.profile.nick81Dojo
 
         sender.sendEmail thisUser.emails[0].address, subject, email

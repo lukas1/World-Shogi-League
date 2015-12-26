@@ -4,7 +4,7 @@ scheduleConfirmedEmailText = (opponent, team, matchDate) ->
         " is scheduled for " + matchDate + ". \n" +
         "WARNING: The date and time in this email are based in UTC timezone. " +
         "The date on schedule page" +
-        "(http://world-shogi-tournament.meteor.com/matches/schedule)" +
+        "(http://world-shogi-league.meteor.com/matches/schedule)" +
         " uses your time zone." +
         "Please be sure to be available at " +
         "81dojo.com at that time."
@@ -14,21 +14,21 @@ scheduleCanceledEmailText = (opponent, team) ->
         "Your opponent " + opponent + " from " + team +
         " changed his schedule and the original match date no longer applies." +
         " Please schedule a new date with your opponent in match schedule " +
-        " page at http://world-shogi-tournament.meteor.com/matches/schedule"
+        " page at http://world-shogi-league.meteor.com/matches/schedule"
 
 playerAddedToBoard = (player, opponentTeam) ->
     return "" +
         "Hi " + player + "! " +
         "Your team head assigned you to a match against " + opponentTeam + "." +
         " Please schedule your game in match schedule" +
-        " page at http://world-shogi-tournament.meteor.com/matches/schedule"
+        " page at http://world-shogi-league.meteor.com/matches/schedule"
 
 opponentAddedToMatch = (opponent, team) ->
     return "" +
         "Opponent " + opponent + " from " + team +
         " was added to the match by his team head." +
         " Please schedule a game with your opponent in match schedule " +
-        " page at http://world-shogi-tournament.meteor.com/matches/schedule"
+        " page at http://world-shogi-league.meteor.com/matches/schedule"
 
 updateMatchDate = (boardId) ->
     # Input validation
@@ -178,7 +178,7 @@ Meteor.methods
         thisTeam = Teams.findOne teamId
         return if not opponentData? or not thisTeam?
 
-        subject = "You have an opponent in World Shogi Tournament"
+        subject = "You have an opponent in World Shogi League"
         email = opponentAddedToMatch userData.profile.nick81Dojo, thisTeam.name
 
         sender.sendEmail opponentData?.emails[0].address, subject, email

@@ -1,1 +1,1 @@
-# World Shogi Tournament
+# World Shogi League
