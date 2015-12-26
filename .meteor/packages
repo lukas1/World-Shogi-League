@@ -16,3 +16,4 @@ tsega:bootstrap3-datetimepicker
 momentjs:moment
 http
 email
+reactive-var
