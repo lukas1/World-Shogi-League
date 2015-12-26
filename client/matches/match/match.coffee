@@ -17,7 +17,10 @@ Template.match.events
         event.stopPropagation()
         return false if not Meteor.userId()?
         if confirm "Really delete match?"
-            Matches.removeMatch this._id
+            Meteor.call "removeMatch", this._id, (error, result) ->
+                if error
+                    alert "Failed to remove this match."
+
     "click .match": (event, tpl) ->
         event.stopPropagation()
         Router.go Routes.games.name, { _id: this._id }
