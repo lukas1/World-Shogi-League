@@ -62,7 +62,7 @@ Template.updateuser.events
         Template.successTemplate.resetSuccess()
 
         nick81Dojo = template.$('#current81Dojo').val()
-        teamId = $('#blockTeam').val()
+        teamId = $('#classTeam').val()
 
         return showError 'profile', 'Updating profile failed!',
         'Please specify your 81dojo.com nickname' if not nick81Dojo?.length

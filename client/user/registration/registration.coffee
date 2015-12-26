@@ -56,7 +56,7 @@ Template.registration.events
         nick81Dojo = $.trim($('#account-81dojo').val())
         password = $.trim($('#account-password').val())
         passwordRepeat = $.trim($('#account-password-repeat').val())
-        teamId = $('#blockTeam').val()
+        teamId = $('#classTeam').val()
 
         # Show appropriate error messages
         if not email?.length

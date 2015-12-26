@@ -10,8 +10,8 @@ Template.addMatch.events
         return false if not isAdmin()
 
         # Get values
-        teamAId = $("#blockTeam").val()
-        teamBId = $("#block" + selectedClass.get() + "Team").val()
+        teamAId = $("#classTeam").val()
+        teamBId = $("#class" + selectedClass.get() + "Team").val()
 
         # validate
         return false if not teamAId?.length or not teamBId?.length
@@ -33,15 +33,15 @@ Template.addMatch.events
         return false if not matchId
 
         # Clear form
-        $("#blockATeam").prop('selectedIndex', 0);
-        $("#blockBTeam").prop('selectedIndex', 0);
+        $("#classATeam").prop('selectedIndex', 0);
+        $("#classBTeam").prop('selectedIndex', 0);
 
         # Prevent default form submit
         return false
 
-    "change #blockTeam": (event) ->
+    "change #classTeam": (event) ->
         event.preventDefault()
 
-        teamId = $("#blockTeam").val()
+        teamId = $("#classTeam").val()
         team = Teams.findOne teamId
         selectedClass.set team?.class
