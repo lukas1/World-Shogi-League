@@ -1,6 +1,6 @@
 Template.teamsedit.helpers(
     teams: () ->
-        Teams.find {}
+        Teams.find {}, { sort: { class: 1, name: 1 } }
 )
 
 Template.teamsedit.events
