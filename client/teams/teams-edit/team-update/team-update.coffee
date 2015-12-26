@@ -11,7 +11,7 @@ Template.teamupdate.events
         return false if not isAdmin()
         return false if not confirm "Do you really want to update this team?"
         name = template.$('.teamNameEdit').val()
-        tclass = template.$('.teamBlockEdit').val()
+        tclass = template.$('.teamClassEdit').val()
         points = parseInt(template.$('.teamPointsEdit').val())
 
         return false if not name?.length
