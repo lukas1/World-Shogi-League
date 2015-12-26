@@ -7,7 +7,7 @@
         <table>
             <tr>
                 <th class="teamName">Team</th>
-                <th class="teamBlock">Block</th>
+                <th class="teamBlock">Class</th>
                 <th class="teamPoints">Points</th>
                 <th></th>
             </tr>
@@ -17,7 +17,7 @@
                         {{>teamView name=name flag=countryCode}}
                     </td>
                     <td class="teamBlock">
-                        {{block}}
+                        {{class}}
                     </td>
                     <td class="teamPoints">
                         {{points}}
@@ -34,11 +34,11 @@
                 <input type="text" class="form-control" id="addTeamName"
                     placeholder="Team">
             </div>
-            <label for="addTeamBlock">Select Block:</label>
+            <label for="addTeamBlock">Select Class:</label>
             <select id="addTeamBlock">
                 <option value="">--</option>
-                <option value="A">Block A</option>
-                <option value="B">Block B</option>
+                <option value="A">Class A</option>
+                <option value="B">Class B</option>
             </select>
             <input type="submit" class="btn btn-default" value="Add Team">
         </form>

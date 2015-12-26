@@ -3,8 +3,8 @@ Template.teams.helpers(
         this._id == Template.instance().data?.selectedTeam
     teams: () ->
         sort = { sort: {name: 1} }
-        if this.block?
-            Teams.find {block: this.block}, sort
+        if this.class?
+            Teams.find {class: this.class}, sort
         else
             Teams.find({}, sort)
 )

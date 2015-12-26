@@ -1,8 +1,8 @@
 Template.teamupdate.helpers
-    blockASelected: ->
-        this.block == "A"
-    blockBSelected: ->
-        this.block == "B"
+    classASelected: ->
+        this.class == "A"
+    classBSelected: ->
+        this.class == "B"
 
 Template.teamupdate.events
     "click .cancelEdit": (event, template) ->
@@ -11,7 +11,7 @@ Template.teamupdate.events
         return false if not isAdmin()
         return false if not confirm "Do you really want to update this team?"
         name = template.$('.teamNameEdit').val()
-        block = template.$('.teamBlockEdit').val()
+        tclass = template.$('.teamBlockEdit').val()
         points = parseInt(template.$('.teamPointsEdit').val())
 
         return false if not name?.length
@@ -19,7 +19,7 @@ Template.teamupdate.events
         updateData =
             $set:
                 name: name
-                block: block
+                class: tclass
                 points: points
 
         Meteor.call "updateTeam", this._id, updateData, (error, result) ->

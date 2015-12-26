@@ -32,10 +32,10 @@ Template.teamsedit.events
         return false if not isAdmin()
 
         teamName = template.$('#addTeamName').val()
-        teamBlock = template.$('#addTeamBlock').val()
-        return false if teamName.length == 0 or teamBlock.length == 0
+        teamClass = template.$('#addTeamBlock').val()
+        return false if teamName.length == 0 or teamClass.length == 0
 
-        Teams.insert {name: teamName, block: teamBlock, points: 0}
+        Teams.insert {name: teamName, class: teamClass, points: 0}
 
         # reset input field
         template.$('#addTeamName').val('')
