@@ -4,6 +4,10 @@ Template.addMatch.helpers
     selectedClass: ->
         selectedClass.get()
 
+Template.addMatch.rendered = ->
+    selectedClass.set("")
+
+
 Template.addMatch.events
     "submit #new-match-form": (event) ->
         event.preventDefault()
