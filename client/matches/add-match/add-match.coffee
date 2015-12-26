@@ -24,6 +24,7 @@ Template.addMatch.events
         matchId = Matches.insertMatch(
             teamAId: teamAId
             teamBId: teamBId
+            class: selectedClass.get()
             createdAt: new Date()
             matchEndDate: matchEndDate
         )
