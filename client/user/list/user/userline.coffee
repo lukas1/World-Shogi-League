@@ -2,6 +2,18 @@ showError = (title, message) ->
     Template.errorTemplate.showError title, message,
     $('#errorMessageContainer').get(0)
 
+buildRoundSelectDropdown = (source, target) ->
+    roundsFeed = $(source).text()
+
+    for roundData in roundsFeed.split(';')
+        roundData = $.trim roundData
+        continue if not !!roundData
+
+        roundFields = roundData.split '-'
+        $(target).append '<option value="' + roundFields[0] + '">' +
+                'Round ' + roundFields[1] + ' - ' + roundFields[2] +
+            '</option>'
+
 Template.userline.helpers
     profilePic: ->
         profilePic = Template.instance().data.profile?.profilePic
@@ -108,18 +120,12 @@ Template.userline.events
     "click .addToMatch": (e, tpl) ->
         e.preventDefault()
         $('#roundSelect').empty()
-        roundsFeed = $(e.target)
-            .closest('.addToMatchCell')
-            .find('.roundsFeed').text()
-
-        for roundData in roundsFeed.split(';')
-            roundData = $.trim roundData
-            continue if not !!roundData
-
-            roundFields = roundData.split '-'
-            $('#roundSelect').append '<option value="' + roundFields[0] + '">' +
-                    'Round ' + roundFields[1] + ' - ' + roundFields[2] +
-                '</option>'
+        buildRoundSelectDropdown(
+            $(e.target)
+                .closest('.addToMatchCell')
+                .find('.roundsFeed'),
+            $('#roundSelect')
+        )
 
         $('#boardSelectPlayerId').val tpl.data._id
         $('#addToMatchModal').modal()
