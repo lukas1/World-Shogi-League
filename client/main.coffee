@@ -129,7 +129,7 @@ Router.route(Routes.scheduleMatch.path,
 
             this.render Routes.scheduleMatch.template
         catch error
-            if error.error == "not-assigned"
+            if error.error == "not-assigned" || error.error == "no-active-match"
                 this.render Routes.notAssigned.template
             else
                 this.render Routes.oops.template
