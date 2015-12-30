@@ -38,9 +38,6 @@ Meteor.publish "userlist", () ->
     isAdminOrHead = userType == USER_TYPE_ADMIN or userType == USER_TYPE_HEAD
     return Meteor.users.find {}, {fields: { _id:1, profile: 1 }} if isAdminOrHead
 
-Meteor.publish "lastRound", () ->
-    return Rounds.find {}, {sort: {roundNumber: -1}, limit: 1}
-
 Meteor.publish "currentMatches", () ->
     roundData = lastRound()
     return [] if not roundData?

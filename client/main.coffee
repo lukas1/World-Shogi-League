@@ -1,7 +1,6 @@
 Router.configure
     layoutTemplate: "applicationLayout"
     subscriptions: () ->
-        this.subscribe "lastRound"
         this.subscribe "currentMatches"
         this.subscribe "myMatchCurrentBoards"
 
@@ -115,7 +114,7 @@ Router.route(Routes.scheduleMatch.path,
     waitOn: () ->
         return [
             Meteor.subscribe "myMatchPlayers"
-            Meteor.subscribe "lastRound"
+            Meteor.subscribe "rounds"
             Meteor.subscribe "teams"
             Meteor.subscribe "currentMatches"
             Meteor.subscribe "currentBoards"
@@ -139,9 +138,9 @@ Router.route(Routes.userList.path,
     waitOn: () ->
         subscriptions = [
             Meteor.subscribe "userlist"
-            Meteor.subscribe "lastRound"
+            Meteor.subscribe "rounds"
             Meteor.subscribe "teams"
-            Meteor.subscribe "currentMatches"
+            Meteor.subscribe "matches"
         ]
 
         subscriptions.push Meteor.subscribe "myMatchCurrentBoards" if isHead()

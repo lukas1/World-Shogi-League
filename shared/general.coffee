@@ -17,9 +17,11 @@
 
 @getMatchIdForPlayer = (playerId) ->
     roundData = lastRound()
-    throw new Meteor.Error "no-last-round" if not roundData?
+    return getMatchIdForPlayerAndRound playerId, roundData._id
 
-    throw new Meteor.Error "no-open-round" if roundData.finished
+@getMatchIdForPlayerAndRound = (playerId, roundId) ->
+    roundData = Rounds.findOne roundId
+    throw new Meteor.Error "no-such-round" if not roundData?
 
     userData = Meteor.users.findOne playerId
     throw new Meteor.Error "empty-user-data" if not userData?

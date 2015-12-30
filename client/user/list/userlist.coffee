@@ -57,6 +57,7 @@ Template.userlist.events
             if error
                 return showError "Could not add player to match."
             $('#addToMatchModal').modal('hide')
+            $('#roundSelect').empty()
             $('#boardSelectPlayerId').val('')
             $("#boardSelect").prop('selectedIndex', 0);
 

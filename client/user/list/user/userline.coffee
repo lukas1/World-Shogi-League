@@ -57,6 +57,25 @@ Template.userline.helpers
             return false
 
         return true
+    rounds: ->
+        # Along with rounds pass name of opposing team and matchId
+        playerId = Template.instance().data._id
+        playerData = Meteor.users.findOne playerId
+        return Rounds.find(
+            {}, { sort: { roundNumber: 1 } }
+        ).map (document, index, cursor) ->
+            matchId = getMatchIdForPlayerAndRound playerId, document._id
+            matchData = Matches.findOne matchId
+            opponentTeamId = ""
+
+            if matchData.teamAId == playerData.profile.teamId
+                opponentTeamId = matchData.teamBId
+            if matchData.teamBId == playerData.profile.teamId
+                opponentTeamId = matchData.teamAId
+
+            document.matchId = matchId
+            document.opponentTeam = Teams.findOne(opponentTeamId).name
+            return document
 
 Template.userline.events
     "click .delete": (e, tpl) ->
@@ -89,7 +108,21 @@ Template.userline.events
                     error.reason
     "click .addToMatch": (e, tpl) ->
         e.preventDefault()
-        $('#boardSelectPlayerId').val(tpl.data._id)
+        $('#roundSelect').empty()
+        roundsFeed = $(e.target)
+            .closest('.addToMatchCell')
+            .find('.roundsFeed').text()
+
+        for roundData in roundsFeed.split(';')
+            roundData = $.trim roundData
+            continue if not !!roundData
+
+            roundFields = roundData.split '-'
+            $('#roundSelect').append '<option value="' + roundFields[0] + '">' +
+                    'Round ' + roundFields[1] + ' - ' + roundFields[2] +
+                '</option>'
+
+        $('#boardSelectPlayerId').val tpl.data._id
         $('#addToMatchModal').modal()
 
     "click .removeFromMatch": (e, tpl) ->
