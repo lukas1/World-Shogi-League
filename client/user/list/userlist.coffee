@@ -25,10 +25,9 @@ Template.userlist.events
         return showError "Could not add player to match. Please assign the
         player to a board" if not board?.length
 
-        try
-            matchId = getMatchIdForPlayer playerId
-        catch error
-            return showError "Could not add player to match. " + error.reason
+        matchId = $('#roundSelect').val()
+        return showError "Could not add player to match. Please select a match
+        for the player" if not matchId?.length
 
         # Get teamId
         userData = Meteor.users.findOne playerId
