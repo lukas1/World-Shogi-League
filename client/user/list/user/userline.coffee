@@ -132,13 +132,13 @@ Template.userline.events
 
     "click .removeFromMatch": (e, tpl) ->
         e.preventDefault()
-        if not confirm "Do you really want to remove this player from the
-        match?"
-            return false
-        buttonId = $(e.target).attr('id')
-        boardId = buttonId.replace('removeFromBoard', '')
-        if not boardId?.length
-            return showError "Unable to remove player from match."
+        $('#removeRoundSelect').empty()
+        buildRoundSelectDropdown(
+            $(e.target)
+                .closest('.addToMatchCell')
+                .find('.roundsFeed'),
+            $('#removeRoundSelect')
+        )
 
-        Meteor.call "removePlayerFromMatch", boardId, (error) ->
-            return showError "Unable to remove player from match." if error
+        $('#removeSelectPlayerId').val tpl.data._id
+        $('#removeFromMatchModal').modal()

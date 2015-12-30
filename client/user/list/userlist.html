@@ -33,6 +33,31 @@
         </div>
     </div>
 
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
+        aria-labelledby="myLargeModalLabel" id ="removeFromMatchModal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                    </button>
+                    <h4>Remove player from match</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="removeFromMatchForm">
+                        <input type="hidden" id="removeSelectPlayerId" value="">
+                        <strong>Select round:</strong><br>
+                        <select id="removeRoundSelect">
+                        </select><br><br>
+                        <input type="submit" value="Add to match"
+                            class="btn btn-default">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container" id="usersList">
         <div class="page-header">
             <h1>Mange users</h1>
