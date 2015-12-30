@@ -32,6 +32,9 @@ Meteor.publish "rounds", () ->
 Meteor.publish "matches", () ->
     return Matches.find();
 
+Meteor.publish "boards", () ->
+    return Boards.find();
+
 Meteor.publish "userlist", () ->
     user = Meteor.users.findOne this.userId
     userType = user?.profile?.userType
@@ -61,6 +64,13 @@ Meteor.publish "myMatchCurrentBoards", () ->
     try
         matchId = getMatchIdForPlayer this.userId
         return Boards.find { matchId: matchId }
+    catch error
+        return []
+
+Meteor.publish "myMatchesBoards", () ->
+    try
+        matchesIds = getMatchesForPlayer this.userId
+        return Boards.find { matchId: { $in: matchesIds } }
     catch error
         return []
 

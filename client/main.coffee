@@ -143,8 +143,8 @@ Router.route(Routes.userList.path,
             Meteor.subscribe "matches"
         ]
 
-        subscriptions.push Meteor.subscribe "myMatchCurrentBoards" if isHead()
-        subscriptions.push Meteor.subscribe "currentBoards" if isAdmin()
+        subscriptions.push Meteor.subscribe "myMatchesBoards" if isHead()
+        subscriptions.push Meteor.subscribe "boards" if isAdmin()
         return subscriptions
 
     name: Routes.userList.name

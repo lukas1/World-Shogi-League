@@ -15,6 +15,18 @@
     return null if not rounds?.length
     return rounds[0];
 
+@getMatchesForPlayer = (playerId) ->
+    userData = Meteor.users.findOne playerId
+    throw new Meteor.Error "empty-user-data" if not userData?
+
+    matchesIds = Matches.find(
+        $or: [
+            { teamAId: userData.profile.teamId }
+            { teamBId: userData.profile.teamId }
+        ]
+    ).map (document, index, cursor) ->
+        return document._id
+
 @getMatchIdForPlayer = (playerId) ->
     roundData = lastRound()
     return getMatchIdForPlayerAndRound playerId, roundData._id
