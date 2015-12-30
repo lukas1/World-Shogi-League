@@ -34,25 +34,20 @@
         {{#if isAdminOrHead}}
             <div class="rowData addToMatchCell">
                 {{#if isOpenMatch}}
-                    {{#if boardData}}
-                        {{#if gameFinished}}
-                            game finished
-                        {{else}}
-                            <button class="btn btn-default removeFromMatch"
-                                id="removeFromBoard{{boardData._id}}">
-                                Remove from board #{{boardData.board}}
-                            </button>
-                        {{/if}}
-                    {{else}}
-                        <div class="roundsFeed">
-                            {{#each rounds}}
-                                {{#if matchId}}
-                                    {{matchId}}-{{roundNumber}}-{{opponentTeam}};
-                                {{/if}}
-                            {{/each}}
-                        </div>
-                        <button class="btn btn-default addToMatch">
-                            Add to match
+                    <div class="roundsFeed">
+                        {{#each rounds}}
+                            {{#if matchId}}
+                                {{matchId}}-{{roundNumber}}-{{opponentTeam}};
+                            {{/if}}
+                        {{/each}}
+                    </div>
+                    <button class="btn btn-default addToMatch">
+                        Add to match
+                    </button>
+
+                    {{#if isAssignedToBoard}}
+                        <button class="btn btn-default removeFromMatch">
+                            Remove from board
                         </button>
                     {{/if}}
                 {{else}}
