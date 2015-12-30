@@ -44,27 +44,31 @@ Template.userline.helpers
         return null if not board?
         return board.win?
     isOpenMatch: ->
-        roundData = lastRound()
-        return false if not roundData?
+        userData = Meteor.users.findOne Template.instance().data._id
+        return false if not userData?
 
-        return false if roundData.finished
-
-        try
-            matchId = getMatchIdForPlayer Template.instance().data._id
-
-            return false if not matchId?.length
-        catch error
-            return false
+        matchData = Matches.findOne
+            $or: [
+                { teamAId: userData.profile.teamId }
+                { teamBId: userData.profile.teamId }
+            ]
+        return false if not matchData?
 
         return true
     rounds: ->
-        # Along with rounds pass name of opposing team and matchId
         playerId = Template.instance().data._id
         playerData = Meteor.users.findOne playerId
+        return [] if not playerData?
+
+        # Along with rounds pass name of opposing team and matchId
         return Rounds.find(
             {}, { sort: { roundNumber: 1 } }
         ).map (document, index, cursor) ->
-            matchId = getMatchIdForPlayerAndRound playerId, document._id
+            try
+                matchId = getMatchIdForPlayerAndRound playerId, document._id
+            catch
+                return null
+
             matchData = Matches.findOne matchId
             opponentTeamId = ""
 

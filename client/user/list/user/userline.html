@@ -46,7 +46,9 @@
                     {{else}}
                         <div class="roundsFeed">
                             {{#each rounds}}
-                                {{matchId}}-{{roundNumber}}-{{opponentTeam}};
+                                {{#if matchId}}
+                                    {{matchId}}-{{roundNumber}}-{{opponentTeam}};
+                                {{/if}}
                             {{/each}}
                         </div>
                         <button class="btn btn-default addToMatch">
