@@ -87,3 +87,15 @@ Template.userlist.events
             $('#removeSelectPlayerId').val('')
 
         return false
+
+    "click #removeFromAllMatches": (event, tpl) ->
+        playerId = $('#removeSelectPlayerId').val()
+
+        $('#removeRoundSelect').find('option').each((i, e) ->
+            matchId = $(e).attr('value')
+            Meteor.call "removePlayerFromMatch", playerId, matchId
+        )
+
+        $('#removeFromMatchModal').modal('hide')
+        $('#removeRoundSelect').empty()
+        $('#removeSelectPlayerId').val('')
