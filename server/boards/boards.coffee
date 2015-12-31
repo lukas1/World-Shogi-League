@@ -183,19 +183,26 @@ Meteor.methods
 
         sender.sendEmail opponentData?.emails[0].address, subject, email
 
-    removePlayerFromMatch: (boardId) ->
+    removePlayerFromMatch: (playerId, matchId) ->
         # Access rights
         throw new Meteor.Error "not-authorized" if not isAdminOrHead()
 
         # Validation of parameters
-        throw new Meteor.Error "boardId-empty" if not boardId?.length
+        throw new Meteor.Error "playerId-empty" if not playerId?.length
+        throw new Meteor.Error "matchId-empty" if not matchId?.length
+
+        board = Boards.findOne
+            matchId: matchId
+            playerId: playerId
+        if not board?
+            throw new Meteor.Error "no-such-board", "Player is not playing
+            in the selected match"
 
         # If game on this board is already finished, trying to remove it
         # is considered an error
-        board = Boards.findOne boardId
         throw new Meteor.Error "board-game-finished" if board?.win?
 
-        Boards.removeBoard boardId
+        Boards.removeBoard board._id
 
     addToSchedule: (boardId, startDateObj, endDateObj)->
         # Access rights

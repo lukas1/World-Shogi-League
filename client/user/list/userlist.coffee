@@ -61,3 +61,29 @@ Template.userlist.events
             $("#boardSelect").prop('selectedIndex', 0);
 
         return false
+
+    "submit #removeFromMatchForm": (event, tpl) ->
+        event.preventDefault()
+        return false if not isAdminOrHead()
+
+        playerId = $('#removeSelectPlayerId').val()
+
+        matchId = $('#removeRoundSelect').val()
+        return showError "Could not remove player from match. Please select a
+        match for the player" if not matchId?.length
+
+        if not confirm "Do you really want to remove this player from the
+        match?"
+            return false
+
+        Meteor.call "removePlayerFromMatch", playerId, matchId, (error) ->
+            if error
+                errorMessage = "Unable to remove player from match. "
+                errorMessage += error.reason
+                return showError errorMessage
+
+            $('#removeFromMatchModal').modal('hide')
+            $('#removeRoundSelect').empty()
+            $('#removeSelectPlayerId').val('')
+
+        return false
