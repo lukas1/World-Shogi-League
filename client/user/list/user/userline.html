@@ -34,11 +34,16 @@
         {{#if isAdminOrHead}}
             <div class="rowData addToMatchCell">
                 {{#if isOpenMatch}}
-                    <div class="roundsFeed">
-                        {{#each rounds}}
+                    <div class="openRoundsFeed roundsFeed">
+                        {{#each openRounds}}
                             {{#if matchId}}
                                 {{matchId}}-{{roundNumber}}-{{opponentTeam}};
                             {{/if}}
+                        {{/each}}
+                    </div>
+                    <div class="participatingRoundsFeed roundsFeed">
+                        {{#each participatingRounds}}
+                            {{matchId}}-{{roundNumber}}-{{opponentTeam}};
                         {{/each}}
                     </div>
                     <button class="btn btn-default addToMatch">

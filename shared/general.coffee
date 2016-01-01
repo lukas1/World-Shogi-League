@@ -58,3 +58,10 @@
         matchId: matchId
 
     return board
+
+@unfinishedBoardsForPlayerId = (playerId) ->
+    Boards.find({ playerId: playerId, win: { $exists: false } }).fetch()
+
+@otherTeam = (knownTeamId, teams) ->
+    for team in teams
+        return team if team != knownTeamId

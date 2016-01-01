@@ -62,7 +62,7 @@ Template.userline.helpers
         return false if not matchData?
 
         return true
-    rounds: ->
+    openRounds: ->
         playerId = Template.instance().data._id
         playerData = Meteor.users.findOne playerId
         return [] if not playerData?
@@ -77,16 +77,42 @@ Template.userline.helpers
                 return null
 
             matchData = Matches.findOne matchId
-            opponentTeamId = ""
-
-            if matchData.teamAId == playerData.profile.teamId
-                opponentTeamId = matchData.teamBId
-            if matchData.teamBId == playerData.profile.teamId
-                opponentTeamId = matchData.teamAId
+            opponentTeamId = otherTeam(playerData.profile.teamId,
+                [ matchData.teamAId, matchData.teamBId ]
+            )
 
             document.matchId = matchId
             document.opponentTeam = Teams.findOne(opponentTeamId).name
             return document
+
+    participatingRounds: ->
+        playerId = Template.instance().data._id
+        playerData = Meteor.users.findOne playerId
+        return [] if not playerData?
+
+        result = []
+        boards = unfinishedBoardsForPlayerId playerId
+        for board in boards
+            matchData = Matches.findOne board.matchId
+            continue if not matchData?
+
+            opponentTeamId = otherTeam(playerData.profile.teamId,
+                [ matchData.teamAId, matchData.teamBId ]
+            )
+
+            roundData = Rounds.findOne matchData.roundId
+            continue if not roundData?
+
+            matchRow =
+                matchId: board.matchId
+                opponentTeam: Teams.findOne(opponentTeamId).name
+                roundNumber: roundData.roundNumber
+            result.push matchRow
+
+        result.sort (a,b) ->
+            a.roundNumber - b.roundNumber
+
+        return result
 
 Template.userline.events
     "click .delete": (e, tpl) ->
@@ -123,7 +149,7 @@ Template.userline.events
         buildRoundSelectDropdown(
             $(e.target)
                 .closest('.addToMatchCell')
-                .find('.roundsFeed'),
+                .find('.openRoundsFeed'),
             $('#roundSelect')
         )
 
@@ -136,7 +162,7 @@ Template.userline.events
         buildRoundSelectDropdown(
             $(e.target)
                 .closest('.addToMatchCell')
-                .find('.roundsFeed'),
+                .find('.participatingRoundsFeed'),
             $('#removeRoundSelect')
         )
 
