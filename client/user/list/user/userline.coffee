@@ -45,8 +45,10 @@ Template.userline.helpers
         try
             boards = Boards.find(
                 playerId: Template.instance().data._id
+                win: { $exists: false }
             ).fetch()
-            return false if not boards?
+
+            return false if not boards?.length
         catch error
             return false
         return true
