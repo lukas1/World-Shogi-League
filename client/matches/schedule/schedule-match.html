@@ -3,99 +3,114 @@
         <div class="page-header">
             <h1>Schedule my match</h1>
         </div>
-        <div class="container">
-            Playing on board #{{boardData.board}}
-            <br>
-            {{#if opponentData}}
-                Your opponent is
-                <strong>
-                    {{opponentData.profile.nick81Dojo}}
-                </strong>
-                from {{>teamView name=opponentTeamData.name
-                    flag=opponentTeamData.countryCode}}
+        <strong>Select round</strong><br>
+        <select id="roundSelect">
+            <option value="">
+                ---
+            </option>
+            {{#each participatingRounds}}
+                <option value="{{matchId}}">
+                    Round {{roundNumber}} - {{opponentTeam}}
+                </option>
+            {{/each}}
+        </select>
+        {{#if selectedMatch}}
+            <div class="container">
+                Playing on board #{{boardData.board}}
                 <br>
-                Email address of your opponent:
-                <a href="mailto:{{opponentData.email}}">
-                    {{opponentData.email}}
-                </a>
-                <br>
-            {{/if}}
+                {{#if opponentData}}
+                    Your opponent is
+                    <strong>
+                        {{opponentData.profile.nick81Dojo}}
+                    </strong>
+                    from {{>teamView name=opponentTeamData.name
+                        flag=opponentTeamData.countryCode}}
+                    <br>
+                    Email address of your opponent:
+                    <a href="mailto:{{opponentData.email}}">
+                        {{opponentData.email}}
+                    </a>
+                    <br>
+                {{/if}}
+                {{#if boardData.matchDate}}
+                    Match scheduled for
+                    <strong>{{boardData.matchDate}}</strong>
+                    <br>
+                {{/if}}
+            </div>
+
+            <div class="container">
+                <div id="errorMessageRemoveContainer">
+                </div>
+                <div id="mySchedule" class="col-md-6 clearfix">
+                    <div class="page-header">
+                        <h1>My schedule</h1>
+                    </div>
+                    <ul class="list-unstyled">
+                        {{#each boardData.schedule}}
+                            <li>
+                                {{startDateFormatted}} - {{endDateFormatted}}
+                                <a href="#" class="cancelSchedule"
+                                    id="cancelSchedule{{_id}}">
+                                    Cancel
+                                </a>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+
+                <div id="opponentSchedule" class="col-md-6 clearfix">
+                    <div class="page-header">
+                        <h1>Opponent's schedule</h1>
+                    </div>
+                    <ul class="list-unstyled">
+                        {{#each opponentBoardData.schedule}}
+                            <li>
+                                {{startDateFormatted}} - {{endDateFormatted}}
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
             {{#if boardData.matchDate}}
-                Match scheduled for
-                <strong>{{boardData.matchDate}}</strong>
-                <br>
+                <div class="alert alert-info">
+                Your match is scheduled for
+                <strong>{{boardData.matchDate}}</strong>.
+                If you wish to change the date, cancel it in the schedule above.
+                Doing so will send an email to your opponent requesting to
+                re-schedule your match. You can also select a date that meets
+                already defined schedule by your opponent. If you do so, your
+                opponent will get another email with confirmation of the new
+                schedule
+                </div>
             {{/if}}
-        </div>
-
-        <div class="container">
-            <div id="errorMessageRemoveContainer">
-            </div>
-            <div id="mySchedule" class="col-md-6 clearfix">
-                <div class="page-header">
-                    <h1>My schedule</h1>
+            <form id="addToSchedule" class="{{boardData.addScheduleClass}}">
+                <div id="errorMessageContainer">
                 </div>
-                <ul class="list-unstyled">
-                    {{#each boardData.schedule}}
-                        <li>
-                            {{startDateFormatted}} - {{endDateFormatted}}
-                            <a href="#" class="cancelSchedule"
-                                id="cancelSchedule{{_id}}">
-                                Cancel
-                            </a>
-                        </li>
-                    {{/each}}
-                </ul>
-            </div>
-
-            <div id="opponentSchedule" class="col-md-6 clearfix">
-                <div class="page-header">
-                    <h1>Opponent's schedule</h1>
+                <div class="col-md-4">
+                    <strong>Start:</strong>
+                    <div class="input-group date" id="dateTimeStartPickerText">
+                        <input type="text" class="form-control" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
                 </div>
-                <ul class="list-unstyled">
-                    {{#each opponentBoardData.schedule}}
-                        <li>{{startDateFormatted}} - {{endDateFormatted}}</li>
-                    {{/each}}
-                </ul>
-            </div>
-        </div>
-        {{#if boardData.matchDate}}
-            <div class="alert alert-info">
-            Your match is scheduled for
-            <strong>{{boardData.matchDate}}</strong>.
-            If you wish to change the date, cancel it in the schedule above.
-            Doing so will send an email to your opponent requesting to
-            re-schedule your match. You can also select a date that meets
-            already defined schedule by your opponent. If you do so, your
-            opponent will get another email with confirmation of the new
-            schedule
-            </div>
+                <div class="col-md-4">
+                    <strong>End:</strong>
+                    <div class="input-group date" id="dateTimeEndPickerText">
+                        <input type="text" class="form-control" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <br>
+                    <input type="submit" value="Add to my schedule"
+                        class="btn btn-default">
+                </div>
+            </form>
         {{/if}}
-        <form id="addToSchedule" class="{{boardData.addScheduleClass}}">
-            <div id="errorMessageContainer">
-            </div>
-            <div class="col-md-4">
-                <strong>Start:</strong>
-                <div class="input-group date" id="dateTimeStartPickerText">
-                    <input type="text" class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <strong>End:</strong>
-                <div class="input-group date" id="dateTimeEndPickerText">
-                    <input type="text" class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <br>
-                <input type="submit" value="Add to my schedule"
-                    class="btn btn-default">
-            </div>
-        </form>
     </div>
 </template>

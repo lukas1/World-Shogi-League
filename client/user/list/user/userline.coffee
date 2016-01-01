@@ -2,18 +2,6 @@ showError = (title, message) ->
     Template.errorTemplate.showError title, message,
     $('#errorMessageContainer').get(0)
 
-buildRoundSelectDropdown = (source, target) ->
-    roundsFeed = $(source).text()
-
-    for roundData in roundsFeed.split(';')
-        roundData = $.trim roundData
-        continue if not !!roundData
-
-        roundFields = roundData.split '-'
-        $(target).append '<option value="' + roundFields[0] + '">' +
-                'Round ' + roundFields[1] + ' - ' + roundFields[2] +
-            '</option>'
-
 Template.userline.helpers
     profilePic: ->
         profilePic = Template.instance().data.profile?.profilePic
@@ -89,32 +77,7 @@ Template.userline.helpers
 
     participatingRounds: ->
         playerId = Template.instance().data._id
-        playerData = Meteor.users.findOne playerId
-        return [] if not playerData?
-
-        result = []
-        boards = unfinishedBoardsForPlayerId playerId
-        for board in boards
-            matchData = Matches.findOne board.matchId
-            continue if not matchData?
-
-            opponentTeamId = otherTeam(playerData.profile.teamId,
-                [ matchData.teamAId, matchData.teamBId ]
-            )
-
-            roundData = Rounds.findOne matchData.roundId
-            continue if not roundData?
-
-            matchRow =
-                matchId: board.matchId
-                opponentTeam: Teams.findOne(opponentTeamId).name
-                roundNumber: roundData.roundNumber
-            result.push matchRow
-
-        result.sort (a,b) ->
-            a.roundNumber - b.roundNumber
-
-        return result
+        participatingRoundsForPlayerId playerId
 
 Template.userline.events
     "click .delete": (e, tpl) ->
@@ -151,7 +114,8 @@ Template.userline.events
         buildRoundSelectDropdown(
             $(e.target)
                 .closest('.addToMatchCell')
-                .find('.openRoundsFeed'),
+                .find('.openRoundsFeed')
+                .text(),
             $('#roundSelect')
         )
 
@@ -164,7 +128,8 @@ Template.userline.events
         buildRoundSelectDropdown(
             $(e.target)
                 .closest('.addToMatchCell')
-                .find('.participatingRoundsFeed'),
+                .find('.participatingRoundsFeed')
+                .text(),
             $('#removeRoundSelect')
         )
 

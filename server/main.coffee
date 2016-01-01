@@ -41,35 +41,19 @@ Meteor.publish "userlist", () ->
     isAdminOrHead = userType == USER_TYPE_ADMIN or userType == USER_TYPE_HEAD
     return Meteor.users.find {}, {fields: { _id:1, profile: 1 }} if isAdminOrHead
 
-Meteor.publish "currentMatches", () ->
-    roundData = lastRound()
-    return [] if not roundData?
-    return Matches.find {roundId: roundData._id}
-
-Meteor.publish "currentBoards", () ->
-    roundData = lastRound()
-    return [] if not roundData?
-    matches = Matches.find({roundId: roundData._id},
-        fields:
-            '_id': 1
+Meteor.publish "myActiveMatches", () ->
+    matchesIds = Boards.find(
+        playerId: this.userId
+        win: { $exists: false }
     ).map (document, index, cursor) ->
-        return document._id
-    return [] if not matches?.length
+        return document.matchId
 
-    Boards.find
-        matchId:
-            $in: matches
-
-Meteor.publish "myMatchCurrentBoards", () ->
-    try
-        matchId = getMatchIdForPlayer this.userId
-        return Boards.find { matchId: matchId }
-    catch error
-        return []
+    return Matches.find
+        _id: { $in: matchesIds }
 
 Meteor.publish "myMatchesBoards", () ->
     try
-        matchesIds = getMatchesForPlayer this.userId
+        matchesIds = getMatchesForPlayer this.userId, true
         return Boards.find { matchId: { $in: matchesIds } }
     catch error
         return []

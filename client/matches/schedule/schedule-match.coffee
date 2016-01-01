@@ -28,6 +28,10 @@ opponentData = () ->
         return null
 
 Template.scheduleMatch.helpers
+    participatingRounds: ->
+        return participatingRoundsForPlayerId Meteor.userId()
+    selectedMatch: ->
+        Session.get 'selectedMatch'
     boardData: ->
         try
             board = boardDataForPlayerId Meteor.userId()
@@ -48,6 +52,8 @@ Template.scheduleMatch.helpers
 
 
 Template.scheduleMatch.onRendered ->
+    Session.set 'selectedMatch', ''
+
     this.$('#dateTimeStartPickerText, #dateTimeEndPickerText').datetimepicker
         useCurrent: false
         allowInputToggle: true
@@ -64,6 +70,8 @@ Template.scheduleMatch.onRendered ->
         $('#dateTimeStartPickerText').data("DateTimePicker").maxDate(e.date)
 
 Template.scheduleMatch.events
+    "change #roundSelect": (e, tpl) ->
+        Session.set 'selectedMatch', $(e.target).val()
     "submit #addToSchedule": (e, tpl) ->
         e.preventDefault()
         Template.errorTemplate.resetError()

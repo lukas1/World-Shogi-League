@@ -1,8 +1,5 @@
 Router.configure
     layoutTemplate: "applicationLayout"
-    subscriptions: () ->
-        this.subscribe "currentMatches"
-        this.subscribe "myMatchCurrentBoards"
 
 Router.route(Routes.home.path,
     waitOn: () ->
@@ -113,18 +110,18 @@ Router.route(Routes.teamProfile.path,
 Router.route(Routes.scheduleMatch.path,
     waitOn: () ->
         return [
+            Meteor.subscribe "myActiveMatches"
+            Meteor.subscribe "myMatchesBoards"
             Meteor.subscribe "myMatchPlayers"
             Meteor.subscribe "rounds"
             Meteor.subscribe "teams"
-            Meteor.subscribe "currentMatches"
-            Meteor.subscribe "currentBoards"
         ]
     name: Routes.scheduleMatch.name
     action: () ->
         try
             throw new Meteor.Error "not-authorized" if not Meteor.userId()?
-            board = boardDataForPlayerId Meteor.userId()
-            throw new Meteor.Error "not-assigned" if not board?
+            boards = unfinishedBoardsForPlayerId Meteor.userId()
+            throw new Meteor.Error "not-assigned" if not boards?.length
 
             this.render Routes.scheduleMatch.template
         catch error
