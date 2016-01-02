@@ -112,7 +112,7 @@ Router.route(Routes.scheduleMatch.path,
         return [
             Meteor.subscribe "myActiveMatches"
             Meteor.subscribe "myMatchesBoards"
-            Meteor.subscribe "myMatchPlayers"
+            Meteor.subscribe "myMatchesPlayers"
             Meteor.subscribe "rounds"
             Meteor.subscribe "teams"
         ]

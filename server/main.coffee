@@ -53,15 +53,15 @@ Meteor.publish "myActiveMatches", () ->
 
 Meteor.publish "myMatchesBoards", () ->
     try
-        matchesIds = getMatchesForPlayer this.userId, true
+        matchesIds = getMatchesForPlayer this.userId
         return Boards.find { matchId: { $in: matchesIds } }
     catch error
         return []
 
-Meteor.publish "myMatchPlayers", () ->
+Meteor.publish "myMatchesPlayers", () ->
     try
-        matchId = getMatchIdForPlayer this.userId
-        playerIds = Boards.find({ matchId: matchId },
+        matchesIds = getMatchesForPlayer this.userId
+        playerIds = Boards.find({ matchId: { $in: matchesIds } },
             fields:
                 playerId: 1
         ).map (document, index, cursor) ->

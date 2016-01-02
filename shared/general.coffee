@@ -27,10 +27,6 @@
     ).map (document, index, cursor) ->
         return document._id
 
-@getMatchIdForPlayer = (playerId) ->
-    roundData = lastRound()
-    return getMatchIdForPlayerAndRound playerId, roundData._id
-
 @getMatchIdForPlayerAndRound = (playerId, roundId) ->
     roundData = Rounds.findOne roundId
     throw new Meteor.Error "no-such-round" if not roundData?
@@ -51,8 +47,7 @@
     return matchData._id
 
 # throws
-@boardDataForPlayerId = (playerId) ->
-    matchId = getMatchIdForPlayer playerId
+@boardDataForPlayerAndMatch = (playerId, matchId) ->
     board = Boards.findOne
         playerId: Meteor.userId()
         matchId: matchId

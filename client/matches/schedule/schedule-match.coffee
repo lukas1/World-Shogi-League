@@ -9,7 +9,9 @@ showError = (title, message, top = false) ->
 
 opponentBoardData = () ->
     try
-        myBoard = boardDataForPlayerId Meteor.userId()
+        myBoard = boardDataForPlayerAndMatch Meteor.userId(),
+        Session.get 'selectedMatch'
+
         return board = Boards.findOne
             board: myBoard.board
             playerId: { $ne: Meteor.userId() }
@@ -34,7 +36,8 @@ Template.scheduleMatch.helpers
         Session.get 'selectedMatch'
     boardData: ->
         try
-            board = boardDataForPlayerId Meteor.userId()
+            board = boardDataForPlayerAndMatch Meteor.userId(),
+            Session.get 'selectedMatch'
             board["addScheduleClass"] = 'hidden' if board.matchDate?
             return board
         catch error
@@ -42,36 +45,43 @@ Template.scheduleMatch.helpers
     opponentBoardData: opponentBoardData
     opponentData: opponentData
     opponentTeamData: ->
-        Teams.findOne opponentData().profile.teamId
-    matchData: ->
-        try
-            matchId = getMatchIdForPlayer Meteor.userId()
-            return Matches.findOne matchId
-        catch error
-            return null
+        match = Matches.findOne Session.get 'selectedMatch'
+        return null if not match?
+
+        ot = otherTeam(Meteor.user().profile.teamId,
+            [ match.teamAId, match.teamBId]
+        )
+        Teams.findOne ot
 
 
 Template.scheduleMatch.onRendered ->
     Session.set 'selectedMatch', ''
 
-    this.$('#dateTimeStartPickerText, #dateTimeEndPickerText').datetimepicker
-        useCurrent: false
-        allowInputToggle: true
-        sideBySide: true
-        showClear: true
-        format: dateTimeFormat
-        minDate: new Date()
-        defaultDate: new Date()
-
-    this.$('#dateTimeStartPickerText').on "dp.change", (e)->
-        $('#dateTimeEndPickerText').data("DateTimePicker").minDate(e.date)
-
-    this.$('#dateTimeEndPickerText').on "dp.change", (e)->
-        $('#dateTimeStartPickerText').data("DateTimePicker").maxDate(e.date)
-
 Template.scheduleMatch.events
     "change #roundSelect": (e, tpl) ->
         Session.set 'selectedMatch', $(e.target).val()
+        # A hack to initialize date pickers
+        setTimeout((() ->
+            $('#dateTimeStartPickerText, #dateTimeEndPickerText').datetimepicker
+                useCurrent: false
+                allowInputToggle: true
+                sideBySide: true
+                showClear: true
+                format: dateTimeFormat
+                minDate: new Date()
+                defaultDate: new Date()
+
+            $('#dateTimeStartPickerText').on "dp.change", (e)->
+                $('#dateTimeEndPickerText')
+                    .data("DateTimePicker")
+                    .minDate(e.date)
+
+            $('#dateTimeEndPickerText').on "dp.change", (e)->
+                $('#dateTimeStartPickerText')
+                    .data("DateTimePicker")
+                    .maxDate(e.date)
+            ), 100
+        )
     "submit #addToSchedule": (e, tpl) ->
         e.preventDefault()
         Template.errorTemplate.resetError()
@@ -89,7 +99,8 @@ Template.scheduleMatch.events
             return showError errorTitle, "Select ending date and time"
 
         try
-            board = boardDataForPlayerId Meteor.userId()
+            board = boardDataForPlayerAndMatch Meteor.userId(),
+            Session.get 'selectedMatch'
 
             Meteor.call "addToSchedule", board._id, startDateObj, endDateObj,
             (error, result) ->
@@ -117,7 +128,8 @@ Template.scheduleMatch.events
 
         errorTitle = "Could not remove date from schedule!"
         try
-            board = boardDataForPlayerId Meteor.userId()
+            board = boardDataForPlayerAndMatch Meteor.userId(),
+            Session.get 'selectedMatch'
             scheduleId = $(e.target).attr('id').replace('cancelSchedule', '')
 
             Meteor.call "removeFromSchedule", board._id, scheduleId,
