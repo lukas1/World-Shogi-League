@@ -19,12 +19,6 @@ Template.matches.helpers(
             return finished
         else
             return true
-    canAddMatch: () ->
-        lRound = lastRound()
-        return false if not lRound?
-        roundNumber = lRound?.roundNumber
-        finished = lRound?.finished
-        return not finished
 )
 
 Template.matches.events

@@ -1,15 +1,17 @@
 <template name="addMatch">
     <strong>New match:</strong>
-    <form id="new-match-form">
+    <form class="new-match-form" id="new-match-form{{round}}">
         <div class="col-xs-6">
-            {{> teams}}
+            {{> teams id=round}}
         </div>
         <div class="col-xs-2">
-            {{> reactiveTeamSelect selectedClass=selectedClass}}
+            {{> reactiveTeamSelect id=round selectedClass=selectedClass}}
         </div>
         <div class="col-xs-3">
         </div>
         <div class="col-xs-1">
+            <input type="hidden" value="{{round}}"
+                class="matchRound">
             <input type="submit" value="Submit" class="btn btn-default">
         </div>
     </form>

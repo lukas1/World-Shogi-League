@@ -1,21 +1,30 @@
-selectedClass = new ReactiveVar("")
+tplRound = () ->
+    Template.instance().data.round
 
 Template.addMatch.helpers
     selectedClass: ->
-        selectedClass.get()
+        Template.instance().selectedClass.get()
+
+Template.addMatch.onCreated ()->
+    this.selectedClass = new ReactiveVar("")
 
 Template.addMatch.rendered = ->
-    selectedClass.set("")
+    this.selectedClass.set("")
 
 
 Template.addMatch.events
-    "submit #new-match-form": (event) ->
+    "submit .new-match-form": (event, tpl) ->
         event.preventDefault()
         return false if not isAdmin()
 
+        formId = "new-match-form" + tplRound()
+        return false if formId != $(event.target).attr('id')
+
+        teamBSelector = "#class" + tpl.selectedClass.get() + "Team" + tplRound()
+
         # Get values
-        teamAId = $("#classTeam").val()
-        teamBId = $("#class" + selectedClass.get() + "Team").val()
+        teamAId = tpl.$("#classTeam" + tplRound()).val()
+        teamBId = tpl.$(teamBSelector).val()
 
         # validate
         return false if not teamAId?.length or not teamBId?.length
@@ -23,29 +32,39 @@ Template.addMatch.events
             alert "Select two different teams to play against each other!"
             return false
 
+        roundId = tpl.$('.matchRound').val()
+        if not roundId?.length
+            alert "Unexpected error while adding match. Please refresh the page
+            and try again. In case the problem persists, please contact the
+            administrator."
+            return false
+
         matchEndDate = moment().add(8, 'days').toDate()
 
         matchId = Matches.insertMatch(
             teamAId: teamAId
             teamBId: teamBId
-            class: selectedClass.get()
+            class: tpl.selectedClass.get()
             createdAt: new Date()
             matchEndDate: matchEndDate
+            roundId: roundId
         )
 
 
         return false if not matchId
 
         # Clear form
-        $("#classATeam").prop('selectedIndex', 0);
-        $("#classBTeam").prop('selectedIndex', 0);
+        tpl.$("#classATeam" + tplRound()).prop('selectedIndex', 0);
+        tpl.$("#classBTeam" + tplRound()).prop('selectedIndex', 0);
 
         # Prevent default form submit
         return false
 
-    "change #classTeam": (event) ->
+    "change .teamSelect": (event, tpl) ->
         event.preventDefault()
+        selector = "#classTeam" + tplRound()
+        return false if ('#' + $(event.target).attr('id') != selector)
 
-        teamId = $("#classTeam").val()
+        teamId = tpl.$(selector).val()
         team = Teams.findOne teamId
-        selectedClass.set team?.class
+        tpl.selectedClass.set team?.class

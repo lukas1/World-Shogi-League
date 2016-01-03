@@ -26,12 +26,12 @@
                 {{#each matches _id}}
                     {{> match}}
                 {{/each}}
+                <li>
+                    {{> addMatch round=_id}}
+                </li>
             {{/each}}
         </ul>
         {{#if isAdmin}}
-            {{#if canAddMatch}}
-                {{> addMatch}}
-            {{/if}}
             <div>
                 {{#if inMiddleOfRound}}
                     <button class="btn btn-default" id="startRound">

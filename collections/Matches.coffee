@@ -2,11 +2,9 @@ MatchesCollection = Mongo.Collection;
 MatchesCollection.prototype.insertMatch = (matchData) ->
     return false if not isAdmin()
 
-    # Append round id to match data
-    round = lastRound()
-    roundId = round?._id
+    return false if not matchData.roundId?
+    round = Rounds.findOne matchData.roundId
     return false if not round?
-    matchData.roundId = roundId
 
     # Insert match
     matchId = this.insert matchData
@@ -14,7 +12,7 @@ MatchesCollection.prototype.insertMatch = (matchData) ->
     # Add match to it's round
     round.matches.push(matchId)
     matches = round.matches
-    updated = Rounds.update roundId, {$set: {matches: matches}}
+    updated = Rounds.update round._id, {$set: {matches: matches}}
     if not updated
         Matches.removeMatch matchId
         return false
