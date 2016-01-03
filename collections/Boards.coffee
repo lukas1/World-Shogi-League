@@ -67,8 +67,9 @@ BoardsCollection.prototype.removeBoard = (boardId) ->
 BoardsCollection.prototype.removeMatchBoards = (matchId) ->
     boards = this.find({matchId: matchId}).fetch()
     for board in boards
-        updatePointsSingleTeam board.teamId, board.win, board.winByDefault,
-        false
+        if board.win?
+            updatePointsSingleTeam board.teamId, board.win, board.winByDefault,
+            false
 
         Kifu.remove board.kifu
         this.remove board._id
