@@ -5,33 +5,9 @@
             <h1>Points</h1>
         </div>
 
-        <!-- CLASS A -->
-        <div class="col-md-6 classA">
-            <div class="class-header">
-                <div class="teamName">
-                    <h2>Class A</h2>
-                </div>
-            </div>
-            <ul class="list-unstyled">
-                {{#each teamsA}}
-                    {{> teampoints}}
-                {{/each}}
-            </ul>
-        </div>
-
-        <!-- CLASS B -->
-        <div class="col-md-6 classB">
-            <div class="class-header">
-                <div class="teamName">
-                    <h2>Class B</h2>
-                </div>
-            </div>
-            <ul class="list-unstyled">
-                {{#each teamsB}}
-                    {{> teampoints}}
-                {{/each}}
-            </ul>
-        </div>
+        {{#each classes}}
+            {{> classPoints class=this}}
+        {{/each}}
     </div>
 
 </template>

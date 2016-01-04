@@ -8,3 +8,5 @@
 @USER_TYPE_NONE = ''
 
 @BOARDS_COUNT = 3
+
+@CLASSES = [ "A", "B", "C", "D" ]

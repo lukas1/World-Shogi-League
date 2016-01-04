@@ -1,0 +1,16 @@
+<template name="classPoints">
+
+    <div class="col-md-6">
+        <div class="class-header">
+            <div class="teamName">
+                <h2>Class {{class}}</h2>
+            </div>
+        </div>
+        <ul class="list-unstyled">
+            {{#each teams}}
+                {{> teampoints}}
+            {{/each}}
+        </ul>
+    </div>
+
+</template>
