@@ -1,8 +1,8 @@
 Template.teamupdate.helpers
-    classASelected: ->
-        this.class == "A"
-    classBSelected: ->
-        this.class == "B"
+    classes: ->
+        return CLASSES
+    classSelected: (classToCheck)->
+        Template.instance().data.class == classToCheck
 
 Template.teamupdate.events
     "click .cancelEdit": (event, template) ->
@@ -28,9 +28,6 @@ Template.teamupdate.events
                 return
 
             $(event.target).closest('.editLine').remove()
-
-
-
 
 Template.teamupdate.closeAllInstances = ->
     $('.editLine').remove()

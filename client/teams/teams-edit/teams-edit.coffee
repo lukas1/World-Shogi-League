@@ -1,4 +1,6 @@
 Template.teamsedit.helpers(
+    classes: () ->
+        return CLASSES
     teams: () ->
         Teams.find {}, { sort: { class: 1, name: 1 } }
 )

@@ -37,8 +37,9 @@
             <label for="addTeamClass">Select Class:</label>
             <select id="addTeamClass">
                 <option value="">--</option>
-                <option value="A">Class A</option>
-                <option value="B">Class B</option>
+                {{#each classes}}
+                    <option value="{{this}}">Class {{this}}</option>
+                {{/each}}
             </select>
             <input type="submit" class="btn btn-default" value="Add Team">
         </form>

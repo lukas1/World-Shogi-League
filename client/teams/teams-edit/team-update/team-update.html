@@ -5,8 +5,11 @@
         </td>
         <td class="teamClass">
             <select class="teamClassEdit">
-                <option selected="{{classASelected}}">A</option>
-                <option selected="{{classBSelected}}">B</option>
+                {{#each classes}}
+                    <option value="{{this}}" selected="{{classSelected this}}">
+                        {{this}}
+                    </option>
+                {{/each}}
             </select>
         </td>
         <td class="teamPoints">
