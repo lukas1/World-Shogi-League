@@ -5,7 +5,9 @@
             {{> teams id=round classSort=1}}
         </div>
         <div class="col-xs-2">
-            {{> reactiveTeamSelect id=round selectedClass=selectedClass}}
+            {{#if selectedClass}}
+                {{> teams id=round class=selectedClass}}
+            {{/if}}
         </div>
         <div class="col-xs-3">
         </div>
