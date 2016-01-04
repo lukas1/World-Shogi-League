@@ -1,10 +1,22 @@
 <template name="teams">
     <select id="class{{class}}Team{{id}}" class="teamSelect">
         <option value="">---</option>
-        {{#each teams}}
-            <option value="{{_id}}" selected="{{selected}}">
-                {{name}}
-            </option>
-        {{/each}}
+        {{#if class}}
+            {{#each teams}}
+                <option value="{{_id}}" selected="{{selected}}">
+                    {{name}}
+                </option>
+            {{/each}}
+        {{else}}
+            {{#each classes}}
+            <optgroup label="{{this}}">
+                {{#each teams this}}
+                    <option value="{{_id}}" selected="{{selected}}">
+                        {{name}}
+                    </option>
+                {{/each}}
+            </optgroup>
+            {{/each}}
+        {{/if}}
     </select>
 </template>
