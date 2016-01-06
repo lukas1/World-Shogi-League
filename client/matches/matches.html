@@ -26,9 +26,11 @@
                 {{#each matches _id}}
                     {{> match}}
                 {{/each}}
-                <li>
-                    {{> addMatch round=_id}}
-                </li>
+                {{#if isAdmin}}
+                    <li>
+                        {{> addMatch round=_id}}
+                    </li>
+                {{/if}}
             {{/each}}
         </ul>
         {{#if isAdmin}}
