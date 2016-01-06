@@ -8,15 +8,23 @@
                 </option>
             {{/each}}
         {{else}}
-            {{#each classes}}
-            <optgroup label="{{this}}">
-                {{#each teams this}}
+            {{#if ignoreClasses}}
+                {{#each teams}}
                     <option value="{{_id}}" selected="{{selected}}">
                         {{name}}
                     </option>
                 {{/each}}
-            </optgroup>
-            {{/each}}
+            {{else}}
+                {{#each classes}}
+                <optgroup label="{{this}}">
+                    {{#each teams this}}
+                        <option value="{{_id}}" selected="{{selected}}">
+                            {{name}}
+                        </option>
+                    {{/each}}
+                </optgroup>
+                {{/each}}
+            {{/if}}
         {{/if}}
     </select>
 </template>

@@ -7,8 +7,12 @@ Template.teams.helpers(
         sort = { sort: { name: 1 } }
         if Template.instance().data.classSort?
             sort = { sort: { class: 1, name: 1 } }
+        filter = {}
+
         if this.class?
-            Teams.find {class: this.class}, sort
-        else
-            Teams.find({class: classOptGroup}, sort)
+            filter = {class: this.class}
+        else if classOptGroup?.length
+            filter = {class: classOptGroup}
+
+        Teams.find(filter, sort)
 )
