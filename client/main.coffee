@@ -7,6 +7,7 @@ Router.route(Routes.home.path,
             Meteor.subscribe "rounds"
             Meteor.subscribe "matches"
             Meteor.subscribe "teams"
+            Meteor.subscribe "boards"
         ]
     name: Routes.home.name
     action: ->

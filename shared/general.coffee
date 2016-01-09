@@ -98,3 +98,26 @@
         $(target).append '<option value="' + roundFields[0] + '">' +
                 'Round ' + roundFields[1] + ' - ' + roundFields[2] +
             '</option>'
+
+@matchPointsForTeam = (teamId) ->
+    points = 0
+    matches = Matches.find(
+        { $or: [ { teamAId: teamId }, { teamBId: teamId } ] }
+    ).fetch()
+
+    return points if not matches?.length
+
+    for match in matches
+        matchBoards = Boards.find(
+            { matchId: match._id, teamId: teamId, win: { $exists: true } }
+        ).fetch()
+
+        continue if matchBoards.length < 3
+
+        wins = Boards.find(
+            { matchId: match._id, teamId: teamId, win: true }
+        ).count()
+
+        points += 1 if wins > 1
+
+    return points
