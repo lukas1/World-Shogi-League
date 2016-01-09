@@ -1,6 +1,6 @@
 @Points =
-    win: 3
-    lose: 1
+    win: 1
+    lose: 0
     loseDefault: 0
 
 @USER_TYPE_ADMIN = 'admin'
