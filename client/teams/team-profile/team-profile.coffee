@@ -2,7 +2,9 @@ teamId = () ->
     Template.instance().data.params._id
 
 thisTeamData = () ->
-    return Teams.findOne Template.instance().data.params._id
+    team = Teams.findOne teamId()
+    team['matchPoints'] = matchPointsForTeam teamId()
+    return team
 
 matchOpponentTeam = (matchId) ->
     matchData = Matches.findOne matchId
