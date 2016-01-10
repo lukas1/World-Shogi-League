@@ -5,8 +5,6 @@ Template.match.helpers
         this.teamAId == this.winTeam
     wonB: () ->
         this.teamBId == this.winTeam
-    defaultWin: () ->
-        return this.defaultWin
     teamA: () ->
         Teams.findOne(this.teamAId)
     teamB: () ->
