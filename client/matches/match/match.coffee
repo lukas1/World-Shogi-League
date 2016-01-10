@@ -2,9 +2,9 @@ Template.match.helpers
     isAdmin: () ->
         isAdmin()
     wonA: () ->
-        this.teamAId == this.winTeam
+        return teamWonMatch this.teamAId, this._id
     wonB: () ->
-        this.teamBId == this.winTeam
+        return teamWonMatch this.teamBId, this._id
     teamA: () ->
         Teams.findOne(this.teamAId)
     teamB: () ->

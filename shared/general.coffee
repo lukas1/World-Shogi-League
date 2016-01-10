@@ -108,16 +108,22 @@
     return points if not matches?.length
 
     for match in matches
-        matchBoards = Boards.find(
-            { matchId: match._id, teamId: teamId, win: { $exists: true } }
-        ).fetch()
-
-        continue if matchBoards.length < 3
-
-        wins = Boards.find(
-            { matchId: match._id, teamId: teamId, win: true }
-        ).count()
-
+        wins = teamBoardsWinsForMatch teamId, match._id
         points += 1 if wins > 1
 
     return points
+
+@teamBoardsWinsForMatch = (teamId, matchId) ->
+    matchBoards = Boards.find(
+        { matchId: matchId, teamId: teamId, win: { $exists: true } }
+    ).fetch()
+
+    return -1 if matchBoards.length < 3
+
+    return Boards.find(
+        { matchId: matchId, teamId: teamId, win: true }
+    ).count()
+
+@teamWonMatch = (teamId, matchId) ->
+    wins = teamBoardsWinsForMatch teamId, matchId
+    return wins > 1
