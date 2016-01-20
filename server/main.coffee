@@ -23,6 +23,10 @@ Meteor.startup () ->
     Accounts.urls.resetPassword = (token) ->
         Meteor.absoluteUrl('user/resetPassword/' + token);
 
+    cron = new Meteor.Cron
+        events:
+            "0 1 * * *" : resultsCron # once a day
+
 Meteor.publish "teams", () ->
     return Teams.find();
 
