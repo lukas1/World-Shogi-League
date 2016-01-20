@@ -132,3 +132,9 @@
     return Meteor.users.findOne(
         { 'profile.nick81Dojo': nick81Dojo }
     )
+
+@matchIdsParticipatedByPlayer = (playerId) ->
+    return Boards.find(
+        { playerId: playerId }
+    ).map (document, index, cursor) ->
+        return document.matchId
