@@ -46,10 +46,9 @@
 
     return matchData._id
 
-# throws
 @boardDataForPlayerAndMatch = (playerId, matchId) ->
     board = Boards.findOne
-        playerId: Meteor.userId()
+        playerId: playerId
         matchId: matchId
 
     return board
