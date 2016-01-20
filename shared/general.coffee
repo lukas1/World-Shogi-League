@@ -127,3 +127,8 @@
 @teamWonMatch = (teamId, matchId) ->
     wins = teamBoardsWinsForMatch teamId, matchId
     return wins > 1
+
+@findUserByNick81Dojo = (nick81Dojo) ->
+    return Meteor.users.findOne(
+        { 'profile.nick81Dojo': nick81Dojo }
+    )
