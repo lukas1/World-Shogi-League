@@ -12,7 +12,9 @@ searchFromDate = unixTime()
     + searchUntilDate
 
     HTTP.get url, { auth: API81DOJOAUTH }, (error, result) ->
-        console.log error if error
+        if error
+            console.log error
+            return
         kifus = result.data.kifus
         updateMatchResult match for match in kifus
 
