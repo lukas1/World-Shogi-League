@@ -6,6 +6,11 @@ searchFromDate = 0
 @resultsCron = () ->
     return false if not API81DOJOURL? || not API81DOJOAUTH?
 
+    cronSelector = { cron: 'results' }
+    if searchFromDate == 0
+        cronData = Cron.findOne cronSelector
+        searchFromDate = cronData.lastRunTime if cronData?.lastRunTime?
+
     searchUntilDate = unixTime()
 
     url = API81DOJOURL + "?search_from=" + searchFromDate + "&search_until=" +
@@ -18,7 +23,8 @@ searchFromDate = 0
         kifus = result.data.kifus
         updateMatchResult match for match in kifus
 
-    searchFromDate = searchUntilDate
+        Cron.upsert cronSelector, { cron: 'results', lastRunTime: searchUntilDate }
+        searchFromDate = searchUntilDate
 
 updateMatchResult = (match) ->
     # Draws are not allowed, neither is other type of result
