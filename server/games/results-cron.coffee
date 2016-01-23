@@ -1,7 +1,7 @@
 unixTime = () ->
     return parseInt(Date.now() / 1000)
 
-searchFromDate = unixTime()
+searchFromDate = 0
 
 @resultsCron = () ->
     return false if not API81DOJOURL? || not API81DOJOAUTH?
