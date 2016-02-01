@@ -75,9 +75,11 @@
                 <div class="nick81dojo rowData">
                     <strong>81dojo.com nickname</strong>
                 </div>
-                <div class="team rowData">
-                    <strong>Team</strong>
-                </div>
+                {{#if isAdmin}}
+                    <div class="team rowData">
+                        <strong>Team</strong>
+                    </div>
+                {{/if}}
             </li>
             {{#each users}}
                 {{>userline}}

@@ -3,6 +3,8 @@ showError = (message) ->
     return false
 
 Template.userlist.helpers
+    isAdmin: ->
+        isAdmin()
     users: ->
         filter = {}
         if not isAdmin()

@@ -6,9 +6,11 @@
         <div class="nick81dojo rowData">
             {{nick81Dojo}}
         </div>
-        <div class="team rowData">
-            {{>teamView name=teamName flag=teamCountryCode}}
-        </div>
+        {{#if isAdmin}}
+            <div class="team rowData">
+                {{>teamView name=teamName flag=teamCountryCode}}
+            </div>
+        {{/if}}
         {{#if isAdmin}}
             <div class="rowData makeAdminCell">
                 {{#if userIsAdmin}}
