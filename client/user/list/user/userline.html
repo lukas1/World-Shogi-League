@@ -60,8 +60,10 @@
                 {{/if}}
             </div>
         {{/if}}
-        <div class="rowData">
-            <button class="delete">&times;</button>
-        </div>
+        {{#if isAdmin}}
+            <div class="rowData">
+                <button class="delete">&times;</button>
+            </div>
+        {{/if}}
     </li>
 </template>
