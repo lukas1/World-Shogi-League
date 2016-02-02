@@ -121,7 +121,9 @@ Meteor.methods
             playerId: userId
             matchId: matchId
 
-        throw new Meteor.Error "player-already-plays" if testBoardData?
+        if testBoardData?
+            throw new Meteor.Error "player-already-plays",
+            "Player is already plaing in this round"
 
         # Data to update
         boardData =
