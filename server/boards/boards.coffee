@@ -123,7 +123,7 @@ Meteor.methods
 
         if testBoardData?
             throw new Meteor.Error "player-already-plays",
-            "Player is already plaing in this round"
+            "Player is already playing in this round"
 
         # Data to update
         boardData =

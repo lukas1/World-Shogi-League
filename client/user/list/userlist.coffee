@@ -56,7 +56,8 @@ Template.userlist.events
         Meteor.call "addPlayerToMatch", playerId, matchId, board,
         (error, result) ->
             if error
-                return showError "Could not add player to match."
+                showError "Could not add player to match. " + error.reason
+                return false
             $('#addToMatchModal').modal('hide')
             $('#roundSelect').empty()
             $('#boardSelectPlayerId').val('')
