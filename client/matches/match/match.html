@@ -1,11 +1,11 @@
 <template name="match">
     <li class="match clearfix">
         <div class="col-xs-6">
-            {{> matchParticipant won=wonA name=teamA.name flag=teamA.countryCode}}
+            {{> matchParticipant won=wonA name=teamA.name flag=teamA.countryCode points=matchPointsA}}
         </div>
 
         <div class="col-xs-5">
-            {{> matchParticipant won=wonB name=teamB.name flag=teamB.countryCode}}
+            {{> matchParticipant won=wonB name=teamB.name flag=teamB.countryCode points=matchPointsB}}
         </div>
         <div class="col-xs-1">
             {{#if isAdmin}}

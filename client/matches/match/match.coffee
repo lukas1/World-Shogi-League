@@ -5,6 +5,10 @@ Template.match.helpers
         return teamWonMatch this.teamAId, this._id
     wonB: () ->
         return teamWonMatch this.teamBId, this._id
+    matchPointsA: () ->
+        Math.max(0, teamBoardsWinsForMatch this.teamAId, this._id)
+    matchPointsB: () ->
+        Math.max(0, teamBoardsWinsForMatch this.teamBId, this._id)
     teamA: () ->
         Teams.findOne(this.teamAId)
     teamB: () ->

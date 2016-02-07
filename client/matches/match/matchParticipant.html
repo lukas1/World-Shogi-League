@@ -1,10 +1,9 @@
 <template name="matchParticipant">
     {{#if won}}
         <strong>{{>teamView name=name flag=flag}}</strong>
-        {{#if defWin}}
-            <small class="winByDefault">(win by default)</small>
-        {{/if}}
     {{else}}
         {{>teamView name=name flag=flag}}
     {{/if}}
+
+    <span class="matchPoints">{{points}}</span>
 </template>
