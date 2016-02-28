@@ -4,7 +4,9 @@
             <img src="{{profilePic}}" class="thumbnail">
         </div>
         <div class="nick81dojo rowData">
-            {{nick81Dojo}}
+            <a href="{{pathFor route='user.profile' _id=userId}}">
+                {{nick81Dojo}}
+            </a>
         </div>
         {{#if isAdmin}}
             <div class="team rowData">

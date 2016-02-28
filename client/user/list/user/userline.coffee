@@ -3,6 +3,8 @@ showError = (title, message) ->
     $('#errorMessageContainer').get(0)
 
 Template.userline.helpers
+    userId: ->
+        Template.instance().data._id
     profilePic: ->
         profilePic = Template.instance().data.profile?.profilePic
         profilePic = "/images/default-profile-pic.png" if not profilePic?.length
